@@ -27,15 +27,5 @@ public class Model {
         employeeList.add(employee);
     }
 
-    public void deleteEmployee(Employee employee) {
-        employeeList.remove(employee);
-    }
-    
-    public void printEmployeeHours(int year) {
-        for(Employee employee:employeeList) {
-            System.out.println(employee.getName()+ " " + employee.getSurname()+" " + employee.getTotalHours(year)+" h\n");
-        }
-        
-    }
-
+    public void deleteEmployee(Employee employee) { employeeList.remove(employee); }
 }
