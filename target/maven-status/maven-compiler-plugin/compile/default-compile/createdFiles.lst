@@ -1,0 +1,5 @@
+App\App.class
+Model\Model.class
+Reader\DataReader.class
+Report\Report.class
+ReportBuilder\ReportBuilder.class
