@@ -49,7 +49,6 @@ public List<Employee> scanFiles(String path, String employeeName) throws Invalid
 		
 		for (File file : files) {
 			String filename = file.getName().substring(0,file.getName().indexOf("."));
-			System.out.println(filename);
 			if(employeeName == null || filename.equals(employeeName)) {
 			Employee employee = new Employee();
 			employee = dataReader.readFile(file);
