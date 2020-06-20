@@ -93,6 +93,11 @@ public class Employee {
 	        return sum;
 	    }
 
+		@Override
+		public String toString() {
+			return "Employee [taskList=" + taskList + ", name=" + name + ", surname=" + surname + "]";
+		}
+
 
     
 

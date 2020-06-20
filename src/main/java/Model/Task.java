@@ -50,4 +50,11 @@ public class Task {
         this.hours = hours;
     }
 
+	@Override
+	public String toString() {
+		return "Task [taskDate=" + taskDate + ", projectName=" + projectName + ", taskName=" + taskName + ", hours="
+				+ hours + "]";
+	}
+
+    
 }

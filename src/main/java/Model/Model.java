@@ -12,9 +12,9 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 public class Model {
 
 
-    public Model(String directoryPath) throws IOException, InvalidFormatException {
+    public Model(String directoryPath, String employeeName) throws IOException, InvalidFormatException {
         FilesScanner fileScanner = new FilesScanner();
-        employeeList = fileScanner.scanFiles(directoryPath);
+        employeeList = fileScanner.scanFiles(directoryPath, employeeName);
     }
 
     private List<Employee> employeeList;

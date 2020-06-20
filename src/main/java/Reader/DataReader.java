@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 public class DataReader {
-
+	
     public Employee readFile(File file) throws IOException, InvalidFormatException {
         List<Task> tasks = new ArrayList<Task>();
 
