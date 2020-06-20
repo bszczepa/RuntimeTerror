@@ -8,5 +8,6 @@ public class App {
     public static void main(String[] args) throws IOException, InvalidFormatException {
         UserControl userControl = new UserControl();
         userControl.controlLoop();
+
     }
 }
