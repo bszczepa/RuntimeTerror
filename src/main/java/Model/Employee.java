@@ -98,6 +98,10 @@ public class Employee {
 			return "Employee [taskList=" + taskList + ", name=" + name + ", surname=" + surname + "]";
 		}
 
+		public String getNameAndSurname() {
+			return this.getName() + " " + this.getSurname();
+		}
+
 
     
 
