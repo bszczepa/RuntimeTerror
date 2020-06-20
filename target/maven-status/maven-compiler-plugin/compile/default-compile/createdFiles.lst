@@ -1,4 +1,5 @@
 App\App.class
+App\UserControl.class
 Model\Model.class
 Reader\DataReader.class
 Report\Report.class
