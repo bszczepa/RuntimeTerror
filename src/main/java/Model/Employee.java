@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employee {
 
     private List<Task> taskList = new ArrayList<Task>();
