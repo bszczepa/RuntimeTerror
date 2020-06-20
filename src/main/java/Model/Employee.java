@@ -29,6 +29,17 @@ public class Employee {
     public void deleteTask(Task task) {
 
     }
+    
+    public double getTotalHours(int year) {
+        double sum=0;
+        for(Task task:taskList) {
+            if (task.getTaskDate().getYear()==year) {
+                sum+=task.getHours();
+            }
+        }
+        return sum;
+        
+    }
 
 
 }
