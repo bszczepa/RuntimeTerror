@@ -14,22 +14,26 @@ public class Report5 {
 	private List<List<String>> rows = new ArrayList<List<String>>();
 
 	public void createReport(List<Employee> employees) {
-		columnNames.add("Imiê i nazwisko");
+		columnNames.add("ImiÄ™ i nazwisko");
 		columnNames.add("Projekt");
-		columnNames.add("Iloœæ godzin");
+		columnNames.add("IloÅ›Ä‡ godzin");
 
 		for (Employee employee : employees) {
 			for (Task task : employee.getTaskList()) {
 				Integer indexOfRowToChange = null;
 				for (List<String> row : rows) {
-					if (row.get(0).equals(employee.getNameAndSurname()) && row.get(1).equals(task.getProjectName())) {
+					String employeeInRow = row.get(0);
+					String projectInRow = row.get(1);
+					
+					if (employeeInRow.equals(employee.getNameAndSurname()) && projectInRow.equals(task.getProjectName())) {
 						indexOfRowToChange = rows.indexOf(row);
 					}
 				}
 
 				if (indexOfRowToChange != null) {
 					List<String> rowToChange = rows.get(indexOfRowToChange);
-					Double newHours = Double.valueOf(rowToChange.get(2)) + task.getHours();
+					Double hoursToChange  = Double.valueOf(rowToChange.get(2));
+					Double newHours = hoursToChange + task.getHours();
 					rowToChange.set(2, newHours.toString());
 				} else {
 					List<String> newRow = new ArrayList<String>();
