@@ -1,17 +1,22 @@
 package App;
 
 import Model.Model;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class UserControl {
 
     private Scanner sc = new Scanner(System.in);
     private String userOption;
+    private String path;
 
-    public void controlLoop() {
+    public void controlLoop() throws IOException, InvalidFormatException {
         do {
-            showOption();
+//            System.out.println("Wprowadz ścieżkę do folderu np c:/folder");
+
             String userOption = inputUserOption();
             switch (userOption) {
                 case "1":

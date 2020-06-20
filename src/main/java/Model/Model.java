@@ -1,16 +1,18 @@
 package Model;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
 import Reader.DataReader;
+
 import Reader.FilesScanner;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import java.io.IOException;
 
 public class Model {
 
-    public Model(String directoryPath) throws InvalidFormatException, IOException {
+
+    public Model(String directoryPath) throws IOException, InvalidFormatException {
         FilesScanner fileScanner = new FilesScanner();
         employeeList = fileScanner.scanFiles(directoryPath);
     }
