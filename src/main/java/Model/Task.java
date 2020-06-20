@@ -9,7 +9,7 @@ public class Task {
     private Date taskDate;
     private String projectName;
     private String taskName;
-    private double hours;
+    private Double hours;
 
     public Task(Date taskDate, java.lang.String projectName, java.lang.String taskName, double hours) {
         this.taskDate = taskDate;
@@ -42,7 +42,7 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public double getHours() {
+    public Double getHours() {
         return hours;
     }
 
@@ -50,4 +50,11 @@ public class Task {
         this.hours = hours;
     }
 
+	@Override
+	public String toString() {
+		return "Task [taskDate=" + taskDate + ", projectName=" + projectName + ", taskName=" + taskName + ", hours="
+				+ hours + "]";
+	}
+
+    
 }

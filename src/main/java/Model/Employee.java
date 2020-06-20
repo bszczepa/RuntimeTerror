@@ -1,6 +1,9 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Employee {
@@ -8,6 +11,14 @@ public class Employee {
     private List<Task> taskList = new ArrayList<Task>();
     private String name;
     private String surname;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
 
     public Employee(java.lang.String name, java.lang.String surname) {
         this.name = name;
@@ -68,6 +79,29 @@ public class Employee {
 			return false;
 		return true;
 	}
+	
+	    public double getTotalHours(int year) {
+	        double sum=0;
+	        for(Task task:taskList) {
+	            Date date = task.getTaskDate();
+	            Calendar calendar = new GregorianCalendar();
+	            calendar.setTime(date);
+	            if (calendar.get(Calendar.YEAR)==year) {
+	                sum+=task.getHours();
+	            }
+	        }
+	        return sum;
+	    }
+
+		@Override
+		public String toString() {
+			return "Employee [taskList=" + taskList + ", name=" + name + ", surname=" + surname + "]";
+		}
+
+		public String getNameAndSurname() {
+			return this.getName() + " " + this.getSurname();
+		}
+
 
     
 

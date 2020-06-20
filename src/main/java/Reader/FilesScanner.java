@@ -20,7 +20,7 @@ public class FilesScanner {
 		return (List<File>) FileUtils.listFiles(masterDirectory, new String[] { "xls", "xlsx" }, true);
 	}
 	
-	public List<Employee> scanFiles(String path) throws InvalidFormatException, IOException {
+public List<Employee> scanFiles(String path, String employeeName) throws InvalidFormatException, IOException {
 		
 		List<File> files = findFiles(path);
 		
@@ -28,6 +28,8 @@ public class FilesScanner {
 		DataReader dataReader = new DataReader();
 		
 		for (File file : files) {
+			String filename = file.getName().substring(0,file.getName().indexOf("."));
+			if(employeeName == null || filename.equals(employeeName)) {
 			Employee employee = new Employee();
 			employee = dataReader.readFile(file);
 			if(employees.contains(employee)) {
@@ -36,6 +38,7 @@ public class FilesScanner {
 			else {
 				employees.add(employee);
 			}
+		    }
 		}
 		return employees;
 	}
