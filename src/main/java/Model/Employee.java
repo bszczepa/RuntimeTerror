@@ -12,6 +12,14 @@ public class Employee {
     private String name;
     private String surname;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
     public Employee(java.lang.String name, java.lang.String surname) {
         this.name = name;
         this.surname = surname;
