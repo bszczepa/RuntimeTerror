@@ -23,11 +23,11 @@ public class Employee {
     }
 
     public void addTask(Task task) {
-
+        this.taskList.add(task);
     }
 
     public void deleteTask(Task task) {
-
+        this.taskList.remove(task);
     }
 
 

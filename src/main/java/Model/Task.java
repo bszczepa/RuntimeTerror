@@ -2,26 +2,27 @@ package Model;
 
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Task {
 
-    private LocalDate taskDate;
+    private Date taskDate;
     private String projectName;
     private String taskName;
     private double hours;
 
-    public Task(LocalDate taskDate, java.lang.String projectName, java.lang.String taskName, double hours) {
+    public Task(Date taskDate, java.lang.String projectName, java.lang.String taskName, double hours) {
         this.taskDate = taskDate;
         this.projectName = projectName;
         this.taskName = taskName;
         this.hours = hours;
     }
 
-    public LocalDate getTaskDate() {
+    public Date getTaskDate() {
         return taskDate;
     }
 
-    public void setTaskDate(LocalDate taskDate) {
+    public void setTaskDate(Date taskDate) {
         this.taskDate = taskDate;
     }
 
