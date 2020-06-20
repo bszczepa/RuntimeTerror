@@ -1,6 +1,9 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Employee {
@@ -68,6 +71,20 @@ public class Employee {
 			return false;
 		return true;
 	}
+	
+	    public double getTotalHours(int year) {
+	        double sum=0;
+	        for(Task task:taskList) {
+	            Date date = task.getTaskDate();
+	            Calendar calendar = new GregorianCalendar();
+	            calendar.setTime(date);
+	            if (calendar.get(Calendar.YEAR)==year) {
+	                sum+=task.getHours();
+	            }
+	        }
+	        return sum;
+	    }
+
 
     
 
