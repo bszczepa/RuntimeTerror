@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 import Reader.DataReader;
-import Reader.FileScanner;
+import Reader.FilesScanner;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import java.io.IOException;
 
 public class Model {
 
-
-    public Model(String directoryPath) {
-        FileScanner fileScanner = new FileScanner();
+    public Model(String directoryPath) throws InvalidFormatException, IOException {
+        FilesScanner fileScanner = new FilesScanner();
         employeeList = fileScanner.scanFiles(directoryPath);
     }
 
