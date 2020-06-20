@@ -40,9 +40,17 @@ public class DataReader {
                 Cell dateCell = row.getCell(0);
                 Cell descriptionCell = row.getCell(1);
                 Cell timeCell = row.getCell(2);
-               //  Date date = row.getCell(0).getDateCellValue();
-                Task task = new Task(dateCell.getDateCellValue(), project, descriptionCell.getStringCellValue(), timeCell.getNumericCellValue());
-                employee.addTask(task);
+            
+                try {
+                	 date = dateCell.getDateCellValue();
+                     description = descriptionCell.getStringCellValue();
+                     time = timeCell.getNumericCellValue();
+                     Task task = new Task(date, project, description ,time);
+                     employee.addTask(task);
+                }
+                catch(NullPointerException e) {
+                	continue;
+                }            
             }
         }
         wb.close();
