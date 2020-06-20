@@ -20,26 +20,6 @@ public class FilesScanner {
 		return (List<File>) FileUtils.listFiles(masterDirectory, new String[] { "xls", "xlsx" }, true);
 	}
 	
-	public List<Employee> scanFiles(String path) throws InvalidFormatException, IOException {
-		
-		List<File> files = findFiles(path);
-		
-		List<Employee> employees = new ArrayList();
-		DataReader dataReader = new DataReader();
-		
-		for (File file : files) {
-			Employee employee = new Employee();
-			employee = dataReader.readFile(file);
-			if(employees.contains(employee)) {
-				employees.get(employees.indexOf(employee)).addTasks(employee.getTaskList());
-			}
-			else {
-				employees.add(employee);
-			}
-		}
-		return employees;
-	}
-	
 public List<Employee> scanFiles(String path, String employeeName) throws InvalidFormatException, IOException {
 		
 		List<File> files = findFiles(path);
