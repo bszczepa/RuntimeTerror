@@ -1,12 +1,13 @@
 package App;
 
+import Model.Model;
+
 import java.util.Scanner;
 
 public class UserControl {
 
     private Scanner sc = new Scanner(System.in);
     private String userOption;
-
 
     public void controlLoop() {
         do {
