@@ -12,10 +12,10 @@ public class Model {
     }
 
     public void addEmployee(Employee employee) {
-
+        employeeList.add(employee);
     }
 
     public void deleteEmployee(Employee employee) {
-
+        employeeList.remove(employee);
     }
 }
