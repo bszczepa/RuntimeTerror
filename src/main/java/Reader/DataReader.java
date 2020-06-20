@@ -37,11 +37,12 @@ public class DataReader {
             for (int j = 1; j <= sheet.getLastRowNum(); j++) {
                 Row row = sheet.getRow(j);
 
-                Cell dateCell = row.getCell(0);
-                Cell descriptionCell = row.getCell(1);
-                Cell timeCell = row.getCell(2);
+             
             
                 try {
+                	 Cell dateCell = row.getCell(0);
+                     Cell descriptionCell = row.getCell(1);
+                     Cell timeCell = row.getCell(2);
                 	 date = dateCell.getDateCellValue();
                      description = descriptionCell.getStringCellValue();
                      time = timeCell.getNumericCellValue();
