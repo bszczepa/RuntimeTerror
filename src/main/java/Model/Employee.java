@@ -1,10 +1,6 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 public class Employee {
 
@@ -92,6 +88,27 @@ public class Employee {
 	        }
 	        return sum;
 	    }
+
+	    public HashMap<String, Double>  getHoursByProject(int month) {
+			HashMap<String, Double> projectsHours = new HashMap<>();
+			for(Task task:taskList) {
+				Date date = task.getTaskDate();
+				Calendar calendar = new GregorianCalendar();
+				calendar.setTime(date);
+
+				if (calendar.get(Calendar.MONTH)==month) {
+					String project = task.getProjectName();
+					if (projectsHours.containsKey(project)){
+						Double d = projectsHours.get(project);
+						projectsHours.put(project, task.getHours()+d);
+					}
+					else {
+						projectsHours.put(project, task.getHours());
+					}
+				}
+			}
+			return projectsHours;
+		}
 
 		@Override
 		public String toString() {
