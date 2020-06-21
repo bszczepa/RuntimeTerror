@@ -39,7 +39,7 @@ public class UserControl {
                     System.out.println();
                     break;
                 case "4":
-                    generateReport5();
+                    generateReport4();
                     break;
                 case "5":
                     generateReport5();
