@@ -23,7 +23,7 @@ public class Report5 {
 	private List<String> columnNames = new ArrayList<String>();
 	private List<List<String>> rows = new ArrayList<List<String>>();
 
-	public Report5(Model model) {
+	public Report5(Model model, String projectName) {
 
 		columnNames.add("L.p");
 		columnNames.add("Imię i nazwisko");
@@ -34,31 +34,37 @@ public class Report5 {
 
 		for (Employee employee : employees) {
 			for (Task task : employee.getTaskList()) {
-				Integer indexOfRowToChange = null;
-				for (List<String> row : rows) {
-					String employeeInRow = row.get(1);
-					String projectInRow = row.get(2);
+				
+				if (task.getProjectName().equals(projectName)) {
+					
+					Integer indexOfRowToChange = null;
+					for (List<String> row : rows) {
+						String employeeInRow = row.get(1);
+						String projectInRow = row.get(2);
 
-					if (employeeInRow.equals(employee.getNameAndSurname())
-							&& projectInRow.equals(task.getProjectName())) {
-						indexOfRowToChange = rows.indexOf(row);
+						if (employeeInRow.equals(employee.getNameAndSurname())
+								&& projectInRow.equals(task.getProjectName())) {
+							indexOfRowToChange = rows.indexOf(row);
+						}
 					}
-				}
 
-				if (indexOfRowToChange != null) {
-					List<String> rowToChange = rows.get(indexOfRowToChange);
-					Double hoursToChange = Double.valueOf(rowToChange.get(3));
-					Double newHours = hoursToChange + task.getHours();
-					rowToChange.set(3, newHours.toString());
-				} else {
-					List<String> newRow = new ArrayList<String>();
-					newRow.add(rowsCounter.toString());
-					newRow.add(employee.getNameAndSurname());
-					newRow.add(task.getProjectName());
-					newRow.add(task.getHours().toString());
-					rows.add(newRow);
-					rowsCounter++;
+					if (indexOfRowToChange != null) {
+						List<String> rowToChange = rows.get(indexOfRowToChange);
+						Double hoursToChange = Double.valueOf(rowToChange.get(3));
+						Double newHours = hoursToChange + task.getHours();
+						rowToChange.set(3, newHours.toString());
+					} else {
+						List<String> newRow = new ArrayList<String>();
+						newRow.add(rowsCounter.toString());
+						newRow.add(employee.getNameAndSurname());
+						newRow.add(task.getProjectName());
+						newRow.add(task.getHours().toString());
+						rows.add(newRow);
+						rowsCounter++;
+					}
+					
 				}
+				
 
 			}
 		}

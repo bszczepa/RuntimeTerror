@@ -103,7 +103,9 @@ public class UserControl {
         System.out.println("Raport");
         System.out.println("Szczegółowy wykaz pracy pracowników w danym projekcie");
         System.out.println("---------------------------------------------------------");
-        Report5 report = new Report5(model);
+        System.out.println("Podaj nazwę projektu");
+        String projectName = sc.nextLine();
+        Report5 report = new Report5(model, projectName);
         report.printReport();
         System.out.println("---------------------------------------------------------");
         System.out.println();
