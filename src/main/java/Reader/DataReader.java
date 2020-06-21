@@ -27,8 +27,8 @@ public class DataReader {
 		String description;
 		double time;
 
-		employeeName = extractEmployerame(fileName);
-		employeeSurname = extractemployerSurname(fileName);
+		employeeName = extractEmployeeName(fileName);
+		employeeSurname = extractEmployeeSurname(fileName);
 
 		Employee employee = new Employee(employeeName, employeeSurname);
 
@@ -94,11 +94,11 @@ public class DataReader {
 
 	}
 
-	private String extractEmployerame(String fileName) {
+	private String extractEmployeeSurname(String fileName) {
 		return fileName.substring(0, fileName.indexOf("_"));
 	}
 
-	private String extractemployerSurname(String fileName) {
+	private String extractEmployeeName(String fileName) {
 		return fileName.substring(fileName.indexOf("_") + 1, fileName.indexOf("."));
 	}
 

@@ -27,8 +27,7 @@ public class Report1 {
         for (Employee employee : employeeList) {
             List<String> newRow = new ArrayList();
             newRow.add(rowsCounter.toString());
-            newRow.add(employee.getSurname());
-            newRow.add(employee.getName());
+            newRow.add(employee.getNameAndSurname());
             newRow.add(String.valueOf(employee.getTotalHours(year)));
             rows.add(newRow);
             rowsCounter++;
