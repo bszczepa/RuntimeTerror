@@ -1,10 +1,7 @@
 package App;
 
 import Model.Model;
-import Report.Report1;
-import Report.Report2;
-import Report.Report3;
-import Report.Report5;
+import Report.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -15,10 +12,13 @@ public class UserControl {
 
     private Scanner sc = new Scanner(System.in);
     private String userOption;
-    private String path = "reporter-dane";
-    private Model model = new Model(path,null);
+    private String path;
+    private Model model;
 
-    public UserControl() throws IOException, InvalidFormatException {
+
+    public UserControl(String path) throws IOException, InvalidFormatException {
+        this.path = path;
+        model = new Model(path, null);
     }
 
     public void controlLoop() throws IOException, InvalidFormatException {
@@ -39,9 +39,7 @@ public class UserControl {
                     System.out.println();
                     break;
                 case "4":
-                    System.out.println();
-                    System.out.println("Wybrałes opcje 4");
-                    System.out.println();
+                    generateReport5();
                     break;
                 case "5":
                     generateReport5();
@@ -85,7 +83,21 @@ public class UserControl {
         System.out.println("----------------------------");
     }
 
-    private void generateReport5(){
+    private void generateReport4() throws InvalidFormatException, IOException{
+        model = new Model(path,null);
+        System.out.println();
+        System.out.println("---------------------------------------------------------");
+        System.out.println("Raport");
+        System.out.println("Szczegółowy wykaz pracy pracowników w danym projekcie");
+        System.out.println("---------------------------------------------------------");
+        Report4 report = new Report4(model);
+        report.printReport();
+        System.out.println("---------------------------------------------------------");
+        System.out.println();
+    }
+
+    private void generateReport5() throws InvalidFormatException, IOException{
+    	model = new Model(path,null);
         System.out.println();
         System.out.println("---------------------------------------------------------");
         System.out.println("Raport");
@@ -97,7 +109,8 @@ public class UserControl {
         System.out.println();
     }
 
-    private void generateReport1(){
+    private void generateReport1() throws InvalidFormatException, IOException{
+    	model = new Model(path,null);
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();

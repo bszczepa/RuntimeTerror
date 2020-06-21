@@ -1,6 +1,6 @@
 App\App.class
-App\UserControl.class
 Model\Model.class
-Reader\DataReader.class
 Report\Report.class
+Reader\DataReader.class
+App\UserControl.class
 ReportBuilder\ReportBuilder.class

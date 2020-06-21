@@ -94,6 +94,15 @@ public class Employee {
 	        }
 	        return sum;
 	    }
+	    
+	    public double getTotalHours() {
+	        double sum=0;
+	        for(Task task:taskList) {
+	                sum+=task.getHours();
+	        }
+	        return sum;
+	    }
+
 
 	    public HashMap<String, Double>  getHoursByProject(int month) {
 			HashMap<String, Double> projectsHours = new HashMap<>();
@@ -127,6 +136,18 @@ public class Employee {
 
 		public Set<String> getProjects(){
 			return this.projects;
+		}
+		
+		public Double getProjectHours(String project) {
+			Double sum = 0.0;
+			
+			for (Task task : this.taskList) {
+				if(task.getProjectName().equals(project)) {
+					sum += task.getHours();
+				}
+			}
+			
+			return sum;
 		}
 
 }
