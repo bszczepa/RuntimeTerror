@@ -5,6 +5,10 @@ import java.util.*;
 
 public class Report2 {
 
+    private Integer rowsCounter = 1;
+    private List<String> columnNames = new ArrayList<String>();
+    private List<List<String>> rows = new ArrayList<List<String>>();
+
     public void createReport2(Model model, int year) {
 
         TreeMap<String, Double> projectsMap = new TreeMap<>();
@@ -26,7 +30,6 @@ public class Report2 {
             }
         }
 
-        System.out.println("Raport 2 - lista projektów\n");
         for (Map.Entry project : projectsMap.entrySet()) {
             System.out.println(project.getKey() + "    " + project.getValue());
         }
