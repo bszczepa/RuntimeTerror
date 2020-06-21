@@ -10,7 +10,7 @@ import java.util.List;
 public class Report3 {
 
     private String title = null;
-    private Integer rowsCounter = 1;
+    private Integer rowsCounter = 1; 
     private List<String> columnNames = new ArrayList<String>();
     private List<List<String>> rows = new ArrayList<List<String>>();
 

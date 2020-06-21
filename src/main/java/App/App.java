@@ -16,9 +16,7 @@ public class App {
             System.out.println("Nie wprowadziłeś ścieżki do folderu");
         }
         UserControl userControl = new UserControl(folderPath);
-        userControl.controlLoop();
-
-
-    	
+        userControl.controlLoop();    	
+        
     }
 }

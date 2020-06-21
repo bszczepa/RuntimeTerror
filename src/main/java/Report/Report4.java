@@ -21,12 +21,14 @@ import Model.Task;
 
 public class Report4 {
 
+	private String title = "";
 	private Integer rowsCounter = 1;
 	private List<String> columnNames = new ArrayList<String>();
 	private List<List<String>> rows = new ArrayList<List<String>>();
 
 	public Report4(Model model, int year) {
 
+		this.title = "Procentowy udział danego pracownika w projekt za dany rok";
 		columnNames.add("L.p");
 		columnNames.add("Imię i nazwisko");
 
@@ -95,8 +97,14 @@ public class Report4 {
 		Workbook wb = new HSSFWorkbook();
 
 		Sheet sheet1 = wb.createSheet("Raport");
-
+		
+		int titleRow = 3;
 		Row row = sheet1.createRow(3);
+		Cell titleCell = row.createCell(2);
+		titleCell.setCellValue(this.title);
+
+		int columnNamesRow = 5;
+		row = sheet1.createRow(columnNamesRow);
 		int cellsCounter = 0;
 		for (String columnName : this.columnNames) {
 			Cell cell = row.createCell(cellsCounter);
@@ -105,7 +113,8 @@ public class Report4 {
 		}
 		cellsCounter = 0;
 
-		int rowsCounter = 4;
+		int numberOfStartingRow = 6;
+		int rowsCounter = numberOfStartingRow;
 		for (List<String> reportRow : rows) {
 			row = sheet1.createRow(rowsCounter);
 			rowsCounter++;
@@ -118,6 +127,13 @@ public class Report4 {
 		}
 		Date date = new Date();
 		String reportName = "report4-" + String.valueOf(date.getTime());
+	
+		
+
+		for ( int i = 0; i<sheet1.getRow(numberOfStartingRow).getLastCellNum(); i++) {
+			sheet1.autoSizeColumn(i);
+		}
+	
 		try (OutputStream fileOut = new FileOutputStream("generated-reports/" + reportName + ".xls")) {
 			wb.write(fileOut);
 		}

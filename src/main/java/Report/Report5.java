@@ -19,12 +19,14 @@ import Model.Task;
 
 public class Report5 {
 
+	private String title = "";
 	private Integer rowsCounter = 1;
 	private List<String> columnNames = new ArrayList<String>();
 	private List<List<String>> rows = new ArrayList<List<String>>();
 
 	public Report5(Model model, String projectName) {
 
+		this.title = "Szczegółowy wykaz pracy pracowników w danym projekcie";
 		columnNames.add("L.p");
 		columnNames.add("Imię i nazwisko");
 		columnNames.add("Projekt");
@@ -90,21 +92,26 @@ public class Report5 {
 	public void exportToXls() throws IOException {
 
 		Workbook wb = new HSSFWorkbook();
-		
-	
-		
+
 		Sheet sheet1 = wb.createSheet("Raport");
 		
+		int titleRow = 3;
 		Row row = sheet1.createRow(3);
-		int cellsCounter=0;
+		Cell titleCell = row.createCell(2);
+		titleCell.setCellValue(this.title);
+
+		int columnNamesRow = 5;
+		row = sheet1.createRow(columnNamesRow);
+		int cellsCounter = 0;
 		for (String columnName : this.columnNames) {
 			Cell cell = row.createCell(cellsCounter);
 			cell.setCellValue(columnName);
 			cellsCounter++;
 		}
 		cellsCounter = 0;
-		
-		int rowsCounter = 4;
+
+		int numberOfStartingRow = 6;
+		int rowsCounter = numberOfStartingRow;
 		for (List<String> reportRow : rows) {
 			row = sheet1.createRow(rowsCounter);
 			rowsCounter++;
@@ -115,12 +122,19 @@ public class Report5 {
 			}
 			cellsCounter = 0;
 		}
-		Date date = new Date();  
-		String reportName = "report5-"+String.valueOf(date.getTime());
-		try  (OutputStream fileOut = new FileOutputStream("generated-reports/" + reportName + ".xls")) {
-		    wb.write(fileOut);
+		Date date = new Date();
+		String reportName = "report5-" + String.valueOf(date.getTime());
+	
+		
+
+		for ( int i = 0; i<sheet1.getRow(numberOfStartingRow).getLastCellNum(); i++) {
+			sheet1.autoSizeColumn(i);
 		}
 	
+		try (OutputStream fileOut = new FileOutputStream("generated-reports/" + reportName + ".xls")) {
+			wb.write(fileOut);
+		}
+
 	}
 
 	public List<List<String>> getRows() {

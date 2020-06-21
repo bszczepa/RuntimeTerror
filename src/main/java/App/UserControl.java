@@ -52,7 +52,7 @@ public class UserControl {
         } while (!userOption.equals("0"));
 
     }
-
+ 
 
     public void showOption() {
         System.out.println("1. Generuj raport listy pracowników za podany rok: ");
