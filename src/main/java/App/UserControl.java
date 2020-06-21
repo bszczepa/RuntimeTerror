@@ -2,6 +2,7 @@ package App;
 
 import Model.Model;
 import Report.Report1;
+import Report.Report2;
 import Report.Report3;
 import Report.Report5;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -30,9 +31,7 @@ public class UserControl {
                     generateReport1();
                     break;
                 case "2":
-                    System.out.println();
-                    System.out.println("Wybrałes opcje 2");
-                    System.out.println();
+                    generateReport2();
                     break;
                 case "3":
                     System.out.println();
@@ -106,6 +105,21 @@ public class UserControl {
         System.out.println("---------------------------------------------------------");
         Report1 report1 = new Report1();
         report1.report(model, reportYear);
+        System.out.println("---------------------------------------------------------");
+        System.out.println();
+    }
+
+
+    private void generateReport2(){
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        System.out.println();
+        System.out.println("---------------------------------------------------------");
+        System.out.println("Raport");
+        System.out.println("Lista projektów za dany rok");
+        Report2 report2 = new Report2();
+        report2.createReport2(model, reportYear);
         System.out.println("---------------------------------------------------------");
         System.out.println();
     }
