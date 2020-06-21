@@ -29,7 +29,13 @@ public class Report3 {
         for (int i=0; i<12; i++) {
             HashMap<String, Double> hours = foundEmployee.getHoursByProject(i);
             for (String project : hours.keySet()) {
-                System.out.format("\t%4d 15%s 15%s 15,2%f \n", counter, polishMonths[i], project, hours.get(project));
+                List<String> newRow = new ArrayList();
+                newRow.add(rowsCounter.toString());
+                newRow.add(polishMonths[i]);
+                newRow.add(project);
+                newRow.add(String.valueOf(hours.get(project)));
+                rows.add(newRow);
+                rowsCounter++;
             }
         }
     }
@@ -42,6 +48,22 @@ public class Report3 {
             }
         }
         return null;
+    }
+
+    public void printReport() {
+
+        for (String string : columnNames) {
+            System.out.print(string + "  ");
+        }
+
+        System.out.println();
+
+        for (List<String> row : rows) {
+            for (String rowCell : row) {
+                System.out.print(rowCell + "  ");
+            }
+            System.out.println();
+        }
     }
 
     public String getTitle() {
