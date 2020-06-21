@@ -19,7 +19,7 @@ public class Report1 {
         setTitle("Sumaryczna liczba godzin za rok " + year + "\n");
         columnNames.add("L.p");
         columnNames.add("Imię i nazwisko");
-        columnNames.add("Ilosc godzin");
+        columnNames.add("Liczba godzin");
 
         List<Employee> employeeList = model.getEmployeeList();
         employeeList.sort(Comparator.comparing(Employee::getSurname));
@@ -53,5 +53,9 @@ public class Report1 {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
