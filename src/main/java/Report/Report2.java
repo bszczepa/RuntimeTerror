@@ -34,7 +34,4 @@ public class Report2 {
             System.out.println(project.getKey() + "    " + project.getValue());
         }
     }
-
-
-
 }
