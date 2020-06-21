@@ -140,4 +140,14 @@ public class Report4 {
 		}
 	}
 
+	public List<String> getColumnNames() {
+		return columnNames;
+	}
+
+	public List<List<String>> getRows() {
+		return rows;
+	}
+	
+	
+
 }
