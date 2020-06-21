@@ -38,7 +38,7 @@ public class UserControl {
                     generateReport2();
                     break;
                 case "3":
-//                    generateReport3(); //ToDo -> nullPointerException
+                    generateReport3();
                     break;
                 case "4":
                     generateReport4();

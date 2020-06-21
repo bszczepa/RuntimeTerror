@@ -26,24 +26,31 @@ public class Report3 {
 
         Employee foundEmployee = findEmployee(model, id);
 
-        for (int i=0; i<12; i++) {
-            HashMap<String, Double> hours = foundEmployee.getHoursByProject(i);
-            for (String project : hours.keySet()) {
-                List<String> newRow = new ArrayList();
-                newRow.add(rowsCounter.toString());
-                newRow.add(polishMonths[i]);
-                newRow.add(project);
-                newRow.add(String.valueOf(hours.get(project)));
-                rows.add(newRow);
-                rowsCounter++;
+        if (foundEmployee != null) {
+            for (int i=0; i<12; i++) {
+                HashMap<String, Double> hours = foundEmployee.getHoursByProject(i);
+                for (String project : hours.keySet()) {
+                    List<String> newRow = new ArrayList();
+                    newRow.add(rowsCounter.toString());
+                    newRow.add(polishMonths[i]);
+                    newRow.add(project);
+                    newRow.add(String.valueOf(hours.get(project)));
+                    rows.add(newRow);
+                    rowsCounter++;
+                }
             }
+        } else {
+            System.out.println("Pracownik nie istnieje w bazie lub w tym roku nie wykonywał prac");
         }
+
+
     }
 
     public Employee findEmployee(Model model, String id){
         List<Employee> employeeList = model.getEmployeeList();
         for (Employee employee : employeeList) {
-            if (employee.getNameAndSurname().equals(id)){
+            if (id.toLowerCase().contains(employee.getName().toLowerCase())
+            && id.toLowerCase().contains(employee.getSurname().toLowerCase())) {
                 return employee;
             }
         }
