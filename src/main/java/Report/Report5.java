@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -108,8 +109,9 @@ public class Report5 {
 			}
 			cellsCounter = 0;
 		}
-		
-		try  (OutputStream fileOut = new FileOutputStream("generated-reports/workbook.xls")) {
+		Date date = new Date();  
+		String reportName = "report5-"+String.valueOf(date.getTime());
+		try  (OutputStream fileOut = new FileOutputStream("generated-reports/" + reportName + ".xls")) {
 		    wb.write(fileOut);
 		}
 	
