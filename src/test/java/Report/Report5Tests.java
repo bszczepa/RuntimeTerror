@@ -31,7 +31,7 @@ public class Report5Tests {
 		
 		Employee employee2 = new Employee("Paweł", "Kwiatkowski");
 		
-		Task task2 = new Task(date, "jakisProjekt2", "jakies zadanie2", 7);
+		Task task2 = new Task(date, "jakisProjekt", "jakies zadanie2", 7);
 		
 		employee2.addTask(task2);
 		
@@ -43,7 +43,7 @@ public class Report5Tests {
 		
 		Mockito.when(model.getEmployeeList()).thenReturn(employees);
 		
-		Report5 report = new Report5(model);
+		Report5 report = new Report5(model, "jakisProjekt");
 	
 		Assert.assertEquals(4, report.getColumnNames().size());
 		
@@ -51,6 +51,8 @@ public class Report5Tests {
 		
 		Assert.assertEquals("3.0", report.getRows().get(0).get(3));
 		Assert.assertEquals("7.0", report.getRows().get(1).get(3));
+		
+		report.printReport();
 		
 	}
 
