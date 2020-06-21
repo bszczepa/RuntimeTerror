@@ -2,7 +2,6 @@ package App;
 
 import Model.Model;
 import Report.Report1;
-import Report.Report2;
 import Report.Report3;
 import Report.Report5;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -15,10 +14,13 @@ public class UserControl {
 
     private Scanner sc = new Scanner(System.in);
     private String userOption;
-    private String path = "reporter-dane";
+    private String path;
     private Model model;
 
-    public UserControl() throws IOException, InvalidFormatException {
+
+    public UserControl(String path) throws IOException, InvalidFormatException {
+        this.path = path;
+        model = new Model(path, null);
     }
 
     public void controlLoop() throws IOException, InvalidFormatException {
