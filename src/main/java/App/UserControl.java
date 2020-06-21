@@ -89,7 +89,10 @@ public class UserControl {
         System.out.println("Raport");
         System.out.println("Szczegółowy wykaz pracy pracowników w danym projekcie");
         System.out.println("---------------------------------------------------------");
-        Report4 report = new Report4(model);
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        Report4 report = new Report4(model, reportYear);
         report.printReport();
         System.out.println("---------------------------------------------------------");
         System.out.println();

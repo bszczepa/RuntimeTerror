@@ -31,6 +31,7 @@ public class Employee {
     }
 
     public void setTaskList(List<Task> taskList) {
+    	this.projects = new HashSet<String>();
         this.taskList = taskList;
         for (Task task : taskList) {
 			this.projects.add(task.getProjectName());
@@ -42,6 +43,20 @@ public class Employee {
         this.taskList.add(task);
         this.projects.add(task.getProjectName());
     }
+    
+    public void removeTask(Task task) {
+        this.taskList.remove(task);
+        boolean removeProjectName = true;
+        for (Task tsk : taskList) {
+			if(tsk.getProjectName().equals(task.getProjectName())) {
+				removeProjectName = false;
+			}
+		}
+        if (removeProjectName) {
+        	this.projects.remove(task.getProjectName());
+        }
+    }
+    
     
     public void addTasks(List<Task> tasks) {
         this.taskList.addAll(tasks);

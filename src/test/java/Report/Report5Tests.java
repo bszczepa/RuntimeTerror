@@ -32,9 +32,10 @@ public class Report5Tests {
 		Employee employee2 = new Employee("Paweł", "Kwiatkowski");
 		
 		Task task2 = new Task(date, "jakisProjekt", "jakies zadanie2", 7);
+		Task task3 = new Task(date, "jakisProjekt3", "jakies zadanie2", 7);
 		
 		employee2.addTask(task2);
-		
+		employee2.addTask(task3);
 		Model model = Mockito.mock(Model.class);
 		
 		
