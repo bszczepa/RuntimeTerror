@@ -1,6 +1,7 @@
 package App;
 
 import Model.Model;
+import Reader.ScanErrorsHolder;
 import Report.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -19,7 +20,9 @@ public class UserControl {
 
     public UserControl(String path) throws IOException, InvalidFormatException {
         this.path = path;
-        model = new Model(path, null);
+        model = new Model(path);
+        
+       ScanErrorsHolder.printScanErrors();
     }
 
     public void controlLoop() throws IOException, InvalidFormatException {
@@ -83,7 +86,6 @@ public class UserControl {
     }
 
     private void generateReport4() throws InvalidFormatException, IOException{
-        model = new Model(path,null);
         System.out.println();
         System.out.println("---------------------------------------------------------");
         System.out.println("Raport");
@@ -99,7 +101,6 @@ public class UserControl {
     }
 
     private void generateReport5() throws InvalidFormatException, IOException{
-    	model = new Model(path,null);
         System.out.println();
         System.out.println("---------------------------------------------------------");
         System.out.println("Raport");
@@ -114,7 +115,6 @@ public class UserControl {
     }
 
     private void generateReport1() throws InvalidFormatException, IOException{
-    	model = new Model(path,null);
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
