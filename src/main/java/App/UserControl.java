@@ -1,10 +1,7 @@
 package App;
 
 import Model.Model;
-import Report.Report1;
-import Report.Report2;
-import Report.Report3;
-import Report.Report5;
+import Report.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -42,9 +39,7 @@ public class UserControl {
                     System.out.println();
                     break;
                 case "4":
-                    System.out.println();
-                    System.out.println("Wybrałes opcje 4");
-                    System.out.println();
+                    generateReport5();
                     break;
                 case "5":
                     generateReport5();
@@ -86,6 +81,19 @@ public class UserControl {
         System.out.println("----------------------------");
         System.out.println("Runtime Terror version 1.0.0");
         System.out.println("----------------------------");
+    }
+
+    private void generateReport4() throws InvalidFormatException, IOException{
+        model = new Model(path,null);
+        System.out.println();
+        System.out.println("---------------------------------------------------------");
+        System.out.println("Raport");
+        System.out.println("Szczegółowy wykaz pracy pracowników w danym projekcie");
+        System.out.println("---------------------------------------------------------");
+        Report4 report = new Report4(model);
+        report.printReport();
+        System.out.println("---------------------------------------------------------");
+        System.out.println();
     }
 
     private void generateReport5() throws InvalidFormatException, IOException{
