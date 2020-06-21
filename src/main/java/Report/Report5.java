@@ -68,14 +68,14 @@ public class Report5 {
 	public void printReport() {
 
 		for (String string : columnNames) {
-			System.out.print(string + "  ");
+			System.out.print(string + " \t\t ");
 		}
 
 		System.out.println();
 
 		for (List<String> row : rows) {
 			for (String rowCell : row) {
-				System.out.print(rowCell + "  ");
+				System.out.print(rowCell + " \t\t ");
 			}
 			System.out.println();
 		}

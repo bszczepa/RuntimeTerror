@@ -15,7 +15,7 @@ public class UserControl {
     private Scanner sc = new Scanner(System.in);
     private String userOption;
     private String path = "reporter-dane";
-    private Model model = new Model(path,null);
+    private Model model;
 
     public UserControl() throws IOException, InvalidFormatException {
     }
@@ -86,7 +86,8 @@ public class UserControl {
         System.out.println("----------------------------");
     }
 
-    private void generateReport5(){
+    private void generateReport5() throws InvalidFormatException, IOException{
+    	model = new Model(path,null);
         System.out.println();
         System.out.println("---------------------------------------------------------");
         System.out.println("Raport");
@@ -98,7 +99,8 @@ public class UserControl {
         System.out.println();
     }
 
-    private void generateReport1(){
+    private void generateReport1() throws InvalidFormatException, IOException{
+    	model = new Model(path,null);
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
