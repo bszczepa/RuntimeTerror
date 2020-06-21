@@ -117,4 +117,14 @@ public class Report5 {
 	
 	}
 
+	public List<List<String>> getRows() {
+		return rows;
+	}
+
+	public List<String> getColumnNames() {
+		return columnNames;
+	}
+	
+	
+
 }
