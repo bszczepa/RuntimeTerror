@@ -106,6 +106,7 @@ public class UserControl {
         System.out.println("---------------------------------------------------------");
         Report1 report1 = new Report1();
         report1.report(model, reportYear);
+        report1.printReport();
         System.out.println("---------------------------------------------------------");
         System.out.println();
     }
