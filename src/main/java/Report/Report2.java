@@ -11,6 +11,9 @@ public class Report2 {
 
     public void createReport2(Model model, int year) {
 
+        columnNames.add("Projekt");
+        columnNames.add("Ilość godzin");
+
         TreeMap<String, Double> projectsMap = new TreeMap<>();
         List<Employee> employees = model.getEmployeeList();
 
@@ -30,10 +33,32 @@ public class Report2 {
             }
         }
 
+        List<String> newRow = new ArrayList<>();
         for (Map.Entry project : projectsMap.entrySet()) {
-            System.out.println(project.getKey() + "    " + project.getValue());
+            newRow.add(project.getKey().toString());
+            newRow.add(project.getValue().toString());
+        }
+        rows.add(newRow);
+
+
+    }
+
+    public void printReport() {
+
+        for (String string : columnNames) {
+            System.out.print(string + "  ");
+        }
+
+        System.out.println();
+
+        for (List<String> row : rows) {
+            for (String rowCell : row) {
+                System.out.print(rowCell + "  ");
+            }
+            System.out.println();
         }
     }
+
 
 
 

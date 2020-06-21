@@ -120,6 +120,7 @@ public class UserControl {
         System.out.println("Lista projektów za dany rok");
         Report2 report2 = new Report2();
         report2.createReport2(model, reportYear);
+        report2.printReport();
         System.out.println("---------------------------------------------------------");
         System.out.println();
     }
