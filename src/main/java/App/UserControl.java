@@ -14,7 +14,7 @@ public class UserControl {
 
     private Scanner sc = new Scanner(System.in);
     private String userOption;
-    private String path = "/Users/matys/IdeaProjects/agh/RuntimeTerror/src/Resources/reporter-dane/2012";
+    private String path = "reporter-dane";
     private Model model = new Model(path,null);
 
     public UserControl() throws IOException, InvalidFormatException {

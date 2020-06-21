@@ -5,7 +5,7 @@ import java.util.*;
 public class Employee {
 
     private List<Task> taskList = new ArrayList<Task>();
-    private Set<String> projects;
+    private Set<String> projects = new HashSet<String>();
     private String name;
     private String surname;
 

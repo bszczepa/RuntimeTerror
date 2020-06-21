@@ -1,9 +1,16 @@
 package Report;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.rowset.internal.Row;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import Model.Employee;
 import Model.Model;
@@ -15,8 +22,6 @@ public class Report5 {
 	private List<String> columnNames = new ArrayList<String>();
 	private List<List<String>> rows = new ArrayList<List<String>>();
 
-	
-	
 	public Report5(Model model) {
 
 		columnNames.add("L.p");
@@ -32,15 +37,16 @@ public class Report5 {
 				for (List<String> row : rows) {
 					String employeeInRow = row.get(1);
 					String projectInRow = row.get(2);
-					
-					if (employeeInRow.equals(employee.getNameAndSurname()) && projectInRow.equals(task.getProjectName())) {
+
+					if (employeeInRow.equals(employee.getNameAndSurname())
+							&& projectInRow.equals(task.getProjectName())) {
 						indexOfRowToChange = rows.indexOf(row);
 					}
 				}
 
 				if (indexOfRowToChange != null) {
 					List<String> rowToChange = rows.get(indexOfRowToChange);
-					Double hoursToChange  = Double.valueOf(rowToChange.get(3));
+					Double hoursToChange = Double.valueOf(rowToChange.get(3));
 					Double newHours = hoursToChange + task.getHours();
 					rowToChange.set(3, newHours.toString());
 				} else {
@@ -55,8 +61,7 @@ public class Report5 {
 
 			}
 		}
-		
-		
+
 	}
 
 	public void printReport() {
@@ -73,6 +78,41 @@ public class Report5 {
 			}
 			System.out.println();
 		}
+	}
+
+	public void exportToXls() throws IOException {
+
+		Workbook wb = new HSSFWorkbook();
+		
+	
+		
+		Sheet sheet1 = wb.createSheet("Raport");
+		
+		Row row = sheet1.createRow(3);
+		int cellsCounter=0;
+		for (String columnName : this.columnNames) {
+			Cell cell = row.createCell(cellsCounter);
+			cell.setCellValue(columnName);
+			cellsCounter++;
+		}
+		cellsCounter = 0;
+		
+		int rowsCounter = 4;
+		for (List<String> reportRow : rows) {
+			row = sheet1.createRow(rowsCounter);
+			rowsCounter++;
+			for (String entry : reportRow) {
+				Cell cell = row.createCell(cellsCounter);
+				cell.setCellValue(entry);
+				cellsCounter++;
+			}
+			cellsCounter = 0;
+		}
+		
+		try  (OutputStream fileOut = new FileOutputStream("generated-reports/workbook.xls")) {
+		    wb.write(fileOut);
+		}
+	
 	}
 
 }
