@@ -5,6 +5,7 @@ import java.util.*;
 public class Employee {
 
     private List<Task> taskList = new ArrayList<Task>();
+    private Set<String> projects;
     private String name;
     private String surname;
 
@@ -31,19 +32,24 @@ public class Employee {
 
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
+        for (Task task : taskList) {
+			this.projects.add(task.getProjectName());
+		}
+        
     }
 
     public void addTask(Task task) {
         this.taskList.add(task);
+        this.projects.add(task.getProjectName());
     }
     
     public void addTasks(List<Task> tasks) {
         this.taskList.addAll(tasks);
+        for (Task task : tasks) {
+			this.projects.add(task.getProjectName());
+		}
     }
 
-    public void deleteTask(Task task) {
-        this.taskList.remove(task);
-    }
 
 	@Override
 	public int hashCode() {
@@ -119,7 +125,8 @@ public class Employee {
 			return this.getName() + " " + this.getSurname();
 		}
 
-
-    
+		public Set<String> getProjects(){
+			return this.projects;
+		}
 
 }
