@@ -5,6 +5,7 @@ import Report.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -34,9 +35,7 @@ public class UserControl {
                     generateReport2();
                     break;
                 case "3":
-                    System.out.println();
-                    System.out.println("Wybrałes opcje 3");
-                    System.out.println();
+//                    generateReport3(); //ToDo -> nullPointerException
                     break;
                 case "4":
                     generateReport4();
@@ -58,7 +57,7 @@ public class UserControl {
     public void showOption() {
         System.out.println("1. Generuj raport listy pracowników za podany rok: ");
         System.out.println("2. Generuj raport listy projektów za podany rok ");
-        System.out.println("3. Szczegółowy wykaz pracy danego pracownika ");
+        System.out.println("3. Szczegółowy wykaz pracy danego pracownika za podany rok");
         System.out.println("4. Procentowy udział danego pracownika w projekt za dany rok");
         System.out.println("5. Szczegółowy wykaz pracy pracowników w danym projekcie");
         System.out.println("0. Zakończ pracę z programem");
@@ -134,6 +133,23 @@ public class UserControl {
         System.out.println("Lista projektów za dany rok");
         Report2 report2 = new Report2();
         report2.createReport2(model, reportYear);
+        System.out.println("---------------------------------------------------------");
+        System.out.println();
+    }
+
+    private void generateReport3(){
+        System.out.println("Podaj imię i nazwisko pracownika");
+        String projectName = sc.nextLine();
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        System.out.println();
+        System.out.println("---------------------------------------------------------");
+        System.out.println("Raport");
+        System.out.println("Lista projektów za dany rok");
+        Report3 report3 = new Report3();
+        report3.report(model, projectName, reportYear);
+        report3.printReport();
         System.out.println("---------------------------------------------------------");
         System.out.println();
     }
