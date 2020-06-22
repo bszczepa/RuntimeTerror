@@ -7,50 +7,74 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import Model.Employee;
 import Model.Model;
 import Model.Task;
 
-public class Report2Builder implements ReportBuilder {
-
-	private int year;
-
-	public Report2Builder(int year) {
-		this.year = year;
-	}
+public class Report2Builder extends ReportBuilder {
 
 	@Override
-	public Report buildReport(Model model) {
+	void filterEmployees(Model model) {
+		List<Employee> modelEmployees = model.getEmployeeList();
 
-		Report report = new Report();
+		List<Employee> filteredEmployees = new ArrayList<Employee>();
 
-		report.setTitle("Raport listy projektów za podany rok " + year);
-
-		List<String> columnNames = new ArrayList<String>();
-		List<List<String>> rows = new ArrayList<List<String>>();
-		Integer rowsCounter = 1;
-
-		columnNames.add("L.p");
-		columnNames.add("Projekt");
-		columnNames.add("Ilość godzin");
-
-		TreeMap<String, Double> projectsMap = new TreeMap<>();
-		List<Employee> employees = model.getEmployeeList();
-
-		for (Employee employee : employees) {
+		for (Employee employee : modelEmployees) {
+			List<Task> filteredTasks = new ArrayList<Task>();
 			for (Task task : employee.getTaskList()) {
 				Date date = task.getTaskDate();
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(date);
-				if (calendar.get(Calendar.YEAR) == year) {
-					String projectName = task.getProjectName();
-					if (projectsMap.containsKey(projectName)) {
-						projectsMap.replace(projectName, projectsMap.get(projectName) + task.getHours());
-					} else {
-						projectsMap.put(projectName, task.getHours());
-					}
+				if (calendar.get(Calendar.YEAR) == (Integer) params.get(0)) {
+					filteredTasks.add(task);
 				}
+			}
+			if (filteredTasks.size() > 0) {
+				Employee employeeCopy = (Employee) employee.clone();
+				employeeCopy.setTaskList(filteredTasks);
+				filteredEmployees.add(employeeCopy);
+			}
+		}
+
+		employees = filteredEmployees;
+	}
+
+	@Override
+	void setReportTitle() {
+		Report report = new Report();
+		report.setTitle("Raport listy projektów za podany rok " + (Integer) params.get(0));
+	}
+
+	@Override
+	void setReportCollumnNames() {
+
+		List<String> columnNames = new ArrayList<String>();
+
+		columnNames.add("L.p");
+		columnNames.add("Projekt");
+		columnNames.add("Ilość godzin");
+		report.setColumnNames(columnNames);
+
+	}
+
+	@Override
+	void setReportRows() {
+		List<List<String>> rows = new ArrayList<List<String>>();
+		Integer rowsCounter = 1;
+
+		TreeMap<String, Double> projectsMap = new TreeMap<>();
+
+		for (Employee employee : employees) {
+			for (Task task : employee.getTaskList()) {
+				String projectName = task.getProjectName();
+				if (projectsMap.containsKey(projectName)) {
+					projectsMap.replace(projectName, projectsMap.get(projectName) + task.getHours());
+				} else {
+					projectsMap.put(projectName, task.getHours());
+				}
+
 			}
 		}
 
@@ -63,10 +87,7 @@ public class Report2Builder implements ReportBuilder {
 			rowsCounter++;
 		}
 
-
-		report.setColumnNames(columnNames);
 		report.setRows(rows);
-		return report;
 	}
 
 }

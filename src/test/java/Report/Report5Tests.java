@@ -41,7 +41,8 @@ public class Report5Tests {
 		
 		Mockito.when(model.getEmployeeList()).thenReturn(employees);
 		
-		ReportBuilder rBuilder = new Report5Builder("jakisProjekt");
+		ReportBuilder rBuilder = new Report5Builder();
+		rBuilder.setParam("Jakiś raport");
 		
 		
 		Report report = rBuilder.buildReport(model);
@@ -52,7 +53,17 @@ public class Report5Tests {
 		
 		Assert.assertEquals("3.0", report.getRows().get(0).get(3));
 		Assert.assertEquals("7.0", report.getRows().get(1).get(3));
+		
+		Assert.assertEquals("1", report.getRows().get(0).get(0));
+		Assert.assertEquals("2", report.getRows().get(1).get(0));
+		
+		Assert.assertEquals("Jan Nowak", report.getRows().get(0).get(1));
+		Assert.assertEquals("Paweł Kwiatkowski", report.getRows().get(1).get(1));
+		
+		Assert.assertEquals("jakisProjekt", report.getRows().get(0).get(2));
+		Assert.assertEquals("jakisProjekt", report.getRows().get(1).get(2));
 
+		ReportPrinter.printReport(report);
 		
 		
 	}

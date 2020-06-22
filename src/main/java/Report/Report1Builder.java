@@ -1,51 +1,73 @@
 package Report;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Model.Employee;
 import Model.Model;
+import Model.Task;
 
-public class Report1Builder implements ReportBuilder {
+public class Report1Builder extends ReportBuilder {
 
-	private int year;
+	@Override
+	void filterEmployees(Model model) {
+		List<Employee> modelEmployees = model.getEmployeeList();
 
-	public Report1Builder(int year) {
-		this.year = year;
+		List<Employee> filteredEmployees = new ArrayList<Employee>();
+
+		for (Employee employee : modelEmployees) {
+			List<Task> filteredTasks = new ArrayList<Task>();
+			for (Task task : employee.getTaskList()) {
+				Date date = task.getTaskDate();
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				if (calendar.get(Calendar.YEAR) == (Integer) params.get(0)) {
+					filteredTasks.add(task);
+				}
+			}
+			if (filteredTasks.size() > 0) {
+				Employee employeeCopy = (Employee) employee.clone();
+				employeeCopy.setTaskList(filteredTasks);
+				filteredEmployees.add(employeeCopy);
+			}
+		}
+
+		employees = filteredEmployees;
 	}
 
 	@Override
-	public Report buildReport(Model model) {
+	void setReportTitle() {
+		Integer year = (Integer) this.params.get(0);
+		report.setTitle("Sumaryczna liczba godzin za rok " + String.valueOf(year));
+	}
 
-		Report report = new Report();
-
-		report.setTitle("Sumaryczna liczba godzin za rok " + year);
-
+	@Override
+	void setReportCollumnNames() {
 		List<String> columnNames = new ArrayList<String>();
-		List<List<String>> rows = new ArrayList<List<String>>();
-		Integer rowsCounter = 1;
-
 		columnNames.add("L.p");
 		columnNames.add("Imię i nazwisko");
 		columnNames.add("Liczba godzin");
+		report.setColumnNames(columnNames);
 
-		List<Employee> employeeList = model.getEmployeeList();
-		employeeList.sort(Comparator.comparing(Employee::getSurname));
+	}
 
-		for (Employee employee : employeeList) {
+	@Override
+	void setReportRows() {
+		List<List<String>> rows = new ArrayList<List<String>>();
+		Integer rowsCounter = 1;
+		for (Employee employee : employees) {
 			List<String> newRow = new ArrayList();
 			newRow.add(rowsCounter.toString());
 			newRow.add(employee.getNameAndSurname());
-			newRow.add(String.valueOf(employee.getTotalHours(year)));
+			newRow.add(String.valueOf(employee.getTotalHours()));
 			rows.add(newRow);
 			rowsCounter++;
 		}
-		
-		report.setColumnNames(columnNames);
 		report.setRows(rows);
-		
-		return report;
 	}
 
 }

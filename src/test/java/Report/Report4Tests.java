@@ -34,7 +34,8 @@ public class Report4Tests {
 		
 		Mockito.when(model.getEmployeeList()).thenReturn(employees);
 		
-		ReportBuilder rBuilder = new Report4Builder(2020);
+		ReportBuilder rBuilder = new Report4Builder();
+		rBuilder.setParam(2020);
 		
 		Report report = rBuilder.buildReport(model);
 		Assert.assertEquals(4, report.getColumnNames().size());

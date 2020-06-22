@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -26,7 +27,7 @@ public class FilesScanner {
 
 		List<File> files = findFiles(path);
 
-		List<Employee> employees = new ArrayList();
+		List<Employee> employees = new ArrayList<>();
 		
 		for (File file : files) {
 			String filename = file.getName().substring(0, file.getName().indexOf("."));
@@ -44,7 +45,7 @@ public class FilesScanner {
 
 		}
 		employees.sort(Comparator.comparing(Employee::getSurname));
-		return employees;
+		return ListUtils.unmodifiableList(employees);
 	}
 
 

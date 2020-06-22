@@ -1,78 +1,88 @@
 package Report;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Model.Employee;
 import Model.Model;
+import Model.Task;
 
-public class Report3Builder implements ReportBuilder {
-
-	private int year;
-	private String id;
-	
-
-	
-
-	public Report3Builder(int year, String id) {
-		super();
-		this.year = year;
-		this.id = id;
-	}
-
-
-
+public class Report3Builder extends ReportBuilder {
 
 	@Override
-	public Report buildReport(Model model){
-		
-			Report report = new Report();
-		    List<String> columnNames = new ArrayList<String>();
-		    List<List<String>> rows = new ArrayList<List<String>>();
-		    Integer rowsCounter = 1;
-			
-		    report.setTitle("Rok: " + year + "; Imię i nazwisko: " + id);
-		
-	        columnNames.add("L.p");
-	        columnNames.add("Miesiąc");
-	        columnNames.add("Projekt");
-	        columnNames.add("Liczba godzin");
+	void filterEmployees(Model model) {
+		List<Employee> modelEmployees = model.getEmployeeList();
 
-	        String[] polishMonths = {"Styczeń","Luty","Marzec","Kwiecień","Maj","Czerwiec","Lipiec","Sierpień","Wrzesień","Pażdziernik","Listopad","Grudzień"};
+		List<Employee> filteredEmployees = new ArrayList<Employee>();
 
-	        Employee foundEmployee = findEmployee(model, id);
+		for (Employee employee : modelEmployees) {
+			List<Task> filteredTasks = new ArrayList<Task>();
+			for (Task task : employee.getTaskList()) {
+				Date date = task.getTaskDate();
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				if (calendar.get(Calendar.YEAR) == (Integer) params.get(0) && ((String) params.get(1)).toLowerCase()
+						.contains(employee.getName().toLowerCase())
+						&& ((String) params.get(1)).toLowerCase().contains(employee.getSurname().toLowerCase())) {
+					filteredTasks.add(task);
+				}
+			}
+			if (filteredTasks.size() > 0) {
+				Employee employeeCopy = (Employee) employee.clone();
+				employeeCopy.setTaskList(filteredTasks);
+				filteredEmployees.add(employeeCopy);
+			}
+		}
 
-	        if (foundEmployee != null) {
-	            for (int i=0; i<12; i++) {
-	                HashMap<String, Double> hours = foundEmployee.getHoursByProject(i);
-	                for (String project : hours.keySet()) {
-	                    List<String> newRow = new ArrayList();
-	                    newRow.add(rowsCounter.toString());
-	                    newRow.add(polishMonths[i]);
-	                    newRow.add(project);
-	                    newRow.add(String.valueOf(hours.get(project)));
-	                    rows.add(newRow);
-	                    rowsCounter++;
-	                }
-	            }
-	        } else {
-	            System.out.println("Pracownik nie istnieje w bazie lub w tym roku nie wykonywał prac");
-	        }
-	        
-	        report.setColumnNames(columnNames);
-	        report.setRows(rows);
-	        return report;
+		employees = filteredEmployees;
+
 	}
-	
-	  public Employee findEmployee(Model model, String id){
-	        List<Employee> employeeList = model.getEmployeeList();
-	        for (Employee employee : employeeList) {
-	            if (id.toLowerCase().contains(employee.getName().toLowerCase())
-	            && id.toLowerCase().contains(employee.getSurname().toLowerCase())) {
-	                return employee;
-	            }
-	        }
-	        return null;
-	    }
+
+	@Override
+	void setReportTitle() {
+		report.setTitle("Rok: " + (Integer) params.get(0) + "; Imię i nazwisko: " + (String) params.get(1));
+	}
+
+	@Override
+	void setReportCollumnNames() {
+		List<String> columnNames = new ArrayList<String>();
+		columnNames.add("L.p");
+		columnNames.add("Miesiąc");
+		columnNames.add("Projekt");
+		columnNames.add("Liczba godzin");
+		report.setColumnNames(columnNames);
+	}
+
+	@Override
+	void setReportRows() {
+
+		List<List<String>> rows = new ArrayList<List<String>>();
+		Integer rowsCounter = 1;
+
+		String[] polishMonths = { "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień",
+				"Wrzesień", "Pażdziernik", "Listopad", "Grudzień" };
+
+		if (employees.size() > 0) {
+
+			for (Employee foundEmployee : employees) {
+				for (int i = 0; i < 12; i++) {
+					HashMap<String, Double> hours = foundEmployee.getHoursByProject(i);
+					for (String project : hours.keySet()) {
+						List<String> newRow = new ArrayList();
+						newRow.add(rowsCounter.toString());
+						newRow.add(polishMonths[i]);
+						newRow.add(project);
+						newRow.add(String.valueOf(hours.get(project)));
+						rows.add(newRow);
+						rowsCounter++;
+					}
+				}
+			}
+		}
+		report.setRows(rows);
+	}
 }

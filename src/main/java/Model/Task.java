@@ -3,7 +3,7 @@ package Model;
 
 import java.util.Date;
 
-public class Task {
+public class Task implements Cloneable{
 
     private Date taskDate;
     private String projectName;
@@ -55,5 +55,13 @@ public class Task {
 				+ hours + "]";
 	}
 
+	@Override
+	public Object clone() {
+	    try {
+	        return (Task) super.clone();
+	    } catch (CloneNotSupportedException e) {
+	        return new Task(this.taskDate, this.projectName, this.taskName, this.hours);
+	    }
+	}
     
 }
