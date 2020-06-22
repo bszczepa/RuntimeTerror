@@ -3,11 +3,7 @@ package Report;
 import Model.*;
 import java.util.*;
 
-public class Report2 {
-
-    private Integer rowsCounter = 1;
-    private List<String> columnNames = new ArrayList<String>();
-    private List<List<String>> rows = new ArrayList<List<String>>();
+public class Report2 extends Report{
 
     public void createReport2(Model model, int year) {
 
@@ -33,5 +29,9 @@ public class Report2 {
         for (Map.Entry project : projectsMap.entrySet()) {
             System.out.println(project.getKey() + "    " + project.getValue());
         }
+        
+// TODO:  Konwersja mapy na listę nazw kolumn i listę wierszy!
     }
+    
+    
 }

@@ -123,6 +123,7 @@ public class UserControl {
         System.out.println();
         Report2 report2 = new Report2();
         report2.createReport2(model, reportYear);
+        ReportPrinter.printReport(report2);
         System.out.println();
     }
 
