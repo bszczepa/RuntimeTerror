@@ -1,24 +1,36 @@
 package App;
 
-import Model.Model;
-import Report.Report1;
-import Report.Report2;
-import Report.Report3;
-import Report.Report5;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
 import java.io.IOException;
 import java.util.Scanner;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
+import Model.Model;
+import Reader.ScanErrorsHolder;
+import Report.Report;
+import Report.Report1Builder;
+import Report.Report2Builder;
+import Report.Report3Builder;
+import Report.Report4Builder;
+import Report.Report5Builder;
+import Report.ReportBuilder;
+import Report.ReportPrinter;
 
 public class UserControl {
 
     private Scanner sc = new Scanner(System.in);
     private String userOption;
-    private String path = "reporter-dane";
-    private Model model = new Model(path,null);
+    private String path;
+    private Model model;
+    private ReportBuilder reportBuilder;
+    private Report report;
 
-    public UserControl() throws IOException, InvalidFormatException {
+
+    public UserControl(String path) throws IOException, InvalidFormatException {
+        this.path = path;
+        model = new Model(path);
+        
+       ScanErrorsHolder.printScanErrors();
     }
 
     public void controlLoop() throws IOException, InvalidFormatException {
@@ -34,14 +46,10 @@ public class UserControl {
                     generateReport2();
                     break;
                 case "3":
-                    System.out.println();
-                    System.out.println("Wybrałes opcje 3");
-                    System.out.println();
+                    generateReport3();
                     break;
                 case "4":
-                    System.out.println();
-                    System.out.println("Wybrałes opcje 4");
-                    System.out.println();
+                    generateReport4();
                     break;
                 case "5":
                     generateReport5();
@@ -55,12 +63,12 @@ public class UserControl {
         } while (!userOption.equals("0"));
 
     }
-
+ 
 
     public void showOption() {
         System.out.println("1. Generuj raport listy pracowników za podany rok: ");
         System.out.println("2. Generuj raport listy projektów za podany rok ");
-        System.out.println("3. Szczegółowy wykaz pracy danego pracownika ");
+        System.out.println("3. Szczegółowy wykaz pracy danego pracownika za podany rok");
         System.out.println("4. Procentowy udział danego pracownika w projekt za dany rok");
         System.out.println("5. Szczegółowy wykaz pracy pracowników w danym projekcie");
         System.out.println("0. Zakończ pracę z programem");
@@ -85,27 +93,34 @@ public class UserControl {
         System.out.println("----------------------------");
     }
 
-    private void generateReport5(){
+    private void generateReport4() throws InvalidFormatException, IOException{
         System.out.println();
-        System.out.println("---------------------------------------------------------");
-        System.out.println("Raport");
-        System.out.println("Szczegółowy wykaz pracy pracowników w danym projekcie");
-        System.out.println("---------------------------------------------------------");
-        Report5 report = new Report5(model);
-        report.printReport();
-        System.out.println("---------------------------------------------------------");
-        System.out.println();
-    }
-
-    private void generateReport1(){
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
+        reportBuilder= new Report4Builder(reportYear);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
         System.out.println();
-        System.out.println("---------------------------------------------------------");
-        Report1 report1 = new Report1();
-        report1.report(model, reportYear);
-        System.out.println("---------------------------------------------------------");
+    }
+
+    private void generateReport5() throws InvalidFormatException, IOException{
+        System.out.println();
+        System.out.println("Podaj nazwę projektu");
+        String projectName = sc.nextLine();
+        reportBuilder= new Report5Builder(projectName);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
+        System.out.println();
+    }
+
+    private void generateReport1() throws InvalidFormatException, IOException{
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        reportBuilder= new Report1Builder(reportYear);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
         System.out.println();
     }
 
@@ -115,13 +130,22 @@ public class UserControl {
         int reportYear = sc.nextInt();
         sc.nextLine();
         System.out.println();
-        System.out.println("---------------------------------------------------------");
-        System.out.println("Raport");
-        System.out.println("Lista projektów za dany rok");
-        Report2 report2 = new Report2();
-        report2.createReport2(model, reportYear);
-        report2.printReport();
-        System.out.println("---------------------------------------------------------");
+        reportBuilder = new Report2Builder(reportYear);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
+        System.out.println();
+    }
+
+    private void generateReport3(){
+        System.out.println("Podaj imię i nazwisko pracownika");
+        String name = sc.nextLine();
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        System.out.println();
+        reportBuilder = new Report3Builder(reportYear,name);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
         System.out.println();
     }
 }

@@ -1,6 +1,13 @@
 package Model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Employee {
 
@@ -31,6 +38,7 @@ public class Employee {
     }
 
     public void setTaskList(List<Task> taskList) {
+    	this.projects = new HashSet<String>();
         this.taskList = taskList;
         for (Task task : taskList) {
 			this.projects.add(task.getProjectName());
@@ -42,6 +50,20 @@ public class Employee {
         this.taskList.add(task);
         this.projects.add(task.getProjectName());
     }
+    
+    public void removeTask(Task task) {
+        this.taskList.remove(task);
+        boolean removeProjectName = true;
+        for (Task tsk : taskList) {
+			if(tsk.getProjectName().equals(task.getProjectName())) {
+				removeProjectName = false;
+			}
+		}
+        if (removeProjectName) {
+        	this.projects.remove(task.getProjectName());
+        }
+    }
+    
     
     public void addTasks(List<Task> tasks) {
         this.taskList.addAll(tasks);
@@ -94,6 +116,15 @@ public class Employee {
 	        }
 	        return sum;
 	    }
+	    
+	    public double getTotalHours() {
+	        double sum=0;
+	        for(Task task:taskList) {
+	                sum+=task.getHours();
+	        }
+	        return sum;
+	    }
+
 
 	    public HashMap<String, Double>  getHoursByProject(int month) {
 			HashMap<String, Double> projectsHours = new HashMap<>();
@@ -127,6 +158,18 @@ public class Employee {
 
 		public Set<String> getProjects(){
 			return this.projects;
+		}
+		
+		public Double getProjectHours(String project) {
+			Double sum = 0.0;
+			
+			for (Task task : this.taskList) {
+				if(task.getProjectName().equals(project)) {
+					sum += task.getHours();
+				}
+			}
+			
+			return sum;
 		}
 
 }
