@@ -1,14 +1,20 @@
 package App;
 
-import Model.Model;
-import Reader.ScanErrorsHolder;
-import Report.*;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
-import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
 import java.util.Scanner;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
+import Model.Model;
+import Reader.ScanErrorsHolder;
+import Report.Report;
+import Report.Report1Builder;
+import Report.Report2Builder;
+import Report.Report3Builder;
+import Report.Report4Builder;
+import Report.Report5Builder;
+import Report.ReportBuilder;
+import Report.ReportPrinter;
 
 public class UserControl {
 
@@ -16,6 +22,8 @@ public class UserControl {
     private String userOption;
     private String path;
     private Model model;
+    private ReportBuilder reportBuilder;
+    private Report report;
 
 
     public UserControl(String path) throws IOException, InvalidFormatException {
@@ -90,7 +98,8 @@ public class UserControl {
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
-        Report4 report = new Report4(model, reportYear);
+        reportBuilder= new Report4Builder(reportYear);
+        report = reportBuilder.buildReport(model);
         ReportPrinter.printReport(report);
         System.out.println();
     }
@@ -99,7 +108,8 @@ public class UserControl {
         System.out.println();
         System.out.println("Podaj nazwę projektu");
         String projectName = sc.nextLine();
-        Report5 report = new Report5(model, projectName);
+        reportBuilder= new Report5Builder(projectName);
+        report = reportBuilder.buildReport(model);
         ReportPrinter.printReport(report);
         System.out.println();
     }
@@ -108,10 +118,9 @@ public class UserControl {
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
-        System.out.println();
-        Report1 report1 = new Report1();
-        report1.report(model, reportYear);
-        ReportPrinter.printReport(report1);
+        reportBuilder= new Report1Builder(reportYear);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
         System.out.println();
     }
 
@@ -121,22 +130,22 @@ public class UserControl {
         int reportYear = sc.nextInt();
         sc.nextLine();
         System.out.println();
-        Report2 report2 = new Report2();
-        report2.createReport2(model, reportYear);
-        ReportPrinter.printReport(report2);
+        reportBuilder = new Report2Builder(reportYear);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
         System.out.println();
     }
 
     private void generateReport3(){
         System.out.println("Podaj imię i nazwisko pracownika");
-        String projectName = sc.nextLine();
+        String name = sc.nextLine();
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
         System.out.println();
-        Report3 report3 = new Report3();
-        report3.report(model, projectName, reportYear);
-        ReportPrinter.printReport(report3);
+        reportBuilder = new Report3Builder(reportYear,name);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
         System.out.println();
     }
 }

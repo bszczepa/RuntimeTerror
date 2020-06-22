@@ -1,14 +1,11 @@
 package Report;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import Model.Employee;
@@ -44,7 +41,10 @@ public class Report5Tests {
 		
 		Mockito.when(model.getEmployeeList()).thenReturn(employees);
 		
-		Report5 report = new Report5(model, "jakisProjekt");
+		ReportBuilder rBuilder = new Report5Builder("jakisProjekt");
+		
+		
+		Report report = rBuilder.buildReport(model);
 	
 		Assert.assertEquals(4, report.getColumnNames().size());
 		

@@ -1,34 +1,39 @@
 package Report;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import Model.Employee;
 import Model.Model;
 import Model.Task;
 
-public class Report5 extends Report  {
+public class Report5Builder implements ReportBuilder {
 
-	public Report5(Model model, String projectName) {
+	private String projectName;
 
-		this.title = "Szczegółowy wykaz pracy pracowników w danym projekcie";
+	public Report5Builder(String projectName) {
+		super();
+		this.projectName = projectName;
+	}
+
+	@Override
+	public Report buildReport(Model model){
+		Report report = new Report();
+
+		report.setTitle("Szczegółowy wykaz pracy pracowników w danym projekcie");
+
+		List<String> columnNames = new ArrayList<String>();
+
 		columnNames.add("L.p");
 		columnNames.add("Imię i nazwisko");
 		columnNames.add("Projekt");
 		columnNames.add("Ilość godzin");
 
+		report.setColumnNames(columnNames);
 		List<Employee> employees = model.getEmployeeList();
+
+		List<List<String>> rows = new ArrayList<List<String>>();
+		Integer rowsCounter = 1;
 
 		for (Employee employee : employees) {
 			for (Task task : employee.getTaskList()) {
@@ -65,8 +70,8 @@ public class Report5 extends Report  {
 
 			}
 		}
-
+		
+		report.setRows(rows);
+		return report;
 	}
-
-
 }

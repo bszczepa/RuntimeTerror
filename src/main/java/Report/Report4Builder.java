@@ -1,30 +1,34 @@
 package Report;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import Model.Employee;
 import Model.Model;
 import Model.Task;
 
-public class Report4 extends Report {
+public class Report4Builder implements ReportBuilder {
 
-	public Report4(Model model, int year) {
+	private int year;
 
-		this.title = "Procentowy udział danego pracownika w projekt za dany rok";
+	public Report4Builder(int year) {
+		super();
+		this.year = year;
+	}
+
+	@Override
+	public Report buildReport(Model model){
+		
+		Report report = new Report();
+		
+		report.setTitle("Procentowy udział danego pracownika w projekt za dany rok");
+		List<String> columnNames = new ArrayList<String>();
+		List<List<String>> rows = new ArrayList<List<String>>();
+		Integer rowsCounter = 1;
+		
 		columnNames.add("L.p");
 		columnNames.add("Imię i nazwisko");
 
@@ -73,7 +77,7 @@ public class Report4 extends Report {
 				}
 				if (!rowExists) {
 					rowToAdd.set(0, rowsCounter.toString());
-					this.rowsCounter++;
+					rowsCounter++;
 					rowToAdd.set(1, employee.getNameAndSurname());
 				}
 				Integer indexOfProject = columnNames.indexOf(project);
@@ -86,6 +90,9 @@ public class Report4 extends Report {
 				}
 			}
 		}
+		report.setColumnNames(columnNames);
+		report.setRows(rows);
+		
+		return report;
 	}
-
 }

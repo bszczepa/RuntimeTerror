@@ -2,14 +2,10 @@ package Model;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.ArrayList;
-
-import Reader.DataReader;
-
-import Reader.FilesScanner;
-import Reader.ScanError;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
+import Reader.FilesScanner;
 
 public class Model {
 
