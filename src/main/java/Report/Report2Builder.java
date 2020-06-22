@@ -29,6 +29,11 @@ public class Report2Builder implements ReportBuilder {
 
 		List<String> columnNames = new ArrayList<String>();
 		List<List<String>> rows = new ArrayList<List<String>>();
+		Integer rowsCounter = 1;
+
+		columnNames.add("L.p");
+		columnNames.add("Projekt");
+		columnNames.add("Ilość godzin");
 
 		TreeMap<String, Double> projectsMap = new TreeMap<>();
 		List<Employee> employees = model.getEmployeeList();
@@ -50,10 +55,14 @@ public class Report2Builder implements ReportBuilder {
 		}
 
 		for (Map.Entry project : projectsMap.entrySet()) {
-			System.out.println(project.getKey() + "    " + project.getValue());
+			List<String> newRow = new ArrayList<>();
+			newRow.add(rowsCounter.toString());
+			newRow.add(project.getKey().toString());
+			newRow.add(project.getValue().toString());
+			rows.add(newRow);
+			rowsCounter++;
 		}
 
-		// TODO: Konwersja mapy na listę nazw kolumn i listę wierszy !
 
 		report.setColumnNames(columnNames);
 		report.setRows(rows);
