@@ -30,6 +30,12 @@ public class ScanError {
 		this.description = description;
 	}
 	
+	public ScanError(String path, String project, String description) {
+		this.filename = path;
+		this.project = project;
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
 		return "ScanError [filename=" + filename + ", project=" + project + ", row=" + row + ", cell=" + cell

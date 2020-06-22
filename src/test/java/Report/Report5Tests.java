@@ -42,7 +42,7 @@ public class Report5Tests {
 		Mockito.when(model.getEmployeeList()).thenReturn(employees);
 		
 		ReportBuilder rBuilder = new Report5Builder();
-		rBuilder.setParam("Jakiś raport");
+		rBuilder.setParam("jakisProjekt");
 		
 		
 		Report report = rBuilder.buildReport(model);
