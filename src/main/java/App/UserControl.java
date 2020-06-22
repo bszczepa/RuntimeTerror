@@ -91,7 +91,7 @@ public class UserControl {
         int reportYear = sc.nextInt();
         sc.nextLine();
         Report4 report = new Report4(model, reportYear);
-        report.printReport();
+        ReportPrinter.printReport(report);
         System.out.println();
     }
 
@@ -100,7 +100,7 @@ public class UserControl {
         System.out.println("Podaj nazwę projektu");
         String projectName = sc.nextLine();
         Report5 report = new Report5(model, projectName);
-        report.printReport();
+        ReportPrinter.printReport(report);
         System.out.println();
     }
 
@@ -135,7 +135,7 @@ public class UserControl {
         System.out.println();
         Report3 report3 = new Report3();
         report3.report(model, projectName, reportYear);
-        report3.printReport();
+        ReportPrinter.printReport(report3);
         System.out.println();
     }
 }

@@ -52,8 +52,8 @@ public class Report5Tests {
 		
 		Assert.assertEquals("3.0", report.getRows().get(0).get(3));
 		Assert.assertEquals("7.0", report.getRows().get(1).get(3));
+
 		
-		report.printReport();
 		
 	}
 

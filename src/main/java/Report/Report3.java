@@ -53,36 +53,6 @@ public class Report3 extends Report  {
         return null;
     }
 
-    public void printReport() {
-		int lineLength = columnNames.size() * 32;
-
-	
-	
-		System.out.println(String.join("", Collections.nCopies(lineLength, "-")));
-		System.out.format("%-1s", "|");
-		System.out.format("%-"+ columnNames.size()*30 +"s %-" + columnNames.size() +"s", this.title, " ");
-		System.out.format("%2s", "|");
-		System.out.println();
-		System.out.println(String.join("", Collections.nCopies(lineLength, "-")));
-		for (String columnName : columnNames) {
-			System.out.format("%-1s %-30s", "|", columnName);
-			
-		}
-		System.out.format("%-1s" , "|");
-		System.out.println();
-		System.out.println(String.join("", Collections.nCopies(lineLength, "-")));
-		for (List<String> row : rows) {
-			for (String cell : row) {
-				System.out.format("%-1s %-30s", "|", cell);
-				
-			}
-			System.out.format("%-1s" , "|");
-			System.out.println();
-		}
-		System.out.println(String.join("", Collections.nCopies(lineLength, "-")));
-	}
-
-
     public String getTitle() {
         return title;
     }
