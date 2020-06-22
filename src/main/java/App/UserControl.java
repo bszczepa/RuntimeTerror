@@ -87,30 +87,20 @@ public class UserControl {
 
     private void generateReport4() throws InvalidFormatException, IOException{
         System.out.println();
-        System.out.println("---------------------------------------------------------");
-        System.out.println("Raport");
-        System.out.println("Szczegółowy wykaz pracy pracowników w danym projekcie");
-        System.out.println("---------------------------------------------------------");
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
         Report4 report = new Report4(model, reportYear);
         report.printReport();
-        System.out.println("---------------------------------------------------------");
         System.out.println();
     }
 
     private void generateReport5() throws InvalidFormatException, IOException{
         System.out.println();
-        System.out.println("---------------------------------------------------------");
-        System.out.println("Raport");
-        System.out.println("Szczegółowy wykaz pracy pracowników w danym projekcie");
-        System.out.println("---------------------------------------------------------");
         System.out.println("Podaj nazwę projektu");
         String projectName = sc.nextLine();
         Report5 report = new Report5(model, projectName);
         report.printReport();
-        System.out.println("---------------------------------------------------------");
         System.out.println();
     }
 
@@ -119,11 +109,9 @@ public class UserControl {
         int reportYear = sc.nextInt();
         sc.nextLine();
         System.out.println();
-        System.out.println("---------------------------------------------------------");
         Report1 report1 = new Report1();
         report1.report(model, reportYear);
-        report1.printReport();
-        System.out.println("---------------------------------------------------------");
+        ReportPrinter.printReport(report1);
         System.out.println();
     }
 
@@ -133,12 +121,8 @@ public class UserControl {
         int reportYear = sc.nextInt();
         sc.nextLine();
         System.out.println();
-        System.out.println("---------------------------------------------------------");
-        System.out.println("Raport");
-        System.out.println("Lista projektów za dany rok");
         Report2 report2 = new Report2();
         report2.createReport2(model, reportYear);
-        System.out.println("---------------------------------------------------------");
         System.out.println();
     }
 
@@ -149,13 +133,9 @@ public class UserControl {
         int reportYear = sc.nextInt();
         sc.nextLine();
         System.out.println();
-        System.out.println("---------------------------------------------------------");
-        System.out.println("Raport");
-        System.out.println("Lista projektów za dany rok");
         Report3 report3 = new Report3();
         report3.report(model, projectName, reportYear);
         report3.printReport();
-        System.out.println("---------------------------------------------------------");
         System.out.println();
     }
 }

@@ -3,6 +3,7 @@ package Reader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -42,6 +43,7 @@ public class FilesScanner {
 			}
 
 		}
+		employees.sort(Comparator.comparing(Employee::getSurname));
 		return employees;
 	}
 

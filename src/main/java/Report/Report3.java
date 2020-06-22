@@ -4,15 +4,11 @@ import Model.Model;
 import Model.Employee;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class Report3 {
-
-    private String title = null;
-    private Integer rowsCounter = 1; 
-    private List<String> columnNames = new ArrayList<String>();
-    private List<List<String>> rows = new ArrayList<List<String>>();
+public class Report3 extends Report  {
 
     public void report(Model model, String id, int year) {
 
@@ -58,20 +54,34 @@ public class Report3 {
     }
 
     public void printReport() {
+		int lineLength = columnNames.size() * 32;
 
-        for (String string : columnNames) {
-            System.out.print(string + "  ");
-        }
+	
+	
+		System.out.println(String.join("", Collections.nCopies(lineLength, "-")));
+		System.out.format("%-1s", "|");
+		System.out.format("%-"+ columnNames.size()*30 +"s %-" + columnNames.size() +"s", this.title, " ");
+		System.out.format("%2s", "|");
+		System.out.println();
+		System.out.println(String.join("", Collections.nCopies(lineLength, "-")));
+		for (String columnName : columnNames) {
+			System.out.format("%-1s %-30s", "|", columnName);
+			
+		}
+		System.out.format("%-1s" , "|");
+		System.out.println();
+		System.out.println(String.join("", Collections.nCopies(lineLength, "-")));
+		for (List<String> row : rows) {
+			for (String cell : row) {
+				System.out.format("%-1s %-30s", "|", cell);
+				
+			}
+			System.out.format("%-1s" , "|");
+			System.out.println();
+		}
+		System.out.println(String.join("", Collections.nCopies(lineLength, "-")));
+	}
 
-        System.out.println();
-
-        for (List<String> row : rows) {
-            for (String rowCell : row) {
-                System.out.print(rowCell + "  ");
-            }
-            System.out.println();
-        }
-    }
 
     public String getTitle() {
         return title;
