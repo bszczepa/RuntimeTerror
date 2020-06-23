@@ -1,5 +1,6 @@
 package Report;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -84,6 +85,11 @@ public class Report4Builder implements ReportBuilder {
 
 				Double projectHours = employee.getProjectHours(project);
 				Double percentHours = (projectHours * 100) / totalHours;
+			
+				percentHours = percentHours*100;
+				percentHours = (double) Math.round(percentHours);
+				percentHours = percentHours/100;
+
 				rowToAdd.set(indexOfProject, percentHours.toString() + "%");
 				if (!rowExists) {
 					rows.add(rowToAdd);
