@@ -1,5 +1,6 @@
 package Report;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,7 +53,7 @@ public class Report4Tests {
 	}
 
 	@Test
-	public void testNotFilteringMasterEmployeesData() {
+	public void testNotFilteringMasterEmployeesData() throws IOException {
 		
 		List<Employee> employees = new ArrayList<Employee>();
 		Employee employee1 = new Employee("Jan", "Nowak");
@@ -71,10 +72,11 @@ public class Report4Tests {
 		Report report = rBuilder2.buildReport(model);
 		Assert.assertTrue((report.getRows().size() == 1));
 		
+		
 	}
 	
 	@Test
-	public void testEmptyWhenDifferentYear() {
+	public void testEmptyWhenDifferentYear(){
 	
 		List<Employee> employees = new ArrayList<Employee>();
 
@@ -100,6 +102,8 @@ public class Report4Tests {
 	
 		Report report = rBuilder.buildReport(model);
 		Assert.assertTrue((report.getRows().size() == 0));
+		
+	
 	
 	}
 	

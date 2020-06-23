@@ -1,5 +1,7 @@
 package Report;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -65,6 +67,9 @@ public class ReportXlsExporter {
 		try (OutputStream fileOut = new FileOutputStream("generated-reports/" + reportName + ".xls")) {
 			wb.write(fileOut);
 		}
+		Desktop desktop = Desktop.getDesktop();
+		File file = new File("generated-reports/" + reportName + ".xls");
+        if(file.exists()) desktop.open(file);
 
 	}
 }
