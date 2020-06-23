@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -47,7 +48,6 @@ public class Report4Tests {
 		Assert.assertEquals("", report.getRows().get(0).get(3));
 		Assert.assertEquals("50.0%", report.getRows().get(1).get(2));
 		Assert.assertEquals("50.0%", report.getRows().get(1).get(3));
-
 
 	}
 
@@ -96,16 +96,46 @@ public class Report4Tests {
 		employees.add(employee1);
 		ReportBuilder rBuilder = new Report4Builder(2012);
 		Report report = rBuilder.buildReport(model);
-		
-		
-		
+				
 		Assert.assertEquals(4, report.getColumnNames().size());
 		Assert.assertEquals(1, report.getRows().size());
 		Assert.assertEquals("50.0%", report.getRows().get(0).get(2));
 		Assert.assertEquals("50.0%", report.getRows().get(0).get(3));
 
-		
+	}
+	
+	@Test
+	public void testSumOfPercentsInRowIsAlways100() throws IOException {
 
+		List<Employee> employees = new ArrayList<Employee>();
+		
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+		
+		Employee employee1 = new Employee("Jan", "Nowak");
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
+		
+		Random random = new Random();
+		
+		for(int i=0; i<10 ; i++) {
+			Task task = new Task(date, "jakisProjekt", "jakies zadanie"+i, random.nextDouble()*random.nextInt(120));
+			Task task1 = new Task(date, "innyProjekt", "jakies zadanie"+i, random.nextDouble()*random.nextInt(120));
+			employee1.addTask(task);
+			employee1.addTask(task1);
+		}	
+		
+		employees.add(employee1);
+		ReportBuilder rBuilder = new Report4Builder(2012);
+		Report report = rBuilder.buildReport(model);
+
+		String proj1Percents = report.getRows().get(0).get(2);
+		String proj2Percents = report.getRows().get(0).get(3);
+		
+		Double proj1PercentsDouble = Double.parseDouble(proj1Percents.substring(0 ,proj1Percents.indexOf("%")));
+		Double proj2PercentsDouble = Double.parseDouble(proj2Percents.substring(0 ,proj2Percents.indexOf("%")));
+		
+		Assert.assertTrue(proj1PercentsDouble + proj2PercentsDouble == 100);
 
 	}
 
