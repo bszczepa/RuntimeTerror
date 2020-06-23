@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -21,21 +22,50 @@ import Model.Task;
 public class DataReader {
 
 	public Employee readFile(File file) throws IOException, InvalidFormatException {
-		List<Task> tasks = new ArrayList<Task>();
 
-		Workbook wb = WorkbookFactory.create(file);
+		String fileLocation = file.getParent();
+		Integer fileMonthFromLocation;
+		Integer fileYearFromLocation;
+
+		String filename = file.getName().substring(0, file.getName().indexOf("."));
+		if (!filename.matches("[A-z]+_[A-z]+")) {
+			ScanErrorsHolder.addScanError(new ScanError(file.getPath(), "", "", "zła nazwa pliku!"));
+			return null;
+		}
+
+		try {
+			fileMonthFromLocation = Integer.valueOf(fileLocation.substring(fileLocation.length() - 2));
+			fileYearFromLocation = Integer
+					.valueOf(fileLocation.substring(fileLocation.length() - 7, fileLocation.length() - 3));
+		} catch (NumberFormatException e) {
+			ScanErrorsHolder.addScanError(new ScanError(file.getPath(), "", "", "zła lokalizacja pliku!"));
+			return null;
+		}
+
+		if (fileMonthFromLocation < 1 || fileMonthFromLocation > 12) {
+			ScanErrorsHolder.addScanError(new ScanError(file.getPath(), "", "", "zła lokalizacja pliku!"));
+			return null;
+		}
+
+		Date date = new Date();
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		int currentYear = calendar.get(Calendar.YEAR);
+		if (fileYearFromLocation < currentYear - 15 || fileYearFromLocation > currentYear + 15) {
+			ScanErrorsHolder.addScanError(new ScanError(file.getPath(), "", "", "zła lokalizacja pliku!"));
+			return null;
+		}
+
 		String fileName = file.getName();
-		String employeeName;
-		String employeeSurname;
+		String employeeName = extractEmployeeName(fileName);
+		String employeeSurname = extractEmployeeSurname(fileName);
+		Employee employee = new Employee(employeeName, employeeSurname);
+		List<Task> tasks = new ArrayList<Task>();
+		Workbook wb = WorkbookFactory.create(file);
+
 		String project;
-		Date date;
 		String description;
 		double time;
-
-		employeeName = extractEmployeeName(fileName);
-		employeeSurname = extractEmployeeSurname(fileName);
-
-		Employee employee = new Employee(employeeName, employeeSurname);
 
 		for (int i = 0; i < wb.getNumberOfSheets(); i++) {
 			Sheet sheet = wb.getSheetAt(i);
@@ -48,13 +78,13 @@ public class DataReader {
 					|| !sheet.getRow(0).getCell(1).getStringCellValue().equals("Zadanie")
 					|| !sheet.getRow(0).getCell(2).getStringCellValue().equals("Czas [h]")) {
 				ScanErrorsHolder.addScanError(
-						new ScanError(file.getPath(), sheet.getSheetName(), "Plik nie zawiera odpowiednich kolumn"));
+						new ScanError(file.getPath(), sheet.getSheetName(), "Arkusz nie zawiera odpowiednich kolumn"));
 				continue;
 			}
 			project = sheet.getSheetName();
 			for (int j = 1; j <= sheet.getLastRowNum(); j++) {
 
-				Boolean error = false;
+				boolean error = false;
 
 				if (sheet.getRow(j) == null) {
 					ScanErrorsHolder
@@ -67,56 +97,87 @@ public class DataReader {
 				if (row.getCell(0) == null || row.getCell(0).getCellTypeEnum() == CellType.BLANK) {
 					ScanErrorsHolder.addScanError(
 							new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "DATA", "pusta komórka!"));
-					error = true;
-				} else if (!row.getCell(0).getCellTypeEnum().equals(CellType.NUMERIC)) {
+					continue;
+				}
+				if (!row.getCell(0).getCellTypeEnum().equals(CellType.NUMERIC)) {
 					ScanErrorsHolder.addScanError(new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "DATA",
 							"komórka nie zawiera wartości numerycznej!"));
-					error = true;
+					continue;
 				}
 
 				if (row.getCell(1) == null || row.getCell(1).getCellTypeEnum() == CellType.BLANK) {
 					ScanErrorsHolder.addScanError(
 							new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "OPIS", "pusta komórka!"));
-
-					error = true;
-				} else if (row.getCell(1).getCellTypeEnum() != CellType.STRING) {
+					continue;
+				}
+				if (row.getCell(1).getCellTypeEnum() != CellType.STRING) {
 					ScanErrorsHolder.addScanError(new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "OPIS",
 							"komórka nie zawiera wartości numerycznej!"));
-
-					error = true;
+					continue;
 				}
 
 				if (row.getCell(2) == null || row.getCell(2).getCellTypeEnum() == CellType.BLANK) {
 					ScanErrorsHolder.addScanError(
 							new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "CZAS", "pusta komórka!"));
-					error = true;
+					continue;
 
-				} else if (row.getCell(2).getCellTypeEnum() != CellType.NUMERIC) {
+				}
+				if (row.getCell(2).getCellTypeEnum() != CellType.NUMERIC) {
 					ScanErrorsHolder.addScanError(new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "CZAS",
 							"komórka nie zawiera wartości numerycznej!"));
-					error = true;
-				} else if (row.getCell(2).getNumericCellValue() > 24) {
+					continue;
+				}
+				if (row.getCell(2).getNumericCellValue() > 24) {
 					ScanErrorsHolder.addScanError(
 							new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "CZAS", "nieodpowiednie dane!"));
-					error = true;
+					continue;
 				}
 
-				if (!error) {
+				if (row.getCell(0) != null) {
 					Cell dateCell = row.getCell(0);
 					Cell descriptionCell = row.getCell(1);
 					Cell timeCell = row.getCell(2);
-					date = dateCell.getDateCellValue();
+					
+					if(descriptionCell.getStringCellValue().trim().equals("")) {
+						ScanErrorsHolder.addScanError(new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "OPIS",
+								"pusty opis w komórce!"));
+						continue;
+					}
+
+					try {
+						date = dateCell.getDateCellValue();
+						calendar.setTime(date);
+					} catch (NullPointerException e) {
+						ScanErrorsHolder.addScanError(new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "DATA",
+								"zle wpisana data!"));
+						continue;
+					}
+
+					if (calendar.get(Calendar.YEAR) != fileYearFromLocation) {
+						ScanErrorsHolder.addScanError(
+								new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "DATA", "zły rok w dacie!"));
+						continue;
+					}
+
+					if (calendar.get(Calendar.MONTH) + 1 != fileMonthFromLocation) {
+						ScanErrorsHolder.addScanError(new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "DATA",
+								"zły miesiąc w dacie!"));
+						continue;
+					}
+
+					
 					description = descriptionCell.getStringCellValue();
 					time = timeCell.getNumericCellValue();
 					Task task = new Task(date, project, description, time);
 					employee.addTask(task);
 				}
+
 			}
+
 		}
 		wb.close();
 
 		return employee;
-
 	}
 
 	private String extractEmployeeSurname(String fileName) {
