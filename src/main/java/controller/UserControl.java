@@ -10,6 +10,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import model.Employee;
 import model.Report;
 import services.DataReader;
+import services.ScanErrorsHolder;
 import services.reportServices.Report1Builder;
 import services.reportServices.Report2Builder;
 import services.reportServices.Report3Builder;
@@ -34,6 +35,7 @@ public class UserControl {
 
 	public void controlLoop() throws IOException, InvalidFormatException {
 		appHeaders();
+		ScanErrorsHolder.printScanErrors();
 		do {
 			showOption();
 			String userOption = inputUserOption();

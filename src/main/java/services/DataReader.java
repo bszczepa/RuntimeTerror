@@ -22,11 +22,13 @@ import repository.FilesFinder;
 public class DataReader {
 
 	public FilesFinder filesScanner = new FilesFinder();
+	public List<File> files = new ArrayList<File>();
 	public List<Employee> foundEmployees = new ArrayList<Employee>();
 
 	public List<Employee> readFiles(String path) throws InvalidFormatException, IOException {
 		FilesFinder fScanner = new FilesFinder();
-		List<File> files = filesScanner.findFiles(path);
+		files = filesScanner.findFiles(path);
+		filterFiles();
 		for (File file : files) {
 			Employee employee = readFile(file);
 			if (foundEmployees.contains(employee)) {
@@ -142,6 +144,20 @@ public class DataReader {
 
 	private String extractEmployeeName(String fileName) {
 		return fileName.substring(fileName.indexOf("_") + 1, fileName.indexOf("."));
+	}
+
+	private void filterFiles() throws InvalidFormatException, IOException {
+
+		List<File> filteredFiles = new ArrayList<File>();
+		for (File file : files) {
+			String filename = file.getName().substring(0, file.getName().indexOf("."));
+			if (!filename.matches("[A-z]+_[A-z]+")) {
+				ScanErrorsHolder.addScanError(new ScanError(file.getPath(), "", "", "zła nazwa pliku!"));
+				continue;
+			}
+			filteredFiles.add(file);
+		}
+		files = filteredFiles;
 	}
 
 }

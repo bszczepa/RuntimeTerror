@@ -19,22 +19,7 @@ public class FilesFinder {
 		File masterDirectory = new File(path);
 		masterDirectory.getCanonicalPath();
 		foundFiles = (List<File>) FileUtils.listFiles(masterDirectory, new String[] { "xls", "xlsx" }, true);
-		filterFiles();
 		return this.foundFiles;
-	}
-
-	private void filterFiles() throws InvalidFormatException, IOException {
-
-		List<File> filteredFiles = new ArrayList<File>();
-		for (File file : foundFiles) {
-			String filename = file.getName().substring(0, file.getName().indexOf("."));
-			if (!filename.matches("[A-z]+_[A-z]+")) {
-				ScanErrorsHolder.addScanError(new ScanError(file.getPath(), "", "", "zła nazwa pliku!"));
-				continue;
-			}
-			filteredFiles.add(file);
-		}
-		foundFiles = filteredFiles;
 	}
 
 }
