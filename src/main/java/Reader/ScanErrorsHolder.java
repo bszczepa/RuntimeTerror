@@ -9,6 +9,21 @@ public class ScanErrorsHolder {
 	private static  List<ScanError> scanErrors = new ArrayList<ScanError>();
 	
 	public static void printScanErrors() {
+		
+		if(scanErrors.size()==0) {
+			System.out.println();
+			System.out.println(">> Brak błędów w odczytanych plikach z danymi.");
+			System.out.println();
+		}
+
+		else {
+			printScanErrorsTable();
+			
+		}
+	
+	}
+
+	private static void printScanErrorsTable() {
 		System.out.println(String.join("", Collections.nCopies(25, "-")));
 		System.out.println("| Błędy odczytu plików: | ");
 		System.out.println(String.join("", Collections.nCopies(159, "-")));
@@ -25,4 +40,14 @@ public class ScanErrorsHolder {
 	public static void addScanError(ScanError scanError) {
 		scanErrors.add(scanError);
 	}
+
+	public static List<ScanError> getScanErrors() {
+		return scanErrors;
+	}
+	
+	public static void clearScanErrors() {
+		scanErrors = new ArrayList<ScanError>();
+	}
+	
+	
 }

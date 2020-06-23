@@ -14,7 +14,7 @@ import Model.Employee;
 public class FilesScanner {
 
 	DataReader dataReader = new DataReader();
-	
+
 	private List<File> findFiles(String path) throws IOException {
 		File masterDirectory = new File(path);
 		masterDirectory.getCanonicalPath();
@@ -27,27 +27,20 @@ public class FilesScanner {
 		List<File> files = findFiles(path);
 
 		List<Employee> employees = new ArrayList();
-		
+
 		for (File file : files) {
-			String filename = file.getName().substring(0, file.getName().indexOf("."));
-			if(!filename.matches("[A-z]+_[A-z]+")) {
-				ScanErrorsHolder.addScanError(new ScanError(file.getPath(), "", "", "zła nazwa pliku!"));
-				continue;
-			}
 			Employee employee = new Employee();
 			employee = dataReader.readFile(file);
-			if (employees.contains(employee)) {
-				employees.get(employees.indexOf(employee)).addTasks(employee.getTaskList());
-			} else {
-				employees.add(employee);
+			if (employee != null) {
+				if (employees.contains(employee)) {
+					employees.get(employees.indexOf(employee)).addTasks(employee.getTaskList());
+				} else {
+					employees.add(employee);
+				}
 			}
-
 		}
 		employees.sort(Comparator.comparing(Employee::getSurname));
 		return employees;
 	}
 
-
-	
-	
 }
