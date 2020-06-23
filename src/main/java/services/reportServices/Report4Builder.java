@@ -1,14 +1,12 @@
-package Report;
+package services.reportServices;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import Model.Employee;
-import Model.Model;
-import Model.Task;
+import model.Employee;
+import model.Task;
 
 public class Report4Builder extends ReportBuilder {
 
@@ -20,7 +18,7 @@ public class Report4Builder extends ReportBuilder {
 			Double totalHours = employee.getTotalHours();
 			for (String project : employee.getProjects()) {
 				List<String> rowToAdd = new ArrayList<String>();
-				for (int i = 0; i < report.columnNames.size(); i++) {
+				for (int i = 0; i < report.getColumnNames().size(); i++) {
 					rowToAdd.add("");
 				}
 				String employeeName = employee.getNameAndSurname();
@@ -37,7 +35,7 @@ public class Report4Builder extends ReportBuilder {
 					rowsCounter++;
 					rowToAdd.set(1, employee.getNameAndSurname());
 				}
-				Integer indexOfProject = report.columnNames.indexOf(project);
+				Integer indexOfProject = report.getColumnNames().indexOf(project);
 
 				Double projectHours = employee.getProjectHours(project);
 				Double percentHours = (projectHours * 100) / totalHours;
@@ -71,12 +69,10 @@ public class Report4Builder extends ReportBuilder {
 		this.report.setTitle("Procentowy udział danego pracownika w projekt za dany rok");
 	}
 	
-	void filterEmployees(Model model){
-		List<Employee> modelEmployees = model.getEmployeeList();
-
+	void filterEmployees(){
 		List<Employee> filteredEmployees = new ArrayList<Employee>();
 
-		for (Employee employee : modelEmployees) {
+		for (Employee employee : employees) {
 			List<Task> filteredTasks = new ArrayList<Task>();
 			for (Task task : employee.getTaskList()) {
 				Date date = task.getTaskDate();
@@ -95,5 +91,6 @@ public class Report4Builder extends ReportBuilder {
 
 		employees = filteredEmployees;
 	}
+
 	
 }

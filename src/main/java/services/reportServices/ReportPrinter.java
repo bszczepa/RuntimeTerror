@@ -1,7 +1,9 @@
-package Report;
+package services.reportServices;
 
 import java.util.Collections;
 import java.util.List;
+
+import model.Report;
 
 public class ReportPrinter {
 	public static void printReport(Report report) {

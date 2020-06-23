@@ -1,25 +1,23 @@
-package Report;
+package services.reportServices;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.TreeMap;
 
-import Model.Employee;
-import Model.Model;
-import Model.Task;
+import model.Employee;
+import model.Report;
+import model.Task;
 
-public class Report1Builder extends ReportBuilder {
+public class Report2Builder extends ReportBuilder {
 
 	@Override
-	void filterEmployees(Model model) {
-		List<Employee> modelEmployees = model.getEmployeeList();
-
+	void filterEmployees() {
 		List<Employee> filteredEmployees = new ArrayList<Employee>();
 
-		for (Employee employee : modelEmployees) {
+		for (Employee employee : employees) {
 			List<Task> filteredTasks = new ArrayList<Task>();
 			for (Task task : employee.getTaskList()) {
 				Date date = task.getTaskDate();
@@ -41,16 +39,18 @@ public class Report1Builder extends ReportBuilder {
 
 	@Override
 	void setReportTitle() {
-		Integer year = (Integer) this.params.get(0);
-		report.setTitle("Sumaryczna liczba godzin za rok " + String.valueOf(year));
+		Report report = new Report();
+		report.setTitle("Raport listy projektów za podany rok " + (Integer) params.get(0));
 	}
 
 	@Override
 	void setReportCollumnNames() {
+
 		List<String> columnNames = new ArrayList<String>();
+
 		columnNames.add("L.p");
-		columnNames.add("Imię i nazwisko");
-		columnNames.add("Liczba godzin");
+		columnNames.add("Projekt");
+		columnNames.add("Ilość godzin");
 		report.setColumnNames(columnNames);
 
 	}
@@ -59,14 +59,30 @@ public class Report1Builder extends ReportBuilder {
 	void setReportRows() {
 		List<List<String>> rows = new ArrayList<List<String>>();
 		Integer rowsCounter = 1;
+
+		TreeMap<String, Double> projectsMap = new TreeMap<>();
+
 		for (Employee employee : employees) {
-			List<String> newRow = new ArrayList();
+			for (Task task : employee.getTaskList()) {
+				String projectName = task.getProjectName();
+				if (projectsMap.containsKey(projectName)) {
+					projectsMap.replace(projectName, projectsMap.get(projectName) + task.getHours());
+				} else {
+					projectsMap.put(projectName, task.getHours());
+				}
+
+			}
+		}
+
+		for (Map.Entry project : projectsMap.entrySet()) {
+			List<String> newRow = new ArrayList<>();
 			newRow.add(rowsCounter.toString());
-			newRow.add(employee.getNameAndSurname());
-			newRow.add(String.valueOf(employee.getTotalHours()));
+			newRow.add(project.getKey().toString());
+			newRow.add(project.getValue().toString());
 			rows.add(newRow);
 			rowsCounter++;
 		}
+
 		report.setRows(rows);
 	}
 

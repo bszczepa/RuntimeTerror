@@ -1,4 +1,4 @@
-package Reader;
+package model;
 public class ScanError {
 	private String filename = "";
 	private String project = "";

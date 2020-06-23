@@ -1,9 +1,8 @@
-package Reader;
+package services;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +14,29 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import Model.Employee;
-import Model.Task;
+import model.Employee;
+import model.ScanError;
+import model.Task;
+import repository.FilesScanner;
 
 public class DataReader {
+
+	public FilesScanner filesScanner = new FilesScanner();
+	public List<Employee> foundEmployees = new ArrayList<Employee>();
+
+	public List<Employee> readFiles(String path) throws InvalidFormatException, IOException {
+		FilesScanner fScanner = new FilesScanner();
+		List<File> files = filesScanner.findFiles(path);
+		for (File file : files) {
+			Employee employee = readFile(file);
+			if (foundEmployees.contains(employee)) {
+				foundEmployees.get(foundEmployees.indexOf(employee)).addTasks(employee.getTaskList());
+			} else {
+				foundEmployees.add(employee);
+			}
+		}
+		return foundEmployees;
+	}
 
 	public Employee readFile(File file) throws IOException, InvalidFormatException {
 		List<Task> tasks = new ArrayList<Task>();
@@ -38,9 +56,7 @@ public class DataReader {
 		Employee employee = new Employee(employeeName, employeeSurname);
 
 		for (int i = 0; i < wb.getNumberOfSheets(); i++) {
-
 			Sheet sheet = wb.getSheetAt(i);
-
 			if (sheet.getRow(0).getCell(0) == null || sheet.getRow(0).getCell(1) == null
 					|| sheet.getRow(0).getCell(2) == null
 					|| !sheet.getRow(0).getCell(0).getCellTypeEnum().equals(CellType.STRING)
@@ -98,8 +114,8 @@ public class DataReader {
 							"komórka nie zawiera wartości numerycznej!"));
 					error = true;
 				} else if (row.getCell(2).getNumericCellValue() > 24) {
-					ScanErrorsHolder.addScanError(new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "CZAS",
-							"nieodpowiednie dane!"));
+					ScanErrorsHolder.addScanError(
+							new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "CZAS", "nieodpowiednie dane!"));
 					error = true;
 				}
 
@@ -107,7 +123,7 @@ public class DataReader {
 					Cell dateCell = row.getCell(0);
 					Cell descriptionCell = row.getCell(1);
 					Cell timeCell = row.getCell(2);
-					date = dateCell.getDateCellValue();						
+					date = dateCell.getDateCellValue();
 					description = descriptionCell.getStringCellValue();
 					time = timeCell.getNumericCellValue();
 					Task task = new Task(date, project, description, time);
@@ -116,7 +132,6 @@ public class DataReader {
 			}
 		}
 		wb.close();
-
 		return employee;
 
 	}

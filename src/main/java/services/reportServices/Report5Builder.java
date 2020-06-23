@@ -1,24 +1,18 @@
-package Report;
+package services.reportServices;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import Model.Employee;
-import Model.Model;
-import Model.Task;
+import model.Employee;
+import model.Task;
 
 public class Report5Builder extends ReportBuilder {
 
 	@Override
-	void filterEmployees(Model model) {
-		List<Employee> modelEmployees = model.getEmployeeList();
-
+	void filterEmployees() {
 		List<Employee> filteredEmployees = new ArrayList<Employee>();
 
-		for (Employee employee : modelEmployees) {
+		for (Employee employee : employees) {
 			List<Task> filteredTasks = new ArrayList<Task>();
 			for (Task task : employee.getTaskList()) {
 				if (task.getProjectName().equalsIgnoreCase((String) params.get(0))) {

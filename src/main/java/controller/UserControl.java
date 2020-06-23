@@ -1,35 +1,35 @@
-package App;
+package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import Model.Model;
-import Reader.ScanErrorsHolder;
-import Report.Report;
-import Report.Report1Builder;
-import Report.Report2Builder;
-import Report.Report3Builder;
-import Report.Report4Builder;
-import Report.Report5Builder;
-import Report.ReportBuilder;
-import Report.ReportPrinter;
+import model.Employee;
+import model.Report;
+import services.DataReader;
+import services.reportServices.Report1Builder;
+import services.reportServices.Report2Builder;
+import services.reportServices.Report3Builder;
+import services.reportServices.Report4Builder;
+import services.reportServices.Report5Builder;
+import services.reportServices.ReportBuilder;
+import services.reportServices.ReportPrinter;
 
 public class UserControl {
 
 	private Scanner sc = new Scanner(System.in);
 	private String userOption;
-	private String path;
-	private Model model;
+	private DataReader dataReader = new DataReader();
 	private ReportBuilder reportBuilder;
 	private Report report;
+	
+	List<Employee> employees = new ArrayList<Employee>();
 
 	public UserControl(String path) throws IOException, InvalidFormatException {
-		this.path = path;
-		model = new Model(path);
-
-		ScanErrorsHolder.printScanErrors();
+		employees = dataReader.readFiles(path);
 	}
 
 	public void controlLoop() throws IOException, InvalidFormatException {
@@ -97,7 +97,7 @@ public class UserControl {
 		sc.nextLine();
 		reportBuilder = new Report4Builder();
 		reportBuilder.addParam(reportYear);
-		report = reportBuilder.buildReport(model);
+		report = reportBuilder.buildReport(employees);
 		ReportPrinter.printReport(report);
 		System.out.println();
 	}
@@ -108,7 +108,7 @@ public class UserControl {
 		String projectName = sc.nextLine();
 		reportBuilder = new Report5Builder();
 		reportBuilder.addParam(projectName);
-		report = reportBuilder.buildReport(model);
+		report = reportBuilder.buildReport(employees);
 		ReportPrinter.printReport(report);
 		System.out.println();
 	}
@@ -119,7 +119,7 @@ public class UserControl {
 		sc.nextLine();
 		reportBuilder = new Report1Builder();
 		reportBuilder.addParam(reportYear);
-		report = reportBuilder.buildReport(model);
+		report = reportBuilder.buildReport(employees);
 		ReportPrinter.printReport(report);
 		System.out.println();
 	}
@@ -131,7 +131,7 @@ public class UserControl {
 		System.out.println();
 		reportBuilder = new Report2Builder();
 		reportBuilder.addParam(reportYear);
-		report = reportBuilder.buildReport(model);
+		report = reportBuilder.buildReport(employees);
 		ReportPrinter.printReport(report);
 		System.out.println();
 	}
@@ -145,7 +145,7 @@ public class UserControl {
 		System.out.println();
 		reportBuilder = new Report3Builder();
 		reportBuilder.addParam(reportYear, name);
-		report = reportBuilder.buildReport(model);
+		report = reportBuilder.buildReport(employees);
 		ReportPrinter.printReport(report);
 		System.out.println();
 	}

@@ -10,9 +10,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import Model.Employee;
-import Model.Model;
-import Model.Task;
+import model.Employee;
+import model.Report;
+import model.Task;
+import services.reportServices.Report5Builder;
+import services.reportServices.ReportBuilder;
 
 public class Report5Tests {
 
@@ -39,13 +41,10 @@ public class Report5Tests {
 		employees.add(employee1);
 		employees.add(employee2);
 
-		Model model = Mockito.mock(Model.class);
-		Mockito.when(model.getEmployeeList()).thenReturn(employees);
-
 		ReportBuilder rBuilder = new Report5Builder();
 		rBuilder.addParam("jakisProjekt");
 
-		Report report = rBuilder.buildReport(model);
+		Report report = rBuilder.buildReport(employees);
 
 		Assert.assertEquals(4, report.getColumnNames().size());
 
@@ -82,12 +81,9 @@ public class Report5Tests {
 
 		employees.add(employee1);
 
-		Model model = Mockito.mock(Model.class);
-		Mockito.when(model.getEmployeeList()).thenReturn(employees);
-
 		ReportBuilder rBuilder = new Report5Builder();
 		rBuilder.addParam("jakisProjekt");
-		Report report = rBuilder.buildReport(model);
+		Report report = rBuilder.buildReport(employees);
 
 		Assert.assertEquals(String.valueOf(8.0), report.getRows().get(0).get(3));
 
@@ -110,12 +106,9 @@ public class Report5Tests {
 
 		employees.add(employee1);
 
-		Model model = Mockito.mock(Model.class);
-		Mockito.when(model.getEmployeeList()).thenReturn(employees);
-
 		ReportBuilder rBuilder = new Report5Builder();
 		rBuilder.addParam("innyProjekt");
-		Report report = rBuilder.buildReport(model);
+		Report report = rBuilder.buildReport(employees);
 
 		Assert.assertTrue((report.getRows().size() == 0));
 	}
@@ -144,16 +137,13 @@ public class Report5Tests {
 		employees.add(employee1);
 		employees.add(employee2);
 
-		Model model = Mockito.mock(Model.class);
-		Mockito.when(model.getEmployeeList()).thenReturn(employees);
-
 		ReportBuilder rBuilder = new Report5Builder();
 		rBuilder.addParam("jakisProjekt3");
-		rBuilder.buildReport(model);
+		rBuilder.buildReport(employees);
 	
 		ReportBuilder rBuilder2 = new Report5Builder();
 		rBuilder2.addParam("jakisProjekt");
-		Report report = rBuilder2.buildReport(model);
+		Report report = rBuilder2.buildReport(employees);
 
 		Assert.assertTrue((report.getRows().size() == 2));
 		
