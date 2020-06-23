@@ -1,7 +1,10 @@
 package Report;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Assert;
@@ -55,6 +58,36 @@ public class Report5Tests {
 
 		
 		
+	}
+	
+	@Test
+	public void testNotFilteringMasterEmployeesData() throws IOException {
+
+	
+		
+		
+		List<Employee> employees = new ArrayList<Employee>();
+		
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+		
+		Employee employee1 = new Employee("Jan", "Nowak");
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
+		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 3);
+		employee1.addTask(task);
+		employees.add(employee1);
+		ReportBuilder rBuilder = new Report5Builder("Projekt2");
+		rBuilder.buildReport(model);
+		ReportBuilder rBuilder2 = new Report5Builder("jakisProjekt");
+		Report report = rBuilder2.buildReport(model);
+		ReportPrinter.printReport(report);
+		
+		
+		Assert.assertTrue((report.getRows().size() == 1));
+		
+		ReportPrinter.printReport(report);
+
 	}
 
 }
