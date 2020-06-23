@@ -11,12 +11,8 @@ import model.Employee;
 import model.Report;
 import services.DataReader;
 import services.ScanErrorsHolder;
-import services.reportServices.Report1Builder;
-import services.reportServices.Report2Builder;
-import services.reportServices.Report3Builder;
-import services.reportServices.Report4Builder;
-import services.reportServices.Report5Builder;
 import services.reportServices.ReportBuilder;
+import services.reportServices.ReportBuilderFactory;
 import services.reportServices.ReportPrinter;
 
 public class UserControl {
@@ -31,6 +27,12 @@ public class UserControl {
 
 	public UserControl(String path) throws IOException, InvalidFormatException {
 		employees = dataReader.readFiles(path);
+	}
+
+	private void appHeaders() {
+		System.out.println("----------------------------");
+		System.out.println("Runtime Terror version 1.0.0");
+		System.out.println("----------------------------");
 	}
 
 	public void controlLoop() throws IOException, InvalidFormatException {
@@ -65,61 +67,16 @@ public class UserControl {
 
 	}
 
-	public void showOption() {
-		System.out.println("1. Generuj raport listy pracowników za podany rok: ");
-		System.out.println("2. Generuj raport listy projektów za podany rok ");
-		System.out.println("3. Szczegółowy wykaz pracy danego pracownika za podany rok");
-		System.out.println("4. Procentowy udział danego pracownika w projekt za dany rok");
-		System.out.println("5. Szczegółowy wykaz pracy pracowników w danym projekcie");
-		System.out.println("0. Zakończ pracę z programem");
-	}
-
-	public String inputUserOption() {
-		System.out.println("______________________");
-		System.out.println("Wprowadź wybraną opcję");
-		userOption = sc.nextLine();
-		return userOption;
-	}
-
 	private void exit() {
 		System.out.println("Koniec programu");
 		sc.close();
-	}
-
-	private void appHeaders() {
-		System.out.println("----------------------------");
-		System.out.println("Runtime Terror version 1.0.0");
-		System.out.println("----------------------------");
-	}
-
-	private void generateReport4() throws InvalidFormatException, IOException {
-		System.out.println();
-		System.out.println("Podaj za jaki rok mam wygenerować raport");
-		int reportYear = sc.nextInt();
-		sc.nextLine();
-		reportBuilder = new Report4Builder();
-		reportBuilder.addParam(reportYear);
-		report = reportBuilder.buildReport(employees);
-		ReportPrinter.printReport(report);
-		System.out.println();
-	}
-
-	private void generateReport5() throws InvalidFormatException, IOException {
-		System.out.println();
-		System.out.println("Podaj nazwę projektu");
-		String projectName = sc.nextLine();
-		reportBuilder = new Report5Builder();
-		reportBuilder.addParam(projectName);
-		report = reportBuilder.buildReport(employees);
-		ReportPrinter.printReport(report);
-		System.out.println();
 	}
 
 	private void generateReport1() throws InvalidFormatException, IOException {
 		System.out.println("Podaj za jaki rok mam wygenerować raport");
 		int reportYear = sc.nextInt();
 		sc.nextLine();
-		reportBuilder = new Report1Builder();
+		reportBuilder = ReportBuilderFactory.getReprtBuilder("1");
 		reportBuilder.addParam(reportYear);
 		report = reportBuilder.buildReport(employees);
 		ReportPrinter.printReport(report);
@@ -131,7 +88,7 @@ public class UserControl {
 		int reportYear = sc.nextInt();
 		sc.nextLine();
 		System.out.println();
-		reportBuilder = new Report2Builder();
+		reportBuilder = ReportBuilderFactory.getReprtBuilder("2");
 		reportBuilder.addParam(reportYear);
 		report = reportBuilder.buildReport(employees);
 		ReportPrinter.printReport(report);
@@ -145,10 +102,49 @@ public class UserControl {
 		int reportYear = sc.nextInt();
 		sc.nextLine();
 		System.out.println();
-		reportBuilder = new Report3Builder();
+		reportBuilder = ReportBuilderFactory.getReprtBuilder("3");
 		reportBuilder.addParam(reportYear, name);
 		report = reportBuilder.buildReport(employees);
 		ReportPrinter.printReport(report);
 		System.out.println();
+	}
+
+	private void generateReport4() throws InvalidFormatException, IOException {
+		System.out.println();
+		System.out.println("Podaj za jaki rok mam wygenerować raport");
+		int reportYear = sc.nextInt();
+		sc.nextLine();
+		reportBuilder = ReportBuilderFactory.getReprtBuilder("4");
+		reportBuilder.addParam(reportYear);
+		report = reportBuilder.buildReport(employees);
+		ReportPrinter.printReport(report);
+		System.out.println();
+	}
+
+	private void generateReport5() throws InvalidFormatException, IOException {
+		System.out.println();
+		System.out.println("Podaj nazwę projektu");
+		String projectName = sc.nextLine();
+		reportBuilder = ReportBuilderFactory.getReprtBuilder("5");
+		reportBuilder.addParam(projectName);
+		report = reportBuilder.buildReport(employees);
+		ReportPrinter.printReport(report);
+		System.out.println();
+	}
+
+	public String inputUserOption() {
+		System.out.println("______________________");
+		System.out.println("Wprowadź wybraną opcję");
+		userOption = sc.nextLine();
+		return userOption;
+	}
+
+	public void showOption() {
+		System.out.println("1. Generuj raport listy pracowników za podany rok: ");
+		System.out.println("2. Generuj raport listy projektów za podany rok ");
+		System.out.println("3. Szczegółowy wykaz pracy danego pracownika za podany rok");
+		System.out.println("4. Procentowy udział danego pracownika w projekt za dany rok");
+		System.out.println("5. Szczegółowy wykaz pracy pracowników w danym projekcie");
+		System.out.println("0. Zakończ pracę z programem");
 	}
 }
