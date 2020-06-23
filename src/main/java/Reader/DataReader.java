@@ -38,9 +38,7 @@ public class DataReader {
 		Employee employee = new Employee(employeeName, employeeSurname);
 
 		for (int i = 0; i < wb.getNumberOfSheets(); i++) {
-
 			Sheet sheet = wb.getSheetAt(i);
-
 			if (sheet.getRow(0).getCell(0) == null || sheet.getRow(0).getCell(1) == null
 					|| sheet.getRow(0).getCell(2) == null
 					|| !sheet.getRow(0).getCell(0).getCellTypeEnum().equals(CellType.STRING)
@@ -98,8 +96,8 @@ public class DataReader {
 							"komórka nie zawiera wartości numerycznej!"));
 					error = true;
 				} else if (row.getCell(2).getNumericCellValue() > 24) {
-					ScanErrorsHolder.addScanError(new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "CZAS",
-							"nieodpowiednie dane!"));
+					ScanErrorsHolder.addScanError(
+							new ScanError(file.getPath(), sheet.getSheetName(), j + 1, "CZAS", "nieodpowiednie dane!"));
 					error = true;
 				}
 
@@ -107,7 +105,7 @@ public class DataReader {
 					Cell dateCell = row.getCell(0);
 					Cell descriptionCell = row.getCell(1);
 					Cell timeCell = row.getCell(2);
-					date = dateCell.getDateCellValue();						
+					date = dateCell.getDateCellValue();
 					description = descriptionCell.getStringCellValue();
 					time = timeCell.getNumericCellValue();
 					Task task = new Task(date, project, description, time);
