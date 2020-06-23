@@ -81,12 +81,34 @@ public class Report5Tests {
 		rBuilder.buildReport(model);
 		ReportBuilder rBuilder2 = new Report5Builder("jakisProjekt");
 		Report report = rBuilder2.buildReport(model);
-		ReportPrinter.printReport(report);
-		
 		
 		Assert.assertTrue((report.getRows().size() == 1));
+
+	}
+	
+	@Test
+	public void testNotCountingHoursFromDifferentProject() throws IOException {
+
+		List<Employee> employees = new ArrayList<Employee>();
 		
-		ReportPrinter.printReport(report);
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+		
+		Employee employee1 = new Employee("Jan", "Nowak");
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
+		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 3);
+		Task task1 = new Task(date, "innyProjekt", "jakies zadanie", 3);
+		employee1.addTask(task);
+		employee1.addTask(task1);
+		employees.add(employee1);
+		ReportBuilder rBuilder2 = new Report5Builder("jakisProjekt");
+		Report report = rBuilder2.buildReport(model);
+		Assert.assertTrue((report.getRows().size() == 1));
+		Assert.assertEquals("3.0", report.getRows().get(0).get(3));
+
+		
+
 
 	}
 
