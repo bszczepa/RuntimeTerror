@@ -66,5 +66,4 @@ public class ReportXlsExporter {
 		desktop.open(file);
 	}
 
-	
 }

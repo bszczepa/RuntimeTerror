@@ -25,7 +25,7 @@ public class UserControl {
 	private DataReader dataReader = new DataReader();
 	private ReportBuilder reportBuilder;
 	private Report report;
-	
+
 	List<Employee> employees = new ArrayList<Employee>();
 
 	public UserControl(String path) throws IOException, InvalidFormatException {

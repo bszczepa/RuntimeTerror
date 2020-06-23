@@ -17,15 +17,15 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import model.Employee;
 import model.ScanError;
 import model.Task;
-import repository.FilesScanner;
+import repository.FilesFinder;
 
 public class DataReader {
 
-	public FilesScanner filesScanner = new FilesScanner();
+	public FilesFinder filesScanner = new FilesFinder();
 	public List<Employee> foundEmployees = new ArrayList<Employee>();
 
 	public List<Employee> readFiles(String path) throws InvalidFormatException, IOException {
-		FilesScanner fScanner = new FilesScanner();
+		FilesFinder fScanner = new FilesFinder();
 		List<File> files = filesScanner.findFiles(path);
 		for (File file : files) {
 			Employee employee = readFile(file);

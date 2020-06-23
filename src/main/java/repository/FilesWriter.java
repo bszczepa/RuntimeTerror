@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 public class FilesWriter {
 	public static File writeToFile(Workbook wb) throws IOException, FileNotFoundException {
 		try (OutputStream fileOut = new FileOutputStream("generated-reports/report.xls")) {
-			wb.write(fileOut);	
+			wb.write(fileOut);
 			File file = new File("generated-reports/report.xls");
 			if (file.exists())
 				return file;

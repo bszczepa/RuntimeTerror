@@ -40,7 +40,7 @@ public class Report2Builder extends ReportBuilder {
 	@Override
 	void setReportTitle() {
 		Report report = new Report();
-		report.setTitle("Raport listy projektów za podany rok " + (Integer) params.get(0));
+		report.setTitle("Raport listy projektów za podany rok " + params.get(0));
 	}
 
 	@Override

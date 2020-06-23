@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import model.Employee;
 import model.Report;
@@ -27,7 +26,7 @@ public class Report4Tests {
 		Employee employee1 = new Employee("Jan", "Nowak");
 
 		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
-		Date date = myCalendar.getTime();	
+		Date date = myCalendar.getTime();
 		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 1);
 		employee1.addTask(task);
 		Employee employee2 = new Employee("Paweł", "Kwiatkowski");
@@ -37,12 +36,10 @@ public class Report4Tests {
 		employee2.addTask(task3);
 		employees.add(employee1);
 		employees.add(employee2);
-		
-		
-		
+
 		ReportBuilder rBuilder = new Report4Builder();
 		rBuilder.addParam(2012);
-		
+
 		Report report = rBuilder.buildReport(employees);
 		Assert.assertEquals(4, report.getColumnNames().size());
 		Assert.assertEquals(2, report.getRows().size());
@@ -56,11 +53,11 @@ public class Report4Tests {
 
 	@Test
 	public void testNotFilteringMasterEmployeesData() throws IOException {
-		
+
 		List<Employee> employees = new ArrayList<Employee>();
 		Employee employee1 = new Employee("Jan", "Nowak");
 		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
-		Date date = myCalendar.getTime();	
+		Date date = myCalendar.getTime();
 		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 3);
 		employee1.addTask(task);
 		employees.add(employee1);
@@ -71,19 +68,18 @@ public class Report4Tests {
 		rBuilder2.addParam(2012);
 		Report report = rBuilder2.buildReport(employees);
 		Assert.assertTrue((report.getRows().size() == 1));
-		
-		
+
 	}
-	
+
 	@Test
-	public void testEmptyWhenDifferentYear(){
-	
+	public void testEmptyWhenDifferentYear() {
+
 		List<Employee> employees = new ArrayList<Employee>();
 
 		Employee employee1 = new Employee("Jan", "Nowak");
 
 		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
-		Date date = myCalendar.getTime();	
+		Date date = myCalendar.getTime();
 		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 3);
 		employee1.addTask(task);
 		Employee employee2 = new Employee("Paweł", "Kwiatkowski");
@@ -93,16 +89,13 @@ public class Report4Tests {
 		employee2.addTask(task3);
 		employees.add(employee1);
 		employees.add(employee2);
-		
+
 		ReportBuilder rBuilder = new Report4Builder();
 		rBuilder.addParam(2020);
-	
+
 		Report report = rBuilder.buildReport(employees);
 		Assert.assertTrue((report.getRows().size() == 0));
-		
-	
-	
+
 	}
-	
 
 }

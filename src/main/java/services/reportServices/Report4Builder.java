@@ -10,6 +10,7 @@ import model.Task;
 
 public class Report4Builder extends ReportBuilder {
 
+	@Override
 	void setReportRows() {
 		List<List<String>> rows = new ArrayList<List<String>>();
 		Integer rowsCounter = 1;
@@ -45,17 +46,18 @@ public class Report4Builder extends ReportBuilder {
 				}
 			}
 		}
-	
+
 		report.setRows(rows);
 	}
 
-	 void setReportCollumnNames() {
+	@Override
+	void setReportCollumnNames() {
 		List<String> columnNames = new ArrayList<String>();
 		columnNames.add("L.p");
 		columnNames.add("Imię i nazwisko");
 		report.setColumnNames(columnNames);
 		report.setColumnNames(columnNames);
-		
+
 		for (Employee employee : employees) {
 			for (String project : employee.getProjects()) {
 				if (!columnNames.contains(project)) {
@@ -65,11 +67,13 @@ public class Report4Builder extends ReportBuilder {
 		}
 	}
 
+	@Override
 	void setReportTitle() {
 		this.report.setTitle("Procentowy udział danego pracownika w projekt za dany rok");
 	}
-	
-	void filterEmployees(){
+
+	@Override
+	void filterEmployees() {
 		List<Employee> filteredEmployees = new ArrayList<Employee>();
 
 		for (Employee employee : employees) {
@@ -92,5 +96,4 @@ public class Report4Builder extends ReportBuilder {
 		employees = filteredEmployees;
 	}
 
-	
 }

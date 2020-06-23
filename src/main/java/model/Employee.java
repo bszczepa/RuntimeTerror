@@ -173,7 +173,7 @@ public class Employee implements Cloneable {
 	@Override
 	public Object clone() {
 		try {
-			return (Employee) super.clone();
+			return super.clone();
 		} catch (CloneNotSupportedException e) {
 
 			Employee employee = new Employee(this.getName(), this.getSurname());

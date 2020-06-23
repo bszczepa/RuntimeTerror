@@ -21,8 +21,8 @@ public class Report3Builder extends ReportBuilder {
 				Date date = task.getTaskDate();
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(date);
-				if (calendar.get(Calendar.YEAR) == (Integer) params.get(0) && ((String) params.get(1)).toLowerCase()
-						.contains(employee.getName().toLowerCase())
+				if (calendar.get(Calendar.YEAR) == (Integer) params.get(0)
+						&& ((String) params.get(1)).toLowerCase().contains(employee.getName().toLowerCase())
 						&& ((String) params.get(1)).toLowerCase().contains(employee.getSurname().toLowerCase())) {
 					filteredTasks.add(task);
 				}
@@ -40,7 +40,7 @@ public class Report3Builder extends ReportBuilder {
 
 	@Override
 	void setReportTitle() {
-		report.setTitle("Rok: " + (Integer) params.get(0) + "; Imię i nazwisko: " + (String) params.get(1));
+		report.setTitle("Rok: " + params.get(0) + "; Imię i nazwisko: " + (String) params.get(1));
 	}
 
 	@Override

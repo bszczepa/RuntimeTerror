@@ -1,14 +1,11 @@
 package Report;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import model.Employee;
 import model.Report;
@@ -112,10 +109,10 @@ public class Report5Tests {
 
 		Assert.assertTrue((report.getRows().size() == 0));
 	}
-	
+
 	@Test
 	public void testNotFilteringMasterEmployeesData() {
-		
+
 		List<Employee> employees = new ArrayList<Employee>();
 
 		Employee employee1 = new Employee("Jan", "Nowak");
@@ -140,15 +137,13 @@ public class Report5Tests {
 		ReportBuilder rBuilder = new Report5Builder();
 		rBuilder.addParam("jakisProjekt3");
 		rBuilder.buildReport(employees);
-	
+
 		ReportBuilder rBuilder2 = new Report5Builder();
 		rBuilder2.addParam("jakisProjekt");
 		Report report = rBuilder2.buildReport(employees);
 
 		Assert.assertTrue((report.getRows().size() == 2));
-		
+
 	}
-	
-	
 
 }
