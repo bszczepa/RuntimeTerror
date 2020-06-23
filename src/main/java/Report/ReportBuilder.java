@@ -26,7 +26,7 @@ public abstract class ReportBuilder {
 	abstract void  setReportCollumnNames();
 	abstract void  setReportRows();
 	
-	public void setParam(Object... params) {
+	public void addParam(Object... params) {
 		for (Object param : params) {
 			this.params.add(param);
 		}

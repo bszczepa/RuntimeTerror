@@ -65,8 +65,7 @@ public class Report5Builder extends ReportBuilder {
 					String employeeInRow = row.get(1);
 					String projectInRow = row.get(2);
 
-					if (employeeInRow.equals(employee.getNameAndSurname())
-							&& projectInRow.equals(task.getProjectName())) {
+					if (employeeInRow.equals(employee.getNameAndSurname())) {
 						indexOfRowToChange = rows.indexOf(row);
 					}
 				}

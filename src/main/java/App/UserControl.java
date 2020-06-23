@@ -96,7 +96,7 @@ public class UserControl {
 		int reportYear = sc.nextInt();
 		sc.nextLine();
 		reportBuilder = new Report4Builder();
-		reportBuilder.setParam(reportYear);
+		reportBuilder.addParam(reportYear);
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
 		System.out.println();
@@ -107,7 +107,7 @@ public class UserControl {
 		System.out.println("Podaj nazwę projektu");
 		String projectName = sc.nextLine();
 		reportBuilder = new Report5Builder();
-		reportBuilder.setParam(projectName);
+		reportBuilder.addParam(projectName);
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
 		System.out.println();
@@ -118,7 +118,7 @@ public class UserControl {
 		int reportYear = sc.nextInt();
 		sc.nextLine();
 		reportBuilder = new Report1Builder();
-		reportBuilder.setParam(reportYear);
+		reportBuilder.addParam(reportYear);
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
 		System.out.println();
@@ -130,7 +130,7 @@ public class UserControl {
 		sc.nextLine();
 		System.out.println();
 		reportBuilder = new Report2Builder();
-		reportBuilder.setParam(reportYear);
+		reportBuilder.addParam(reportYear);
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
 		System.out.println();
@@ -144,7 +144,7 @@ public class UserControl {
 		sc.nextLine();
 		System.out.println();
 		reportBuilder = new Report3Builder();
-		reportBuilder.setParam(reportYear, name);
+		reportBuilder.addParam(reportYear, name);
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
 		System.out.println();
