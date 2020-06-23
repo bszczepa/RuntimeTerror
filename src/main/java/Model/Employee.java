@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Employee {
+public class Employee implements Cloneable{
 
     private List<Task> taskList = new ArrayList<Task>();
     private Set<String> projects = new HashSet<String>();
@@ -170,6 +170,18 @@ public class Employee {
 			}
 			
 			return sum;
+		}
+		
+		@Override
+		public Object clone() {
+			try {
+				return super.clone();
+			} catch (CloneNotSupportedException e) {
+
+				Employee employee = new Employee(this.getName(), this.getSurname());
+				employee.setTaskList(this.getTaskList());
+				return employee;
+			}
 		}
 
 }

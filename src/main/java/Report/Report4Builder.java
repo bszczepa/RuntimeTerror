@@ -24,51 +24,54 @@ public class Report4Builder implements ReportBuilder {
 	public Report buildReport(Model model){
 		
 		Report report = new Report();
-		
-		report.setTitle("Procentowy udział danego pracownika w projekt za dany rok");
-		List<String> columnNames = new ArrayList<String>();
-		List<List<String>> rows = new ArrayList<List<String>>();
-		Integer rowsCounter = 1;
-		
-		columnNames.add("L.p");
-		columnNames.add("Imię i nazwisko");
+		List<Employee> modelEmployees = model.getEmployeeList();
+		List<Employee> filteredEmployees = new ArrayList<Employee>();
 
-		List<Employee> employees = model.getEmployeeList();
-
-		for (Employee employee : employees) {
-
-			List<Task> filteredTasks = employee.getTaskList().stream().filter(tsk -> {
-				Date date = tsk.getTaskDate();
+		for (Employee employee : modelEmployees) {
+			List<Task> filteredTasks = new ArrayList<Task>();
+			for (Task task : employee.getTaskList()) {
+				Date date = task.getTaskDate();
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(date);
-				if (calendar.get(Calendar.YEAR) == year)
-					return true;
-				return false;
-			}).collect(Collectors.toList());
-
-			employee.setTaskList(filteredTasks);
+				if (calendar.get(Calendar.YEAR) == (Integer) this.year) {
+					filteredTasks.add(task);
+				}
+			}
+			if (filteredTasks.size() > 0) {
+				Employee employeeCopy = (Employee) employee.clone();
+				employeeCopy.setTaskList(filteredTasks);
+				filteredEmployees.add(employeeCopy);
+			}
 		}
+		
+		report.setTitle("Procentowy udział danego pracownika w projekt za dany rok");
+		
+		List<String> columnNames = new ArrayList<String>();
+		columnNames.add("L.p");
+		columnNames.add("Imię i nazwisko");
+		report.setColumnNames(columnNames);
+		report.setColumnNames(columnNames);
 
-		List<Employee> filteredEmployees = employees.stream().filter(emp -> emp.getTaskList().size() > 0)
-				.collect(Collectors.toList());
-
-		employees = filteredEmployees;
-		for (Employee employee : employees) {
+		for (Employee employee : filteredEmployees) {
 			for (String project : employee.getProjects()) {
 				if (!columnNames.contains(project)) {
 					columnNames.add(project);
 				}
 			}
 		}
+		
+		List<List<String>> rows = new ArrayList<List<String>>();
+		Integer rowsCounter = 1;
 
-		for (Employee employee : employees) {
+		for (Employee employee : filteredEmployees) {
 			Double totalHours = employee.getTotalHours();
 			for (String project : employee.getProjects()) {
 				List<String> rowToAdd = new ArrayList<String>();
-				for (int i = 0; i < columnNames.size(); i++) {
+				for (int i = 0; i < report.getColumnNames().size(); i++) {
 					rowToAdd.add("");
 				}
 				String employeeName = employee.getNameAndSurname();
+
 				boolean rowExists = false;
 				for (List<String> row : rows) {
 					if (row.get(1).contains(employeeName)) {
@@ -81,24 +84,25 @@ public class Report4Builder implements ReportBuilder {
 					rowsCounter++;
 					rowToAdd.set(1, employee.getNameAndSurname());
 				}
-				Integer indexOfProject = columnNames.indexOf(project);
+				Integer indexOfProject = report.getColumnNames().indexOf(project);
 
 				Double projectHours = employee.getProjectHours(project);
 				Double percentHours = (projectHours * 100) / totalHours;
-			
+				
 				percentHours = percentHours*100;
 				percentHours = (double) Math.round(percentHours);
 				percentHours = percentHours/100;
-
+				
+				
 				rowToAdd.set(indexOfProject, percentHours.toString() + "%");
 				if (!rowExists) {
 					rows.add(rowToAdd);
 				}
 			}
 		}
-		report.setColumnNames(columnNames);
+
 		report.setRows(rows);
-		
+
 		return report;
 	}
 }
