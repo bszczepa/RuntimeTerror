@@ -1,10 +1,12 @@
 package Reader;
+
 public class ScanError {
 	private String filename = "";
 	private String project = "";
 	private Integer row = null;
 	private String cell = "";
 	private String description = "";
+
 	public ScanError(String filename, String project, int row, String cell, String description) {
 		super();
 		this.filename = filename;
@@ -13,7 +15,7 @@ public class ScanError {
 		this.cell = cell;
 		this.description = description;
 	}
-	
+
 	public ScanError(String filename, String project, String cell, String description) {
 		super();
 		this.filename = filename;
@@ -21,7 +23,7 @@ public class ScanError {
 		this.cell = cell;
 		this.description = description;
 	}
-	
+
 	public ScanError(String filename, String project, int row, String description) {
 		super();
 		this.filename = filename;
@@ -29,7 +31,13 @@ public class ScanError {
 		this.row = row;
 		this.description = description;
 	}
-	
+
+	public ScanError(String path, String sheetName, String description) {
+		this.filename = path;
+		this.project = sheetName;
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
 		return "ScanError [filename=" + filename + ", project=" + project + ", row=" + row + ", cell=" + cell
@@ -55,7 +63,5 @@ public class ScanError {
 	public String getDescription() {
 		return description;
 	}
-
-	
 
 }
