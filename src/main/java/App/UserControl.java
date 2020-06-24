@@ -22,7 +22,7 @@ public class UserControl {
     private ReportXlsExporter reportToXls;
 
 
-    public UserControl(String path) throws IOException, InvalidFormatException {
+    public UserControl(String path) {
         this.path = path;
         model = new Model(path);
         reportToXls = new ReportXlsExporter();
