@@ -192,6 +192,7 @@ public class UserControl {
         ReportPrinter.printReport(report);
         System.out.println();
     }
+
     private void generateErrorsLog(){
         ScanErrorsHolder.printScanErrors();
         System.out.println();

@@ -7,12 +7,14 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 public class App {
     public static void main(String[] args) throws IOException, InvalidFormatException {
 
-        String folderPath = args[0];
-        if (args[0] == null) {
-            System.out.println("Nie wprowadziłeś ścieżki do folderu");
+        try {
+            String folderPath = args[0];
+            UserControl userControl = new UserControl(folderPath);
+            userControl.controlLoop();
+        } catch ( ArrayIndexOutOfBoundsException e) {
+            System.out.println("Nie wprowadziłeś poprawnej ścieżki do folderu");
         }
-        UserControl userControl = new UserControl(folderPath);
-        userControl.controlLoop();    	
+
         
     }
 }
