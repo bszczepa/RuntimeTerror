@@ -28,7 +28,7 @@ public class UserControl {
         reportToXls = new ReportXlsExporter();
     }
 
-    public void controlLoop() throws IOException, InvalidFormatException {
+    public void controlLoop() {
         appHeaders();
         do {
             showOption();
