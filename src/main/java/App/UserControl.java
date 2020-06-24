@@ -131,14 +131,15 @@ public class UserControl {
                 }
             }
         }
+        Collections.sort(yearProject);
         System.out.println("\nRaporty są dostępne za lata: " + yearProject +"\n");
         int reportYear;
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         try {
             reportYear = sc.nextInt();
+            sc.nextLine();
             reportBuilder= new Report1Builder(reportYear);
             report = reportBuilder.buildReport(model);
-            sc.nextLine();
             ReportPrinter.printReport(report);
             System.out.println();
         } catch (InputMismatchException e){
