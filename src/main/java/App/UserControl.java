@@ -97,7 +97,7 @@ public class UserControl {
                 "|    / | | | || '_ \\   | |  | || '_ ` _ \\  / _ \\   | |   / _ \\| '__|| '__| / _ \\ | '__|\n" +
                 "| |\\ \\ | |_| || | | |  | |  | || | | | | ||  __/   | |  |  __/| |   | |   | (_) || |   \n" +
                 "\\_| \\_| \\__,_||_| |_|  \\_/  |_||_| |_| |_| \\___|   \\_/   \\___||_|   |_|    \\___/ |_|   \n" +
-                "                                                                                       \n1version 1.0.0");
+                "                                                                                       \nversion 1.0.0");
         System.out.println("----------------------------");
         System.out.println("");
     }
@@ -134,6 +134,7 @@ public class UserControl {
             report = reportBuilder.buildReport(model);
             ReportPrinter.printReport(report);
             System.out.println();
+            System.out.println("Czy chcesz zapsiać raport do pliku Y/N -- przykładowa fk.");
         } catch (InputMismatchException e){
             System.err.println("Wprowadziłeś błędne dane");
         }
