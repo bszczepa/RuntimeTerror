@@ -61,7 +61,7 @@ public class UserControl {
                     exit();
                     break;
                 default:
-                    System.out.println("Nie znam takiej opcji");
+                    System.err.println("Nie znam takiej opcji");
             }
         } while (!userOption.equals("0"));
 
@@ -118,6 +118,22 @@ public class UserControl {
     }
 
     private void generateReport1() throws InvalidFormatException, IOException{
+        dateRangeGenerator();
+        int reportYear;
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        try {
+            reportYear = sc.nextInt();
+            sc.nextLine();
+            reportBuilder= new Report1Builder(reportYear);
+            report = reportBuilder.buildReport(model);
+            ReportPrinter.printReport(report);
+            System.out.println();
+        } catch (InputMismatchException e){
+            System.err.println("Wprowadziłeś błędne dane");
+        }
+    }
+
+    private void dateRangeGenerator() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
         List<String> yearProject = new ArrayList<>();
         List<Employee> employeeList = model.getEmployeeList();
@@ -133,30 +149,25 @@ public class UserControl {
         }
         Collections.sort(yearProject);
         System.out.println("\nRaporty są dostępne za lata: " + yearProject +"\n");
-        int reportYear;
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
-        try {
-            reportYear = sc.nextInt();
-            sc.nextLine();
-            reportBuilder= new Report1Builder(reportYear);
-            report = reportBuilder.buildReport(model);
-            ReportPrinter.printReport(report);
-            System.out.println();
-        } catch (InputMismatchException e){
-            System.err.println("Wprowadziłeś błędne dane");
-        }
     }
 
 
     private void generateReport2(){
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
-        int reportYear = sc.nextInt();
-        sc.nextLine();
-        System.out.println();
-        reportBuilder = new Report2Builder(reportYear);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        System.out.println();
+        dateRangeGenerator();
+        int reportYear;
+        try {
+            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            reportYear = sc.nextInt();
+            sc.nextLine();
+            System.out.println();
+            reportBuilder = new Report2Builder(reportYear);
+            report = reportBuilder.buildReport(model);
+            ReportPrinter.printReport(report);
+            System.out.println();
+        } catch (InputMismatchException e) {
+            System.err.println("Wprowadziłeś błędne dane");
+        }
+
     }
 
     private void generateReport3(){
