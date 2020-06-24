@@ -20,8 +20,7 @@ public class ReportXlsExporter {
 		List<List<String>> rows = report.getRows();
 		String title = report.getTitle();
 		int lineLength = columnNames.size() * 32;
-		
-		
+
 		Workbook wb = new HSSFWorkbook();
 
 		Sheet sheet1 = wb.createSheet("Raport");
@@ -55,8 +54,6 @@ public class ReportXlsExporter {
 		}
 		Date date = new Date();
 		String reportName = "report4-" + String.valueOf(date.getTime());
-	
-		
 
 		for ( int i = 0; i<sheet1.getRow(numberOfStartingRow).getLastCellNum(); i++) {
 			sheet1.autoSizeColumn(i);
@@ -66,6 +63,5 @@ public class ReportXlsExporter {
 			wb.write(fileOut);
 			System.out.println("Poprawnie zapisano plik: " + reportName);
 		}
-
 	}
 }

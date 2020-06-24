@@ -73,7 +73,7 @@ public class UserControl {
         System.out.println("0. Zakończ pracę z programem");
     }
 
-    private void generateReport1() throws InvalidFormatException, IOException{
+    private void generateReport1(){
         dateRangeGenerator();
         int reportYear;
         System.out.println("Podaj za jaki rok mam wygenerować raport");
@@ -122,7 +122,7 @@ public class UserControl {
         System.out.println();
     }
 
-    private void generateReport4() throws InvalidFormatException, IOException{
+    private void generateReport4() {
         System.out.println();
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
@@ -133,7 +133,7 @@ public class UserControl {
         System.out.println();
     }
 
-    private void generateReport5() throws InvalidFormatException, IOException{
+    private void generateReport5() {
         System.out.println();
         System.out.println("Podaj nazwę projektu");
         String projectName = sc.nextLine();
