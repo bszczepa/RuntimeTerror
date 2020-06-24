@@ -67,9 +67,17 @@ public class Report3Builder implements ReportBuilder {
 	
 	  public Employee findEmployee(Model model, String id){
 	        List<Employee> employeeList = model.getEmployeeList();
+		    String[] listOfWords = id.toLowerCase().trim().split(" +");
+
+		    for (int i =0; i < listOfWords.length; i++) {
+		    	System.out.println(i+listOfWords[i]);
+			}
+
 	        for (Employee employee : employeeList) {
-	            if (id.toLowerCase().contains(employee.getName().toLowerCase())
-	            && id.toLowerCase().contains(employee.getSurname().toLowerCase())) {
+	            if ((listOfWords[0].equals(employee.getName().toLowerCase())
+						&& listOfWords[1].equals(employee.getSurname().toLowerCase()))
+						|| (listOfWords[1].equals(employee.getName().toLowerCase())
+						&& listOfWords[0].equals(employee.getSurname().toLowerCase()))) {
 	                return employee;
 	            }
 	        }
