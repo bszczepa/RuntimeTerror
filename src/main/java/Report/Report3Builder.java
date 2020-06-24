@@ -1,28 +1,21 @@
 package Report;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import Model.Employee;
 import Model.Model;
+import Model.Task;
 
 public class Report3Builder implements ReportBuilder {
 
 	private int year;
 	private String id;
-	
-
-	
 
 	public Report3Builder(int year, String id) {
 		super();
 		this.year = year;
 		this.id = id;
 	}
-
-
-
 
 	@Override
 	public Report buildReport(Model model){
@@ -45,15 +38,17 @@ public class Report3Builder implements ReportBuilder {
 
 	        if (foundEmployee != null) {
 	            for (int i=0; i<12; i++) {
-	                HashMap<String, Double> hours = foundEmployee.getHoursByProject(i);
+	                HashMap<String, Double> hours = getHoursByProject(foundEmployee,year,i);
 	                for (String project : hours.keySet()) {
-	                    List<String> newRow = new ArrayList();
-	                    newRow.add(rowsCounter.toString());
-	                    newRow.add(polishMonths[i]);
-	                    newRow.add(project);
-	                    newRow.add(String.valueOf(hours.get(project)));
-	                    rows.add(newRow);
-	                    rowsCounter++;
+	                	if (hours.get(project) != 0) {
+							List<String> newRow = new ArrayList();
+							newRow.add(rowsCounter.toString());
+							newRow.add(polishMonths[i]);
+							newRow.add(project);
+							newRow.add(String.valueOf(hours.get(project)));
+							rows.add(newRow);
+							rowsCounter++;
+						}
 	                }
 	            }
 	        } else {
@@ -69,10 +64,6 @@ public class Report3Builder implements ReportBuilder {
 	        List<Employee> employeeList = model.getEmployeeList();
 		    String[] listOfWords = id.toLowerCase().trim().split(" +");
 
-		    for (int i =0; i < listOfWords.length; i++) {
-		    	System.out.println(i+listOfWords[i]);
-			}
-
 	        for (Employee employee : employeeList) {
 	            if ((listOfWords[0].equals(employee.getName().toLowerCase())
 						&& listOfWords[1].equals(employee.getSurname().toLowerCase()))
@@ -83,4 +74,27 @@ public class Report3Builder implements ReportBuilder {
 	        }
 	        return null;
 	    }
+
+	public HashMap<String, Double>  getHoursByProject(Employee employee, int year, int month) {
+		List<Task> taskList = employee.getTaskList();
+		HashMap<String, Double> projectsHours = new HashMap<>();
+		for(Task task:taskList) {
+			Date date = task.getTaskDate();
+			Calendar calendar = new GregorianCalendar();
+			calendar.setTime(date);
+
+			if (calendar.get(Calendar.YEAR)==year
+			&& calendar.get(Calendar.MONTH)==month) {
+				String project = task.getProjectName();
+				if (projectsHours.containsKey(project)){
+					Double d = projectsHours.get(project);
+					projectsHours.put(project, task.getHours()+d);
+				}
+				else {
+					projectsHours.put(project, task.getHours());
+				}
+			}
+		}
+		return projectsHours;
+	}
 }
