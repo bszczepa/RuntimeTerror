@@ -34,12 +34,14 @@ public class Report1Builder implements ReportBuilder {
 		employeeList.sort(Comparator.comparing(Employee::getSurname));
 
 		for (Employee employee : employeeList) {
-			List<String> newRow = new ArrayList();
-			newRow.add(rowsCounter.toString());
-			newRow.add(employee.getNameAndSurname());
-			newRow.add(String.valueOf(employee.getTotalHours(year)));
-			rows.add(newRow);
-			rowsCounter++;
+			if (employee.getTotalHours(year) != 0) {
+				List<String> newRow = new ArrayList();
+				newRow.add(rowsCounter.toString());
+				newRow.add(employee.getNameAndSurname());
+				newRow.add(String.valueOf(employee.getTotalHours(year)));
+				rows.add(newRow);
+				rowsCounter++;
+			}
 		}
 		
 		report.setColumnNames(columnNames);
