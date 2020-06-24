@@ -33,7 +33,6 @@ public class UserControl {
         this.path = path;
         model = new Model(path);
 
-       ScanErrorsHolder.printScanErrors();
     }
 
     public void controlLoop() throws IOException, InvalidFormatException {
@@ -57,6 +56,9 @@ public class UserControl {
                 case "5":
                     generateReport5();
                     break;
+                case "9":
+                    generateErrorsLog();
+                    break;
                 case "0":
                     exit();
                     break;
@@ -69,11 +71,13 @@ public class UserControl {
  
 
     public void showOption() {
+        System.out.println("WYBIERZ OPCJE:");
         System.out.println("1. Generuj raport listy pracowników za podany rok: ");
         System.out.println("2. Generuj raport listy projektów za podany rok ");
         System.out.println("3. Szczegółowy wykaz pracy danego pracownika za podany rok");
         System.out.println("4. Procentowy udział danego pracownika w projekt za dany rok");
         System.out.println("5. Szczegółowy wykaz pracy pracowników w danym projekcie");
+        System.out.println("9. Pokaż logi z odczytu pliku");
         System.out.println("0. Zakończ pracę z programem");
     }
 
@@ -186,6 +190,10 @@ public class UserControl {
         reportBuilder = new Report3Builder(reportYear,name);
         report = reportBuilder.buildReport(model);
         ReportPrinter.printReport(report);
+        System.out.println();
+    }
+    private void generateErrorsLog(){
+        ScanErrorsHolder.printScanErrors();
         System.out.println();
     }
 }
