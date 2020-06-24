@@ -125,28 +125,6 @@ public class Employee implements Cloneable{
 	        return sum;
 	    }
 
-
-	    public HashMap<String, Double>  getHoursByProject(int month) {
-			HashMap<String, Double> projectsHours = new HashMap<>();
-			for(Task task:taskList) {
-				Date date = task.getTaskDate();
-				Calendar calendar = new GregorianCalendar();
-				calendar.setTime(date);
-
-				if (calendar.get(Calendar.MONTH)==month) {
-					String project = task.getProjectName();
-					if (projectsHours.containsKey(project)){
-						Double d = projectsHours.get(project);
-						projectsHours.put(project, task.getHours()+d);
-					}
-					else {
-						projectsHours.put(project, task.getHours());
-					}
-				}
-			}
-			return projectsHours;
-		}
-
 		@Override
 		public String toString() {
 			return "Employee [taskList=" + taskList + ", name=" + name + ", surname=" + surname + "]";
