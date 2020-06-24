@@ -4,18 +4,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import Reader.DataReader;
 
 import Model.*;
 import Reader.ScanErrorsHolder;
-import Report.Report;
-import Report.Report1Builder;
-import Report.Report2Builder;
-import Report.Report3Builder;
-import Report.Report4Builder;
-import Report.Report5Builder;
-import Report.ReportBuilder;
-import Report.ReportPrinter;
+import Report.*;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class UserControl {
@@ -26,13 +19,13 @@ public class UserControl {
     private Model model;
     private ReportBuilder reportBuilder;
     private Report report;
-    private DataReader dataReader;
+    private ReportXlsExporter reportToXls;
 
 
     public UserControl(String path) throws IOException, InvalidFormatException {
         this.path = path;
         model = new Model(path);
-
+        reportToXls = new ReportXlsExporter();
     }
 
     public void controlLoop() throws IOException, InvalidFormatException {
@@ -68,7 +61,6 @@ public class UserControl {
         } while (!userOption.equals("0"));
 
     }
- 
 
     public void showOption() {
         System.out.println("WYBIERZ OPCJE:");
@@ -81,29 +73,53 @@ public class UserControl {
         System.out.println("0. Zakończ pracę z programem");
     }
 
+    private void generateReport1() throws InvalidFormatException, IOException{
+        dateRangeGenerator();
+        int reportYear;
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        try {
+            reportYear = sc.nextInt();
+            sc.nextLine();
+            reportBuilder= new Report1Builder(reportYear);
+            report = reportBuilder.buildReport(model);
+            ReportPrinter.printReport(report);
+            saveReportToFile(report);
 
-    public String inputUserOption() {
-        System.out.println("\n______________________");
-        System.out.println("Wprowadź wybraną opcję\n");
-        userOption = sc.nextLine();
-        return userOption;
+        } catch (InputMismatchException e){
+            System.err.println("Wprowadziłeś błędne dane");
+        }
     }
 
-    private void exit() {
-        System.out.println("Koniec programu");
-        sc.close();
+    private void generateReport2(){
+        dateRangeGenerator();
+        int reportYear;
+        try {
+            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            reportYear = sc.nextInt();
+            sc.nextLine();
+            System.out.println();
+            reportBuilder = new Report2Builder(reportYear);
+            report = reportBuilder.buildReport(model);
+            ReportPrinter.printReport(report);
+            saveReportToFile(report);
+            System.out.println();
+        } catch (InputMismatchException e) {
+            System.err.println("Wprowadziłeś błędne dane");
+        }
+
     }
 
-    private void appHeaders(){
-        System.out.println("______                _____  _                    _____                                \n" +
-                "| ___ \\              |_   _|(_)                  |_   _|                               \n" +
-                "| |_/ / _   _  _ __    | |   _  _ __ ___    ___    | |    ___  _ __  _ __   ___   _ __ \n" +
-                "|    / | | | || '_ \\   | |  | || '_ ` _ \\  / _ \\   | |   / _ \\| '__|| '__| / _ \\ | '__|\n" +
-                "| |\\ \\ | |_| || | | |  | |  | || | | | | ||  __/   | |  |  __/| |   | |   | (_) || |   \n" +
-                "\\_| \\_| \\__,_||_| |_|  \\_/  |_||_| |_| |_| \\___|   \\_/   \\___||_|   |_|    \\___/ |_|   \n" +
-                "                                                                                       \nversion 1.0.0");
-        System.out.println("----------------------------");
-        System.out.println("");
+    private void generateReport3(){
+        System.out.println("Podaj imię i nazwisko pracownika");
+        String name = sc.nextLine();
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        System.out.println();
+        reportBuilder = new Report3Builder(reportYear,name);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
+        System.out.println();
     }
 
     private void generateReport4() throws InvalidFormatException, IOException{
@@ -127,19 +143,25 @@ public class UserControl {
         System.out.println();
     }
 
-    private void generateReport1() throws InvalidFormatException, IOException{
-        dateRangeGenerator();
-        int reportYear;
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
+    private void generateErrorsLog(){
+        ScanErrorsHolder.printScanErrors();
+        System.out.println();
+    }
+
+    private void saveReportToFile(Report report){
+        System.out.println("\nCzy chcesz zapsiać raport do pliku Y / N ?");
         try {
-            reportYear = sc.nextInt();
-            sc.nextLine();
-            reportBuilder= new Report1Builder(reportYear);
-            report = reportBuilder.buildReport(model);
-            ReportPrinter.printReport(report);
-        System.out.println("\nCzy chcesz zapsiać raport do pliku Y/N -- przykładowa fk.\n");
-        } catch (InputMismatchException e){
-            System.err.println("Wprowadziłeś błędne dane");
+            String writeReportOpt = sc.next();
+            switch (writeReportOpt.toLowerCase()) {
+                case "y":
+                    reportToXls.exportToXls(report);
+                    break;
+                case "n":
+                    System.out.println("Zrezygnowano z zapisu pliku");
+                default:
+            }
+        } catch (IOException e){
+            System.err.println("Nie udało się zapisać pliku");
         }
     }
 
@@ -161,40 +183,28 @@ public class UserControl {
         System.out.println("\nRaporty są dostępne za lata: " + yearProject +"\n");
     }
 
-
-    private void generateReport2(){
-        dateRangeGenerator();
-        int reportYear;
-        try {
-            System.out.println("Podaj za jaki rok mam wygenerować raport");
-            reportYear = sc.nextInt();
-            sc.nextLine();
-            System.out.println();
-            reportBuilder = new Report2Builder(reportYear);
-            report = reportBuilder.buildReport(model);
-            ReportPrinter.printReport(report);
-            System.out.println();
-        } catch (InputMismatchException e) {
-            System.err.println("Wprowadziłeś błędne dane");
-        }
-
+    private void appHeaders(){
+        System.out.println("______                _____  _                    _____                                \n" +
+                "| ___ \\              |_   _|(_)                  |_   _|                               \n" +
+                "| |_/ / _   _  _ __    | |   _  _ __ ___    ___    | |    ___  _ __  _ __   ___   _ __ \n" +
+                "|    / | | | || '_ \\   | |  | || '_ ` _ \\  / _ \\   | |   / _ \\| '__|| '__| / _ \\ | '__|\n" +
+                "| |\\ \\ | |_| || | | |  | |  | || | | | | ||  __/   | |  |  __/| |   | |   | (_) || |   \n" +
+                "\\_| \\_| \\__,_||_| |_|  \\_/  |_||_| |_| |_| \\___|   \\_/   \\___||_|   |_|    \\___/ |_|   \n" +
+                "                                                                                       \nversion 1.0.0");
+        System.out.println("----------------------------");
+        System.out.println("");
     }
 
-    private void generateReport3(){
-        System.out.println("Podaj imię i nazwisko pracownika");
-        String name = sc.nextLine();
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
-        int reportYear = sc.nextInt();
-        sc.nextLine();
-        System.out.println();
-        reportBuilder = new Report3Builder(reportYear,name);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        System.out.println();
+    public String inputUserOption() {
+        System.out.println("\n______________________");
+        System.out.println("Wprowadź wybraną opcję\n");
+        userOption = sc.nextLine();
+        return userOption;
     }
 
-    private void generateErrorsLog(){
-        ScanErrorsHolder.printScanErrors();
-        System.out.println();
+    private void exit() {
+        System.out.println("Koniec programu");
+        sc.close();
     }
+
 }

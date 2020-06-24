@@ -64,6 +64,7 @@ public class ReportXlsExporter {
 	
 		try (OutputStream fileOut = new FileOutputStream("generated-reports/" + reportName + ".xls")) {
 			wb.write(fileOut);
+			System.out.println("Poprawnie zapisano plik: " + reportName);
 		}
 
 	}

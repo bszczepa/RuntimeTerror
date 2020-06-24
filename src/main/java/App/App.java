@@ -14,7 +14,5 @@ public class App {
         } catch ( ArrayIndexOutOfBoundsException e) {
             System.out.println("Nie wprowadziłeś poprawnej ścieżki do folderu");
         }
-
-        
     }
 }
