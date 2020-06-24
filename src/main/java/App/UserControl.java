@@ -133,8 +133,7 @@ public class UserControl {
             reportBuilder= new Report1Builder(reportYear);
             report = reportBuilder.buildReport(model);
             ReportPrinter.printReport(report);
-            System.out.println();
-            System.out.println("Czy chcesz zapsiać raport do pliku Y/N -- przykładowa fk.");
+        System.out.println("\nCzy chcesz zapsiać raport do pliku Y/N -- przykładowa fk.\n");
         } catch (InputMismatchException e){
             System.err.println("Wprowadziłeś błędne dane");
         }
