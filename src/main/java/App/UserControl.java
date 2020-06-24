@@ -1,11 +1,12 @@
 package App;
 
 import java.io.IOException;
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import Reader.DataReader;
 
-import Model.Model;
+import Model.*;
 import Reader.ScanErrorsHolder;
 import Report.Report;
 import Report.Report1Builder;
@@ -15,6 +16,7 @@ import Report.Report4Builder;
 import Report.Report5Builder;
 import Report.ReportBuilder;
 import Report.ReportPrinter;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class UserControl {
 
@@ -24,12 +26,13 @@ public class UserControl {
     private Model model;
     private ReportBuilder reportBuilder;
     private Report report;
+    private DataReader dataReader;
 
 
     public UserControl(String path) throws IOException, InvalidFormatException {
         this.path = path;
         model = new Model(path);
-        
+
        ScanErrorsHolder.printScanErrors();
     }
 
@@ -76,8 +79,8 @@ public class UserControl {
 
 
     public String inputUserOption() {
-        System.out.println("______________________");
-        System.out.println("Wprowadź wybraną opcję");
+        System.out.println("\n______________________");
+        System.out.println("Wprowadź wybraną opcję\n");
         userOption = sc.nextLine();
         return userOption;
     }
@@ -115,13 +118,32 @@ public class UserControl {
     }
 
     private void generateReport1() throws InvalidFormatException, IOException{
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+        List<String> yearProject = new ArrayList<>();
+        List<Employee> employeeList = model.getEmployeeList();
+        for (Employee employee : employeeList) {
+            List<Task> taskList = employee.getTaskList();
+            for (Task task : taskList) {
+                Date allDates = task.getTaskDate();
+                String year = simpleDateFormat.format(allDates);
+                if (!yearProject.contains(year)){
+                    yearProject.add(year);
+                }
+            }
+        }
+        System.out.println("\nRaporty są dostępne za lata: " + yearProject +"\n");
+        int reportYear;
         System.out.println("Podaj za jaki rok mam wygenerować raport");
-        int reportYear = sc.nextInt();
-        sc.nextLine();
-        reportBuilder= new Report1Builder(reportYear);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        System.out.println();
+        try {
+            reportYear = sc.nextInt();
+            reportBuilder= new Report1Builder(reportYear);
+            report = reportBuilder.buildReport(model);
+            sc.nextLine();
+            ReportPrinter.printReport(report);
+            System.out.println();
+        } catch (InputMismatchException e){
+            System.err.println("Wprowadziłeś błędne dane");
+        }
     }
 
 
