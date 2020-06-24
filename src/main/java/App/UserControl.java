@@ -91,9 +91,15 @@ public class UserControl {
     }
 
     private void appHeaders(){
+        System.out.println("______                _____  _                    _____                                \n" +
+                "| ___ \\              |_   _|(_)                  |_   _|                               \n" +
+                "| |_/ / _   _  _ __    | |   _  _ __ ___    ___    | |    ___  _ __  _ __   ___   _ __ \n" +
+                "|    / | | | || '_ \\   | |  | || '_ ` _ \\  / _ \\   | |   / _ \\| '__|| '__| / _ \\ | '__|\n" +
+                "| |\\ \\ | |_| || | | |  | |  | || | | | | ||  __/   | |  |  __/| |   | |   | (_) || |   \n" +
+                "\\_| \\_| \\__,_||_| |_|  \\_/  |_||_| |_| |_| \\___|   \\_/   \\___||_|   |_|    \\___/ |_|   \n" +
+                "                                                                                       \n1version 1.0.0");
         System.out.println("----------------------------");
-        System.out.println("Runtime Terror version 1.0.0");
-        System.out.println("----------------------------");
+        System.out.println("");
     }
 
     private void generateReport4() throws InvalidFormatException, IOException{
