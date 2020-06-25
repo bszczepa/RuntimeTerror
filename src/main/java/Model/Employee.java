@@ -105,19 +105,6 @@ public class Employee implements Cloneable{
 			return false;
 		return true;
 	}
-	
-	    public double getTotalHours(int year) {
-	        double sum=0;
-	        for(Task task:taskList) {
-	            Date date = task.getTaskDate();
-	            Calendar calendar = new GregorianCalendar();
-	            calendar.setTime(date);
-	            if (calendar.get(Calendar.YEAR)==year) {
-	                sum+=task.getHours();
-	            }
-	        }
-	        return sum;
-	    }
 	    
 	    public double getTotalHours() {
 	        double sum=0;

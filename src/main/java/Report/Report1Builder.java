@@ -1,11 +1,10 @@
 package Report;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import Model.Employee;
 import Model.Model;
+import Model.Task;
 
 public class Report1Builder implements ReportBuilder {
 
@@ -34,20 +33,37 @@ public class Report1Builder implements ReportBuilder {
 		employeeList.sort(Comparator.comparing(Employee::getSurname));
 
 		for (Employee employee : employeeList) {
-			if (employee.getTotalHours(year) != 0) {
+			if (getTotalHours(employee, year) != 0) {
 				List<String> newRow = new ArrayList();
 				newRow.add(rowsCounter.toString());
 				newRow.add(employee.getNameAndSurname());
-				newRow.add(String.valueOf(employee.getTotalHours(year)));
+				newRow.add(String.valueOf(getTotalHours(employee, year)));
 				rows.add(newRow);
 				rowsCounter++;
 			}
 		}
-		
+
+
 		report.setColumnNames(columnNames);
 		report.setRows(rows);
-		
+
 		return report;
 	}
+
+	public double getTotalHours(Employee employee, int year) {
+		List<Task> taskList = employee.getTaskList();
+		double sum=0;
+		for(Task task:taskList) {
+			Date date = task.getTaskDate();
+			Calendar calendar = new GregorianCalendar();
+			calendar.setTime(date);
+			if (calendar.get(Calendar.YEAR)==year) {
+				sum+=task.getHours();
+			}
+		}
+		return sum;
+	}
+
+
 
 }
