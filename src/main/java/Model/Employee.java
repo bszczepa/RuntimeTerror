@@ -8,11 +8,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class Employee implements Cloneable{
 
     private List<Task> taskList = new ArrayList<Task>();
-    private Set<String> projects = new HashSet<String>();
+    private SortedSet <String> projects = new TreeSet<String>();
     private String name;
     private String surname;
 
@@ -38,7 +40,7 @@ public class Employee implements Cloneable{
     }
 
     public void setTaskList(List<Task> taskList) {
-    	this.projects = new HashSet<String>();
+    	this.projects = new TreeSet<String>();
         this.taskList = taskList;
         for (Task task : taskList) {
 			this.projects.add(task.getProjectName());
