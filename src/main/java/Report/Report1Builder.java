@@ -20,7 +20,7 @@ public class Report1Builder implements ReportBuilder {
 
 		Report report = new Report();
 
-		report.setTitle("Sumaryczna liczba godzin za rok " + year);
+		report.setTitle("Raport godzin pracowników w roku: " + year);
 
 		List<String> columnNames = new ArrayList<String>();
 		List<List<String>> rows = new ArrayList<List<String>>();

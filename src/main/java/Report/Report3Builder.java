@@ -25,7 +25,7 @@ public class Report3Builder implements ReportBuilder {
 		    List<List<String>> rows = new ArrayList<List<String>>();
 		    Integer rowsCounter = 1;
 			
-		    report.setTitle("Rok: " + year + "; Imię i nazwisko: " + id);
+		    report.setTitle("Raport godzin przepracowanych przez: " + id + " w roku: " + year);
 		
 	        columnNames.add("L.p.");
 	        columnNames.add("Miesiąc");

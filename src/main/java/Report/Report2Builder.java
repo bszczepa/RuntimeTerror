@@ -25,7 +25,7 @@ public class Report2Builder implements ReportBuilder {
 
 		Report report = new Report();
 
-		report.setTitle("Raport listy projektów za podany rok " + year);
+		report.setTitle("Raport godzin projektów w roku: " + year);
 
 		List<String> columnNames = new ArrayList<String>();
 		List<List<String>> rows = new ArrayList<List<String>>();

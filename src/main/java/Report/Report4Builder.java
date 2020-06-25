@@ -44,7 +44,7 @@ public class Report4Builder implements ReportBuilder {
 			}
 		}
 		
-		report.setTitle("Procentowy udział danego pracownika w projekt za dany rok");
+		report.setTitle("Procentowy udział projektów w pracy osób dla roku: " + year);
 		
 		List<String> columnNames = new ArrayList<String>();
 		columnNames.add("L.p.");

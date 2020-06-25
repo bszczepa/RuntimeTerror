@@ -50,6 +50,12 @@ public class UserControl {
                 case "5":
                     generateReport5();
                     break;
+                case "6":
+                    System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
+                    break;
+                case "7":
+                	 System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
+                    break;
                 case "9":
                     generateErrorsLog();
                     break;
@@ -65,11 +71,13 @@ public class UserControl {
 
     public void showOption() {
         System.out.println("WYBIERZ OPCJE:");
-        System.out.println("1. Generuj raport listy pracowników za podany rok: ");
-        System.out.println("2. Generuj raport listy projektów za podany rok ");
-        System.out.println("3. Szczegółowy wykaz pracy danego pracownika za podany rok");
-        System.out.println("4. Procentowy udział danego pracownika w projekt za dany rok");
-        System.out.println("5. Szczegółowy wykaz pracy pracowników w danym projekcie");
+        System.out.println("1. Generuj raport godzin pracowników w podanym roku:  ");
+        System.out.println("2. Generuj raport godzin projektów w podanym roku: ");
+        System.out.println("3. Generuj raport godzin przepracowanych miesięcznie przez pracownika w podanym roku:");
+        System.out.println("4. Generuj procentowy udział projektów w pracy osob dla podanego roku: ");
+        System.out.println("5. Generuj raport ilości godzin pracowników w podanym projekcie: ");
+        System.out.println("6. Generuj wykres słupkowy godzin projektów w podanym roku");
+        System.out.println("7. Generuj wykresy kołowe procentowego udziału projektów dla pracowników w podanym roku. ");
         System.out.println("9. Pokaż logi z odczytu pliku");
         System.out.println("0. Zakończ pracę z programem");
     }

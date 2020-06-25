@@ -20,7 +20,7 @@ public class Report5Builder implements ReportBuilder {
 	public Report buildReport(Model model){
 		Report report = new Report();
 
-		report.setTitle("Szczegółowy wykaz pracy pracowników w danym projekcie");
+		report.setTitle("Raport ilości godzin pracowników w  projekcie: " + projectName);
 
 		List<String> columnNames = new ArrayList<String>();
 
