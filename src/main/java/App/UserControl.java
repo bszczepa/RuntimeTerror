@@ -14,6 +14,7 @@ import Report.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import ChartMakers.Report2BarChartMaker;
+import ChartMakers.Report4PieChartMaker;
 import ChartMakers.ReportChartMaker;
 
 public class UserControl {
@@ -137,6 +138,9 @@ public class UserControl {
 		reportBuilder = new Report4Builder(reportYear);
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
+		Report4PieChartMaker maker = new Report4PieChartMaker();
+		maker.makeChart(report);
+		System.out.println();
 		saveReportToFile(report);
 		System.out.println();
 	}

@@ -1,8 +1,9 @@
 package ChartMakers;
 
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
 
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
@@ -14,16 +15,21 @@ import org.knowm.xchart.style.Styler.LegendPosition;
 import Report.Report;
 
 public class Report2BarChartMaker extends ReportChartMaker {
-	
-	public void makeChart(Report report) {
-		ArrayList<String> projects = new ArrayList<String>();
-		ArrayList<Double> hours = new ArrayList<Double>();
+
+	private ArrayList<String> projects = new ArrayList<String>();
+	private ArrayList<Double> hours = new ArrayList<Double>();
+
+	public void makeChart(Report sourceReport) {
 		
-		for (List<String> row : report.getRows() ) {
+		
+
+		this.report = sourceReport;
+
+		for (List<String> row : report.getRows()) {
 			hours.add(Double.parseDouble(row.get(2)));
 		}
-		
-		for (List<String> row : report.getRows() ) {
+
+		for (List<String> row : report.getRows()) {
 			projects.add(row.get(1));
 		}
 
@@ -31,13 +37,14 @@ public class Report2BarChartMaker extends ReportChartMaker {
 				.xAxisTitle(report.getColumnNames().get(1)).yAxisTitle(report.getColumnNames().get(2)).build();
 
 		chart.getStyler().setHasAnnotations(true);
+
+		chart.addSeries("Czasochłonność", projects, hours);
 		
-		chart.addSeries("Dane", projects, hours);
-		
-		new SwingWrapper<CategoryChart>(chart).displayChart();
-		
-		
-	}
+		JFrame frame = new SwingWrapper<CategoryChart>(chart).displayChart();
+		javax.swing.SwingUtilities.invokeLater(
+			    ()->frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE)
+			);
 
 	}
 
+}
