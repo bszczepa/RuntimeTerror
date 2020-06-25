@@ -1,6 +1,7 @@
 package App;
 
 import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -160,10 +161,7 @@ public class UserControl {
 				File generatedReport = reportToXls.exportToXls(report);
 				String reportPath = generatedReport.getCanonicalPath();
 				System.out.println("Poprawnie wygenerowano raport do pliku: " + reportPath);
-				if (generatedReport.exists()) {
-					Desktop desktop = Desktop.getDesktop();
-					desktop.open(generatedReport);
-				}
+				openGeneratedFile(generatedReport);
 				break;
 			}
 			default: {
@@ -172,6 +170,16 @@ public class UserControl {
 			}
 		} catch (IOException e) {
 			System.err.println("Nie udało się zapisać pliku");
+		}
+	}
+
+	private void openGeneratedFile(File generatedReport) throws IOException {
+		try {
+			Desktop desktop = Desktop.getDesktop();
+			if (generatedReport.exists()) {
+				desktop.open(generatedReport);
+			}
+		} catch (UnsupportedOperationException e) {
 		}
 	}
 
