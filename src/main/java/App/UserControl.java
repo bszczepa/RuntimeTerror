@@ -241,7 +241,7 @@ public class UserControl {
 
     public String inputUserOption() {
         System.out.println("\n______________________");
-        System.out.println("Wprowadź wybraną opcję\n");
+        System.out.print("Wprowadź wybraną opcję:");
         userOption = sc.nextLine();
         return userOption;
     }
@@ -250,5 +250,4 @@ public class UserControl {
         System.out.println("Copyright © 2020 RunTime Terror, All Rights Reserved. ");
         sc.close();
     }
-
 }
