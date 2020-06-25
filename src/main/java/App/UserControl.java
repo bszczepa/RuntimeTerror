@@ -127,7 +127,7 @@ public class UserControl {
     }
 
     private void generateReport4() {
-        System.out.println();
+        dateRangeGenerator();
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
