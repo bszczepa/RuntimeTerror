@@ -47,7 +47,7 @@ public class Report4Builder implements ReportBuilder {
 		report.setTitle("Procentowy udział danego pracownika w projekt za dany rok");
 		
 		List<String> columnNames = new ArrayList<String>();
-		columnNames.add("L.p");
+		columnNames.add("L.p.");
 		columnNames.add("Imię i nazwisko");
 		report.setColumnNames(columnNames);
 		report.setColumnNames(columnNames);

@@ -24,7 +24,7 @@ public class Report5Builder implements ReportBuilder {
 
 		List<String> columnNames = new ArrayList<String>();
 
-		columnNames.add("L.p");
+		columnNames.add("L.p.");
 		columnNames.add("Imię i nazwisko");
 		columnNames.add("Projekt");
 		columnNames.add("Ilość godzin");

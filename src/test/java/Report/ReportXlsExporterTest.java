@@ -67,7 +67,7 @@ public class ReportXlsExporterTest {
 		Mockito.when(report.getRows()).thenReturn(rows);
 		
 		ReportXlsExporter exp = new ReportXlsExporter();
-		System.out.println(exp.exportToXls(report));
+	
 		
 	}
 
