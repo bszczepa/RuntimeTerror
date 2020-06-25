@@ -13,6 +13,9 @@ import Report.*;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import ChartMakers.Report2BarChartMaker;
+import ChartMakers.ReportChartMaker;
+
 public class UserControl {
 
 	private Scanner sc = new Scanner(System.in);
@@ -102,8 +105,10 @@ public class UserControl {
 			reportBuilder = new Report2Builder(reportYear);
 			report = reportBuilder.buildReport(model);
 			ReportPrinter.printReport(report);
-			saveReportToFile(report);
+			Report2BarChartMaker maker = new Report2BarChartMaker();
+			maker.makeChart(report);
 			System.out.println();
+			saveReportToFile(report);
 		} catch (InputMismatchException e) {
 			System.err.println("Wprowadziłeś błędne dane");
 		}

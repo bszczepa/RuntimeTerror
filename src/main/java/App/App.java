@@ -12,7 +12,7 @@ public class App {
             UserControl userControl = new UserControl(folderPath);
             userControl.controlLoop();
         } catch ( ArrayIndexOutOfBoundsException e) {
-            System.out.println("Nie wprowadzi≈Çe≈õ poprawnej ≈õcie≈ºki do folderu");
+            System.out.println("Nie wprowadzi≥eú poprawnej úcieøki do folderu");
         }
     }
 }
