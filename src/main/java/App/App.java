@@ -1,18 +1,14 @@
 package App;
 
-import java.io.IOException;
-
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
 public class App {
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        try {
-            String folderPath = args[0];
-            UserControl userControl = new UserControl(folderPath);
-            userControl.controlLoop();
-        } catch ( ArrayIndexOutOfBoundsException e) {
-            System.out.println("Nie wprowadzi≥eú poprawnej úcieøki do folderu");
-        }
-    }
+		try {
+			String folderPath = args[0];
+			UserControl userControl = new UserControl(folderPath);
+			userControl.controlLoop();
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Nie wprowadzi≈Çe≈õ poprawnej ≈õcie≈ºki do folderu!");
+		}
+	}
 }

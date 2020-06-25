@@ -1,21 +1,32 @@
 package App;
 
 import java.awt.Desktop;
-import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import Model.*;
-import Reader.ScanErrorsHolder;
-import Report.*;
-
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 import ChartMakers.Report2BarChartMaker;
 import ChartMakers.Report4PieChartMaker;
 import ChartMakers.ReportChartMaker;
+import Model.Employee;
+import Model.Model;
+import Model.Task;
+import Reader.ScanErrorsHolder;
+import Report.Report;
+import Report.Report1Builder;
+import Report.Report2Builder;
+import Report.Report3Builder;
+import Report.Report4Builder;
+import Report.Report5Builder;
+import Report.ReportBuilder;
+import Report.ReportPrinter;
+import Report.ReportXlsExporter;
 
 public class UserControl {
 
@@ -26,6 +37,7 @@ public class UserControl {
 	private ReportBuilder reportBuilder;
 	private Report report;
 	private ReportXlsExporter reportToXls;
+	private ReportChartMaker chartMaker;
 
 	public UserControl(String path) {
 		this.path = path;
@@ -106,8 +118,8 @@ public class UserControl {
 			reportBuilder = new Report2Builder(reportYear);
 			report = reportBuilder.buildReport(model);
 			ReportPrinter.printReport(report);
-			Report2BarChartMaker maker = new Report2BarChartMaker();
-			maker.makeChart(report);
+			chartMaker = new Report2BarChartMaker();
+			chartMaker.makeChart(report);
 			System.out.println();
 			saveReportToFile(report);
 		} catch (InputMismatchException e) {
@@ -138,8 +150,8 @@ public class UserControl {
 		reportBuilder = new Report4Builder(reportYear);
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
-		Report4PieChartMaker maker = new Report4PieChartMaker();
-		maker.makeChart(report);
+		chartMaker = new Report4PieChartMaker();
+		chartMaker.makeChart(report);
 		System.out.println();
 		saveReportToFile(report);
 		System.out.println();
