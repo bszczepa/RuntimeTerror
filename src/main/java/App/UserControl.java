@@ -247,7 +247,7 @@ public class UserControl {
     }
 
     private void exit() {
-        System.out.println("Koniec programu");
+        System.out.println("Copyright © 2020 RunTime Terror, All Rights Reserved. ");
         sc.close();
     }
 
