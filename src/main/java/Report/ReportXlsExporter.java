@@ -40,6 +40,12 @@ public class ReportXlsExporter {
 		sheet1 = wb.createSheet("Raport");
 
 		String generatedReportsPath = "generated-reports";
+		
+		File file = new File(generatedReportsPath);
+		if(!file.exists()) {
+			new File(generatedReportsPath).mkdir();
+		}
+			
 		columnNames = report.getColumnNames();
 		rows = report.getRows();
 		title = report.getTitle();
@@ -56,7 +62,6 @@ public class ReportXlsExporter {
 			sheet1.setColumnWidth(i, reportWidth / columnNames.size());
 		}
 
-		File file;
 		String filePath;
 		int filesOfSameNameCounter = 0;
 		do {
