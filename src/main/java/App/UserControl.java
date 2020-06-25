@@ -66,6 +66,12 @@ public class UserControl {
 			case "5":
 				generateReport5();
 				break;
+			case "6":
+				generateReport6();
+				break;
+			case "7":
+				generateReport7();
+				break;
 			case "9":
 				generateErrorsLog();
 				break;
@@ -84,8 +90,10 @@ public class UserControl {
 		System.out.println("1. Generuj raport listy pracowników za podany rok: ");
 		System.out.println("2. Generuj raport listy projektów za podany rok ");
 		System.out.println("3. Szczegółowy wykaz pracy danego pracownika za podany rok");
-		System.out.println("4. Procentowy udział danego pracownika w projekt za dany rok");
+		System.out.println("4. Procentowy udział danego pracownika w poszczególnych projektach za dany rok");
 		System.out.println("5. Szczegółowy wykaz pracy pracowników w danym projekcie");
+		System.out.println("6. Wykres: raport godzinowy projektów w danym roku");
+		System.out.println("7. Wykres: Procentowy udział danego pracownika w poszczególnych projektach za dany rok");
 		System.out.println("9. Pokaż logi z odczytu pliku");
 		System.out.println("0. Zakończ pracę z programem");
 	}
@@ -118,8 +126,6 @@ public class UserControl {
 			reportBuilder = new Report2Builder(reportYear);
 			report = reportBuilder.buildReport(model);
 			ReportPrinter.printReport(report);
-			chartMaker = new Report2BarChartMaker();
-			chartMaker.makeChart(report);
 			System.out.println();
 			saveReportToFile(report);
 		} catch (InputMismatchException e) {
@@ -150,8 +156,6 @@ public class UserControl {
 		reportBuilder = new Report4Builder(reportYear);
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
-		chartMaker = new Report4PieChartMaker();
-		chartMaker.makeChart(report);
 		System.out.println();
 		saveReportToFile(report);
 		System.out.println();
@@ -165,6 +169,36 @@ public class UserControl {
 		report = reportBuilder.buildReport(model);
 		ReportPrinter.printReport(report);
 		saveReportToFile(report);
+		System.out.println();
+	}
+	
+	private void generateReport6() {
+		dateRangeGenerator();
+		int reportYear;
+		try {
+			System.out.println("Podaj za jaki rok mam wygenerować raport");
+			reportYear = sc.nextInt();
+			sc.nextLine();
+			System.out.println();
+			reportBuilder = new Report2Builder(reportYear);
+			report = reportBuilder.buildReport(model);
+			chartMaker = new Report2BarChartMaker();
+			chartMaker.makeChart(report);
+			System.out.println();
+		} catch (InputMismatchException e) {
+			System.err.println("Wprowadziłeś błędne dane");
+		}
+	}
+	
+	private void generateReport7() {
+		System.out.println();
+		System.out.println("Podaj za jaki rok mam wygenerować raport");
+		int reportYear = sc.nextInt();
+		sc.nextLine();
+		reportBuilder = new Report4Builder(reportYear);
+		report = reportBuilder.buildReport(model);
+		chartMaker = new Report4PieChartMaker();
+		chartMaker.makeChart(report);
 		System.out.println();
 	}
 
