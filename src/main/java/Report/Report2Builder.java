@@ -31,7 +31,7 @@ public class Report2Builder implements ReportBuilder {
 		List<List<String>> rows = new ArrayList<List<String>>();
 		Integer rowsCounter = 1;
 
-		columnNames.add("L.p");
+		columnNames.add("L.p.");
 		columnNames.add("Projekt");
 		columnNames.add("Ilość godzin");
 

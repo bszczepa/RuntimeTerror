@@ -27,7 +27,7 @@ public class Report3Builder implements ReportBuilder {
 			
 		    report.setTitle("Rok: " + year + "; Imię i nazwisko: " + id);
 		
-	        columnNames.add("L.p");
+	        columnNames.add("L.p.");
 	        columnNames.add("Miesiąc");
 	        columnNames.add("Projekt");
 	        columnNames.add("Liczba godzin");

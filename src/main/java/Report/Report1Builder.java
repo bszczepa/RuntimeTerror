@@ -26,7 +26,7 @@ public class Report1Builder implements ReportBuilder {
 		List<List<String>> rows = new ArrayList<List<String>>();
 		Integer rowsCounter = 1;
 
-		columnNames.add("L.p");
+		columnNames.add("L.p.");
 		columnNames.add("Imię i nazwisko");
 		columnNames.add("Liczba godzin");
 

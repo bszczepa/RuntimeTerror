@@ -1,21 +1,16 @@
 package App;
 
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import Reader.DataReader;
-
 import Model.*;
 import Reader.ScanErrorsHolder;
-import Report.Report;
-import Report.Report1Builder;
-import Report.Report2Builder;
-import Report.Report3Builder;
-import Report.Report4Builder;
-import Report.Report5Builder;
-import Report.ReportBuilder;
-import Report.ReportPrinter;
+import Report.*;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class UserControl {
@@ -26,16 +21,15 @@ public class UserControl {
     private Model model;
     private ReportBuilder reportBuilder;
     private Report report;
-    private DataReader dataReader;
+    private ReportXlsExporter reportToXls;
 
-
-    public UserControl(String path) throws IOException, InvalidFormatException {
+    public UserControl(String path) {
         this.path = path;
         model = new Model(path);
-
+        reportToXls = new ReportXlsExporter();
     }
 
-    public void controlLoop() throws IOException, InvalidFormatException {
+    public void controlLoop() {
         appHeaders();
         do {
             showOption();
@@ -68,7 +62,6 @@ public class UserControl {
         } while (!userOption.equals("0"));
 
     }
- 
 
     public void showOption() {
         System.out.println("WYBIERZ OPCJE:");
@@ -81,65 +74,114 @@ public class UserControl {
         System.out.println("0. Zakończ pracę z programem");
     }
 
-
-    public String inputUserOption() {
-        System.out.println("\n______________________");
-        System.out.println("Wprowadź wybraną opcję\n");
-        userOption = sc.nextLine();
-        return userOption;
-    }
-
-    private void exit() {
-        System.out.println("Koniec programu");
-        sc.close();
-    }
-
-    private void appHeaders(){
-        System.out.println("______                _____  _                    _____                                \n" +
-                "| ___ \\              |_   _|(_)                  |_   _|                               \n" +
-                "| |_/ / _   _  _ __    | |   _  _ __ ___    ___    | |    ___  _ __  _ __   ___   _ __ \n" +
-                "|    / | | | || '_ \\   | |  | || '_ ` _ \\  / _ \\   | |   / _ \\| '__|| '__| / _ \\ | '__|\n" +
-                "| |\\ \\ | |_| || | | |  | |  | || | | | | ||  __/   | |  |  __/| |   | |   | (_) || |   \n" +
-                "\\_| \\_| \\__,_||_| |_|  \\_/  |_||_| |_| |_| \\___|   \\_/   \\___||_|   |_|    \\___/ |_|   \n" +
-                "                                                                                       \nversion 1.0.0");
-        System.out.println("----------------------------");
-        System.out.println("");
-    }
-
-    private void generateReport4() throws InvalidFormatException, IOException{
-        System.out.println();
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
-        int reportYear = sc.nextInt();
-        sc.nextLine();
-        reportBuilder= new Report4Builder(reportYear);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        System.out.println();
-    }
-
-    private void generateReport5() throws InvalidFormatException, IOException{
-        System.out.println();
-        System.out.println("Podaj nazwę projektu");
-        String projectName = sc.nextLine();
-        reportBuilder= new Report5Builder(projectName);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        System.out.println();
-    }
-
-    private void generateReport1() throws InvalidFormatException, IOException{
+    private void generateReport1() {
         dateRangeGenerator();
         int reportYear;
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         try {
             reportYear = sc.nextInt();
             sc.nextLine();
-            reportBuilder= new Report1Builder(reportYear);
+            reportBuilder = new Report1Builder(reportYear);
             report = reportBuilder.buildReport(model);
             ReportPrinter.printReport(report);
-        System.out.println("\nCzy chcesz zapsiać raport do pliku Y/N -- przykładowa fk.\n");
-        } catch (InputMismatchException e){
+            saveReportToFile(report);
+
+        } catch (InputMismatchException e) {
             System.err.println("Wprowadziłeś błędne dane");
+        }
+    }
+
+    private void generateReport2() {
+        dateRangeGenerator();
+        int reportYear;
+        try {
+            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            reportYear = sc.nextInt();
+            sc.nextLine();
+            System.out.println();
+            reportBuilder = new Report2Builder(reportYear);
+            report = reportBuilder.buildReport(model);
+            ReportPrinter.printReport(report);
+            saveReportToFile(report);
+            System.out.println();
+        } catch (InputMismatchException e) {
+            System.err.println("Wprowadziłeś błędne dane");
+        }
+
+    }
+
+    private void generateReport3() {
+        employeeRangeGenerator();
+        System.out.println("Podaj imię i nazwisko pracownika");
+        String name = sc.nextLine();
+        dateRangeGenerator();
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        System.out.println();
+        reportBuilder = new Report3Builder(reportYear, name);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
+        saveReportToFile(report);
+        System.out.println();
+    }
+
+    private void generateReport4() {
+        dateRangeGenerator();
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        reportBuilder = new Report4Builder(reportYear);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
+        saveReportToFile(report);
+        System.out.println();
+    }
+
+    private void generateReport5() {
+        projectsRangeGenerator();
+        System.out.println("Podaj nazwę projektu");
+        String projectName = sc.nextLine();
+        reportBuilder = new Report5Builder(projectName);
+        report = reportBuilder.buildReport(model);
+        ReportPrinter.printReport(report);
+        saveReportToFile(report);
+        System.out.println();
+    }
+
+    private void generateErrorsLog() {
+        ScanErrorsHolder.printScanErrors();
+        System.out.println();
+    }
+
+    private void saveReportToFile(Report report) {
+        System.out.println("\nCzy chcesz zapsiać raport do pliku T / N ?");
+        try {
+            String writeReportOpt = sc.nextLine();
+            switch (writeReportOpt.toLowerCase()) {
+                case "t": {
+                    File generatedReport = reportToXls.exportToXls(report);
+                    String reportPath = generatedReport.getCanonicalPath();
+                    System.out.println("Poprawnie wygenerowano raport do pliku: " + reportPath);
+                    openGeneratedFile(generatedReport);
+                    break;
+                }
+                default: {
+                    System.out.println("Zrezygnowano z zapisu pliku");
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Nie udało się zapisać pliku");
+        }
+    }
+
+    private void openGeneratedFile(File generatedReport) throws IOException {
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            if (generatedReport.exists()) {
+                desktop.open(generatedReport);
+            }
+        } catch (UnsupportedOperationException e) {
         }
     }
 
@@ -152,49 +194,60 @@ public class UserControl {
             for (Task task : taskList) {
                 Date allDates = task.getTaskDate();
                 String year = simpleDateFormat.format(allDates);
-                if (!yearProject.contains(year)){
+                if (!yearProject.contains(year)) {
                     yearProject.add(year);
                 }
             }
         }
         Collections.sort(yearProject);
-        System.out.println("\nRaporty są dostępne za lata: " + yearProject +"\n");
+        System.out.println("\nRaporty są dostępne za lata: " + yearProject + "\n");
     }
 
-
-    private void generateReport2(){
-        dateRangeGenerator();
-        int reportYear;
-        try {
-            System.out.println("Podaj za jaki rok mam wygenerować raport");
-            reportYear = sc.nextInt();
-            sc.nextLine();
-            System.out.println();
-            reportBuilder = new Report2Builder(reportYear);
-            report = reportBuilder.buildReport(model);
-            ReportPrinter.printReport(report);
-            System.out.println();
-        } catch (InputMismatchException e) {
-            System.err.println("Wprowadziłeś błędne dane");
+    private void employeeRangeGenerator() {
+        List<String> employeeList = new ArrayList<>();
+        List<Employee> allEmployeeData = model.getEmployeeList();
+        for (Employee employee : allEmployeeData) {
+            String nameAndSurname = employee.getNameAndSurname();
+            employeeList.add(nameAndSurname);
         }
-
+        System.out.println("\nRaporty są dostępne dla pracowników: " + employeeList + "\n");
     }
 
-    private void generateReport3(){
-        System.out.println("Podaj imię i nazwisko pracownika");
-        String name = sc.nextLine();
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
-        int reportYear = sc.nextInt();
-        sc.nextLine();
-        System.out.println();
-        reportBuilder = new Report3Builder(reportYear,name);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        System.out.println();
+    private void projectsRangeGenerator() {
+        List<String> projects = new ArrayList<>();
+        List<Employee> allEmployeeData = model.getEmployeeList();
+        for (Employee employee : allEmployeeData) {
+            Set<String> allProjects = employee.getProjects();
+            for (String oneProject : allProjects) {
+                if (!projects.contains(oneProject)) {
+                    projects.add(oneProject);
+                }
+            }
+        }
+        System.out.println("\nRaporty są dostępne dla projektów: " + projects + "\n");
     }
 
-    private void generateErrorsLog(){
-        ScanErrorsHolder.printScanErrors();
-        System.out.println();
+    private void appHeaders() {
+        System.out.println("______                _____  _                    _____                                \n"
+                + "| ___ \\              |_   _|(_)                  |_   _|                               \n"
+                + "| |_/ / _   _  _ __    | |   _  _ __ ___    ___    | |    ___  _ __  _ __   ___   _ __ \n"
+                + "|    / | | | || '_ \\   | |  | || '_ ` _ \\  / _ \\   | |   / _ \\| '__|| '__| / _ \\ | '__|\n"
+                + "| |\\ \\ | |_| || | | |  | |  | || | | | | ||  __/   | |  |  __/| |   | |   | (_) || |   \n"
+                + "\\_| \\_| \\__,_||_| |_|  \\_/  |_||_| |_| |_| \\___|   \\_/   \\___||_|   |_|    \\___/ |_|   \n"
+                + "                                                                                       \nversion 1.0.0");
+        System.out.println("----------------------------");
+        System.out.println("");
+    }
+
+    public String inputUserOption() {
+        System.out.println("\n______________________");
+        System.out.print("Wprowadź wybraną opcję:");
+        userOption = sc.nextLine();
+        return userOption;
+    }
+
+    private void exit() {
+        System.out.println("Copyright © 2020 RunTime Terror, All Rights Reserved. ");
+        sc.close();
     }
 }
