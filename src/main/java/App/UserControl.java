@@ -139,7 +139,7 @@ public class UserControl {
     }
 
     private void generateReport5() {
-        System.out.println();
+        projectsRangeGenerator();
         System.out.println("Podaj nazwę projektu");
         String projectName = sc.nextLine();
         reportBuilder = new Report5Builder(projectName);
@@ -211,6 +211,20 @@ public class UserControl {
             employeeList.add(nameAndSurname);
         }
         System.out.println("\nRaporty są dostępne dla pracowników: " + employeeList + "\n");
+    }
+
+    private void projectsRangeGenerator() {
+        List<String> projects = new ArrayList<>();
+        List<Employee> allEmployeeData = model.getEmployeeList();
+        for (Employee employee : allEmployeeData) {
+            Set<String> allProjects = employee.getProjects();
+            for (String oneProject : allProjects) {
+                if (!projects.contains(oneProject)) {
+                    projects.add(oneProject);
+                }
+            }
+        }
+        System.out.println("\nRaporty są dostępne dla projektów: " + projects + "\n");
     }
 
     private void appHeaders() {
