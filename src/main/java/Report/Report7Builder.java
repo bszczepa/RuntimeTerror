@@ -23,10 +23,13 @@ public class Report7Builder {
 
         if (row != null) {
             for (int project = 2; project< columnNames.size(); project++) {
-                System.out.println(row.get(project));
-                String value = row.get(project);
-                value = value.substring(0, value.length() - 1);
-                chart.addSeries(columnNames.get(project), Double.valueOf(value));
+				String value = row.get(project);
+            	if(value != null && !value.equals("")) {	
+                  
+                     value = value.substring(0, value.length() - 1);
+                     chart.addSeries(columnNames.get(project), Double.valueOf(value));
+            	}
+               
             }
 
             JFrame frame = new SwingWrapper(chart).displayChart();
