@@ -147,7 +147,7 @@ public class UserControl {
                     saveReportToFile(report);
                     System.out.println();
                 } else {
-                    System.out.println("Wprowadz poprawny rok");
+                    System.out.println("Wpisałeś rok który nie znajduje się na liście");
                 }
             } else {
                 System.out.println("Wpisałeś pracownika który nie znajduje się na liście");
@@ -162,43 +162,58 @@ public class UserControl {
             List<String> dateList = dateRangeGenerator();
             dateRangePrinter(dateList);
             System.out.println("Podaj za jaki rok mam wygenerować raport");
-            int reportYear = sc.nextInt();
+            Integer reportYear = sc.nextInt();
             sc.nextLine();
-            reportBuilder = new Report4Builder(reportYear);
-            report = reportBuilder.buildReport(model);
-            ReportPrinter.printReport(report);
-            saveReportToFile(report);
-            System.out.println();
+            String year = reportYear.toString();
+            if (dateList.contains(year)) {
+                reportBuilder = new Report4Builder(reportYear);
+                report = reportBuilder.buildReport(model);
+                ReportPrinter.printReport(report);
+                saveReportToFile(report);
+                System.out.println();
+            } else {
+                System.out.println("Wpisałeś rok który nie znajduje się na liście");
+            }
         } catch (InputMismatchException e) {
             System.out.println("Wprowadziłeś błędnie rok");
         }
     }
 
     private void generateReport5() {
-        projectsRangeGenerator();
+        List<String> projectsList = projectsRangeGenerator();
+        projectRangePrinter(projectsList);
         System.out.println("Podaj nazwę projektu");
         String projectName = sc.nextLine();
-        reportBuilder = new Report5Builder(projectName);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        saveReportToFile(report);
-        System.out.println();
+        if (projectsList.contains(projectName)) {
+            reportBuilder = new Report5Builder(projectName);
+            report = reportBuilder.buildReport(model);
+            ReportPrinter.printReport(report);
+            saveReportToFile(report);
+            System.out.println();
+        } else {
+            System.out.println("Wpisałeś projekt który nie istnieje");
+        }
     }
 
     private void generateReport6() {
-        List<String> dateList = dateRangeGenerator();
-        dateRangePrinter(dateList);
-        int reportYear;
         try {
+            List<String> dateList = dateRangeGenerator();
+            dateRangePrinter(dateList);
+            Integer reportYear;
             System.out.println("Podaj za jaki rok mam wygenerować raport");
             reportYear = sc.nextInt();
             sc.nextLine();
-            System.out.println();
-            reportBuilder = new Report2Builder(reportYear);
-            report = reportBuilder.buildReport(model);
-            Report6Builder barChartReport = new Report6Builder();
-            barChartReport.plotBarChart(report, reportYear);
-            System.out.println();
+            String year = reportYear.toString();
+            if (dateList.contains(year)) {
+                System.out.println();
+                reportBuilder = new Report2Builder(reportYear);
+                report = reportBuilder.buildReport(model);
+                Report6Builder barChartReport = new Report6Builder();
+                barChartReport.plotBarChart(report, reportYear);
+                System.out.println();
+            } else {
+                System.out.println("Wpisałeś rok który nie znajduje się na liście");
+            }
         } catch (InputMismatchException e) {
             System.err.println("Wprowadziłeś błędne dane");
         }
@@ -224,7 +239,7 @@ public class UserControl {
                     report7.plotChart(report, name, reportYear);
                     System.out.println();
                 } else {
-                    System.out.println("Nie można wygenerować raportu...  Wprowadź poprawny rok");
+                    System.out.println("Wpisałeś rok który nie znajduje się na liście");
                 }
             } else {
                 System.out.println("Wprowadziłeś błędne Imię i Nazwisko");
@@ -307,7 +322,7 @@ public class UserControl {
         return employeeList;
     }
 
-    private void projectsRangeGenerator() {
+    private List<String> projectsRangeGenerator() {
         List<String> projects = new ArrayList<>();
         List<Employee> allEmployeeData = model.getEmployeeList();
         for (Employee employee : allEmployeeData) {
@@ -318,15 +333,19 @@ public class UserControl {
                 }
             }
         }
-        System.out.println("\nRaporty są dostępne dla projektów: " + projects + "\n");
+        return projects;
     }
 
-    private void dateRangePrinter(List<String> dateList) {
-        System.out.println("\nRaporty są dostępne za lata: " + dateList + "\n");
+    private void dateRangePrinter(List<String> datesList) {
+        System.out.println("\nRaporty są dostępne za lata: " + datesList + "\n");
     }
 
-    private void employeeRangePrinter(List<String> employeeList) {
-        System.out.println("\nRaporty są dostępne dla pracowników: " + employeeList + "\n");
+    private void employeeRangePrinter(List<String> employeesList) {
+        System.out.println("\nRaporty są dostępne dla pracowników: " + employeesList + "\n");
+    }
+
+    private void projectRangePrinter(List<String> projectsList) {
+        System.out.println("\nRaporty są dostępne dla projektów: " + projectsList + "\n");
     }
 
 
