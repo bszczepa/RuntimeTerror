@@ -65,8 +65,12 @@ public class UserControl {
                 default:
                     System.err.println("Nie znam takiej opcji");
             }
-            System.out.println("Naciśnij Enter aby kontynuować...");
-            String pause = sc.nextLine();
+
+            if (!userOption.equals("0")) {
+                System.out.println("Naciśnij Enter aby kontynuować...");
+                String pause = sc.nextLine();
+            }
+
         } while (!userOption.equals("0"));
 
     }
