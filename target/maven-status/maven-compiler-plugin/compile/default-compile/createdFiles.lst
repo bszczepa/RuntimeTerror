@@ -9,6 +9,7 @@ Report\ReportBuilder.class
 Report\Report4Builder.class
 Report\Report.class
 Report\Report5Builder.class
+Report\Report7Builder.class
 Reader\DataReader.class
 Reader\FilesScanner.class
 Report\Report1Builder.class
