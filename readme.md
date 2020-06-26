@@ -78,7 +78,7 @@ Narzędzie do raportowania uwzględniające następujące funkcjonalności:
  - Obsługa błędów oraz ich specyfikacja
 
 <!-- GETTING STARTED -->
-## Początek
+## Dokumentacja
 
 Aby uruchomić lokalną kopię pliku należy:
 
