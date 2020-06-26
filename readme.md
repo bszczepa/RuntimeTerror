@@ -45,7 +45,7 @@
 ## Spis treści
 
 * [O projekcie](#o-projekcie)
-* [Początek](#poczatek)
+* [Dokumentacja](#dokumentacja)
   * [Wymagania](#wymagania)
   * [Instalacja](#instalacja)
 * [Uruchomienie](#uruchomienie)
