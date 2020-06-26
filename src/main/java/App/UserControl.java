@@ -1,7 +1,6 @@
 package App;
 
 import java.awt.Desktop;
-import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -11,7 +10,6 @@ import Model.*;
 import Reader.ScanErrorsHolder;
 import Report.*;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class UserControl {
 
@@ -54,7 +52,7 @@ public class UserControl {
                     System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
                     break;
                 case "7":
-                	 System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
+                    System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
                     break;
                 case "9":
                     generateErrorsLog();
@@ -83,7 +81,8 @@ public class UserControl {
     }
 
     private void generateReport1() {
-        dateRangeGenerator();
+        List<String> dateList = dateRangeGenerator();
+        dateRangePrinter(dateList);
         int reportYear;
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         try {
@@ -100,7 +99,8 @@ public class UserControl {
     }
 
     private void generateReport2() {
-        dateRangeGenerator();
+        List<String> dateList = dateRangeGenerator();
+        dateRangePrinter(dateList);
         int reportYear;
         try {
             System.out.println("Podaj za jaki rok mam wygenerować raport");
@@ -119,23 +119,34 @@ public class UserControl {
     }
 
     private void generateReport3() {
-        employeeRangeGenerator();
-        System.out.println("Podaj imię i nazwisko pracownika");
-        String name = sc.nextLine();
-        dateRangeGenerator();
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
-        int reportYear = sc.nextInt();
-        sc.nextLine();
-        System.out.println();
-        reportBuilder = new Report3Builder(reportYear, name);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        saveReportToFile(report);
-        System.out.println();
+        try {
+            employeeRangeGenerator();
+            System.out.println("Podaj imię i nazwisko pracownika");
+            String name = sc.nextLine();
+            List<String> dateList = dateRangeGenerator();
+            dateRangePrinter(dateList);
+            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            Integer reportYear = sc.nextInt();
+            sc.nextLine();
+            String year = reportYear.toString();
+            if (dateList.contains(year)) {
+                System.out.println();
+                reportBuilder = new Report3Builder(reportYear, name);
+                report = reportBuilder.buildReport(model);
+                ReportPrinter.printReport(report);
+                saveReportToFile(report);
+                System.out.println();
+            } else {
+                System.out.println("Nie można wygenerować raportu...  Wprowadź poprawne dane");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Wprowadziłeś błędnie rok");
+        }
     }
 
     private void generateReport4() {
-        dateRangeGenerator();
+        List<String> dateList = dateRangeGenerator();
+        dateRangePrinter(dateList);
         System.out.println("Podaj za jaki rok mam wygenerować raport");
         int reportYear = sc.nextInt();
         sc.nextLine();
@@ -193,7 +204,11 @@ public class UserControl {
         }
     }
 
-    private void dateRangeGenerator() {
+    private void dateRangePrinter(List<String> dateList) {
+        System.out.println("\nRaporty są dostępne za lata: " + dateList + "\n");
+    }
+
+    private List<String> dateRangeGenerator() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
         List<String> yearProject = new ArrayList<>();
         List<Employee> employeeList = model.getEmployeeList();
@@ -208,7 +223,7 @@ public class UserControl {
             }
         }
         Collections.sort(yearProject);
-        System.out.println("\nRaporty są dostępne za lata: " + yearProject + "\n");
+        return yearProject;
     }
 
     private void employeeRangeGenerator() {
@@ -243,8 +258,7 @@ public class UserControl {
                 + "| |\\ \\ | |_| || | | |  | |  | || | | | | ||  __/   | |  |  __/| |   | |   | (_) || |   \n"
                 + "\\_| \\_| \\__,_||_| |_|  \\_/  |_||_| |_| |_| \\___|   \\_/   \\___||_|   |_|    \\___/ |_|   \n"
                 + "                                                                                       \nversion 1.0.0");
-        System.out.println("----------------------------");
-        System.out.println("");
+        System.out.println("----------------------------\n");
     }
 
     public String inputUserOption() {
