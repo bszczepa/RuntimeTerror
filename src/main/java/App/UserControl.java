@@ -28,8 +28,10 @@ public class UserControl {
     }
 
     public void controlLoop() {
-        appHeaders();
+
         do {
+            clearConsole();
+            appHeaders();
             showOption();
             String userOption = inputUserOption();
             switch (userOption) {
@@ -63,6 +65,8 @@ public class UserControl {
                 default:
                     System.err.println("Nie znam takiej opcji");
             }
+            System.out.println("Naciśnij Enter aby kontynuować...");
+            String pause = sc.nextLine();
         } while (!userOption.equals("0"));
 
     }
@@ -286,5 +290,15 @@ public class UserControl {
     private void exit() {
         System.out.println("Copyright © 2020 RunTime Terror, All Rights Reserved. ");
         sc.close();
+    }
+
+    public  void clearConsole() {
+        //Clears Screen in java
+        try {
+            if (System.getProperty("os.name").contains("Windows"))
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            else
+                Runtime.getRuntime().exec("clear");
+        } catch (IOException | InterruptedException ex) {}
     }
 }
