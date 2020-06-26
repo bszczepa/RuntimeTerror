@@ -51,7 +51,8 @@ public class UserControl {
                     generateReport5();
                     break;
                 case "6":
-                    System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
+                    generateReport6();
+//                    System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
                     break;
                 case "7":
                     generateReport7();
@@ -172,6 +173,25 @@ public class UserControl {
         System.out.println();
     }
 
+    private void generateReport6() {
+        List<String> dateList = dateRangeGenerator();
+        dateRangePrinter(dateList);
+        int reportYear;
+        try {
+            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            reportYear = sc.nextInt();
+            sc.nextLine();
+            System.out.println();
+            reportBuilder = new Report2Builder(reportYear);
+            report = reportBuilder.buildReport(model);
+            Report6Builder barChartReport = new Report6Builder();
+            barChartReport.plotBarChart(report, reportYear);
+            System.out.println();
+        } catch (InputMismatchException e) {
+            System.err.println("Wprowadziłeś błędne dane");
+        }
+    }
+
     private void generateReport7() {
         employeeRangeGenerator();
         System.out.println("Podaj imię i nazwisko pracownika");
@@ -193,7 +213,7 @@ public class UserControl {
     }
 
     private void saveReportToFile(Report report) {
-        System.out.println("\nCzy chcesz zapsiać raport do pliku T / N ?");
+        System.out.println("\nCzy chcesz zapisać raport do pliku T / N ?");
         try {
             String writeReportOpt = sc.nextLine();
             switch (writeReportOpt.toLowerCase()) {
