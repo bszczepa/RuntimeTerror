@@ -54,7 +54,7 @@ public class UserControl {
                     System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
                     break;
                 case "7":
-                	 System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
+                    generateReport7();
                     break;
                 case "9":
                     generateErrorsLog();
@@ -154,6 +154,21 @@ public class UserControl {
         report = reportBuilder.buildReport(model);
         ReportPrinter.printReport(report);
         saveReportToFile(report);
+        System.out.println();
+    }
+
+    private void generateReport7() {
+        employeeRangeGenerator();
+        System.out.println("Podaj imię i nazwisko pracownika");
+        String name = sc.nextLine();
+        dateRangeGenerator();
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+        int reportYear = sc.nextInt();
+        sc.nextLine();
+        reportBuilder = new Report4Builder(reportYear);
+        report = reportBuilder.buildReport(model);
+        Report7Builder report7 = new Report7Builder();
+        report7.plotChart(report, name, reportYear);
         System.out.println();
     }
 

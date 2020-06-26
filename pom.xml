@@ -91,8 +91,12 @@
 			<scope>test</scope>
 		</dependency>
 
-
-
+		<!-- https://mvnrepository.com/artifact/org.knowm.xchart/xchart -->
+		<dependency>
+			<groupId>org.knowm.xchart</groupId>
+			<artifactId>xchart</artifactId>
+			<version>3.5.2</version>
+		</dependency>
 
 	</dependencies>
 </project>
