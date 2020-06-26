@@ -89,17 +89,22 @@ public class UserControl {
     }
 
     private void generateReport1() {
-        List<String> dateList = dateRangeGenerator();
-        dateRangePrinter(dateList);
-        int reportYear;
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
         try {
+            List<String> dateList = dateRangeGenerator();
+            dateRangePrinter(dateList);
+            Integer reportYear;
+            System.out.println("Podaj za jaki rok mam wygenerować raport");
             reportYear = sc.nextInt();
             sc.nextLine();
-            reportBuilder = new Report1Builder(reportYear);
-            report = reportBuilder.buildReport(model);
-            ReportPrinter.printReport(report);
-            saveReportToFile(report);
+            String year = reportYear.toString();
+            if (dateList.contains(year)){
+                reportBuilder = new Report1Builder(reportYear);
+                report = reportBuilder.buildReport(model);
+                ReportPrinter.printReport(report);
+                saveReportToFile(report);
+            } else {
+                printErrorYear();
+            }
 
         } catch (InputMismatchException e) {
             System.err.println("Wprowadziłeś błędne dane");
@@ -107,19 +112,23 @@ public class UserControl {
     }
 
     private void generateReport2() {
-        List<String> dateList = dateRangeGenerator();
-        dateRangePrinter(dateList);
-        int reportYear;
         try {
+            List<String> dateList = dateRangeGenerator();
+            dateRangePrinter(dateList);
             System.out.println("Podaj za jaki rok mam wygenerować raport");
-            reportYear = sc.nextInt();
+            Integer reportYear = sc.nextInt();
             sc.nextLine();
-            System.out.println();
-            reportBuilder = new Report2Builder(reportYear);
-            report = reportBuilder.buildReport(model);
-            ReportPrinter.printReport(report);
-            saveReportToFile(report);
-            System.out.println();
+            String year = reportYear.toString();
+            if (dateList.contains(year)) {
+                System.out.println();
+                reportBuilder = new Report2Builder(reportYear);
+                report = reportBuilder.buildReport(model);
+                ReportPrinter.printReport(report);
+                saveReportToFile(report);
+                System.out.println();
+            } else {
+                printErrorYear();
+            }
         } catch (InputMismatchException e) {
             System.err.println("Wprowadziłeś błędne dane");
         }
@@ -147,7 +156,7 @@ public class UserControl {
                     saveReportToFile(report);
                     System.out.println();
                 } else {
-                    System.out.println("Wpisałeś rok który nie znajduje się na liście");
+                    printErrorYear();
                 }
             } else {
                 System.out.println("Wpisałeś pracownika który nie znajduje się na liście");
@@ -172,7 +181,7 @@ public class UserControl {
                 saveReportToFile(report);
                 System.out.println();
             } else {
-                System.out.println("Wpisałeś rok który nie znajduje się na liście");
+                printErrorYear();
             }
         } catch (InputMismatchException e) {
             System.out.println("Wprowadziłeś błędnie rok");
@@ -212,7 +221,7 @@ public class UserControl {
                 barChartReport.plotBarChart(report, reportYear);
                 System.out.println();
             } else {
-                System.out.println("Wpisałeś rok który nie znajduje się na liście");
+                printErrorYear();
             }
         } catch (InputMismatchException e) {
             System.err.println("Wprowadziłeś błędne dane");
@@ -239,7 +248,7 @@ public class UserControl {
                     report7.plotChart(report, name, reportYear);
                     System.out.println();
                 } else {
-                    System.out.println("Wpisałeś rok który nie znajduje się na liście");
+                    printErrorYear();
                 }
             } else {
                 System.out.println("Wprowadziłeś błędne Imię i Nazwisko");
@@ -370,6 +379,10 @@ public class UserControl {
     private void exit() {
         System.out.println("Copyright © 2020 RunTime Terror, All Rights Reserved. ");
         sc.close();
+    }
+
+    private void printErrorYear(){
+        System.out.println("Wpisałeś rok który nie znajduje się na liście");
     }
 
     public void clearConsole() {
