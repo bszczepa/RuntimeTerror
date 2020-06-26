@@ -50,7 +50,7 @@ public class ReportXlsExporter {
 		rows = report.getRows();
 		title = report.getTitle();
 
-		int reportWidth = 150 * 256;
+		int reportWidth = 200 * 256;
 
 		int titleRow = 3;
 		createTittle(titleRow);
