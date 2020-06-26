@@ -77,13 +77,13 @@ public class UserControl {
 
     public void showOption() {
         System.out.println("WYBIERZ OPCJE:");
-        System.out.println("1. Generuj raport godzin pracowników w podanym roku:  ");
-        System.out.println("2. Generuj raport godzin projektów w podanym roku: ");
-        System.out.println("3. Generuj raport godzin przepracowanych miesięcznie przez pracownika w podanym roku:");
-        System.out.println("4. Generuj procentowy udział projektów w pracy osob dla podanego roku: ");
-        System.out.println("5. Generuj raport ilości godzin pracowników w podanym projekcie: ");
-        System.out.println("6. Generuj wykres słupkowy godzin projektów w podanym roku");
-        System.out.println("7. Generuj wykresy kołowe procentowego udziału projektów dla pracowników w podanym roku. ");
+        System.out.println("1. Generuj raport godzin pracowników w podanym roku");
+        System.out.println("2. Generuj raport godzin projektów w podanym roku");
+        System.out.println("3. Generuj raport godzin przepracowanych miesięcznie przez pracownika w podanym roku");
+        System.out.println("4. Generuj procentowy udział projektów w pracy osob dla podanego roku");
+        System.out.println("5. Generuj raport ilości godzin pracowników w podanym projekcie");
+        System.out.println("6. Wyświetl wykres słupkowy godzin projektów w podanym roku");
+        System.out.println("7. Wyświetl wykres kołowy procentowego udziału projektów dla pracowników w podanym roku");
         System.out.println("9. Pokaż logi z odczytu pliku");
         System.out.println("0. Zakończ pracę z programem");
     }
@@ -128,7 +128,8 @@ public class UserControl {
 
     private void generateReport3() {
         try {
-            employeeRangeGenerator();
+            List<String> strings = employeeRangeGenerator();
+            employeeRangePrinter(strings);
             System.out.println("Podaj imię i nazwisko pracownika");
             String name = sc.nextLine();
             List<String> dateList = dateRangeGenerator();
@@ -196,18 +197,33 @@ public class UserControl {
     }
 
     private void generateReport7() {
-        employeeRangeGenerator();
-        System.out.println("Podaj imię i nazwisko pracownika");
-        String name = sc.nextLine();
-        dateRangeGenerator();
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
-        int reportYear = sc.nextInt();
-        sc.nextLine();
-        reportBuilder = new Report4Builder(reportYear);
-        report = reportBuilder.buildReport(model);
-        Report7Builder report7 = new Report7Builder();
-        report7.plotChart(report, name, reportYear);
-        System.out.println();
+        try {
+            List<String> empList = employeeRangeGenerator();
+            employeeRangePrinter(empList);
+            System.out.println("Podaj imię i nazwisko pracownika");
+            String name = sc.nextLine();
+            if (empList.contains(name)) {
+                List<String> dateList = dateRangeGenerator();
+                dateRangePrinter(dateList);
+                System.out.println("Podaj za jaki rok mam wygenerować raport");
+                Integer reportYear = sc.nextInt();
+                sc.nextLine();
+                String year = reportYear.toString();
+                if (dateList.contains(year)) {
+                    reportBuilder = new Report4Builder(reportYear);
+                    report = reportBuilder.buildReport(model);
+                    Report7Builder report7 = new Report7Builder();
+                    report7.plotChart(report, name, reportYear);
+                    System.out.println();
+                } else {
+                    System.out.println("Nie można wygenerować raportu...  Wprowadź poprawny rok");
+                }
+            } else {
+                System.out.println("Wprowadziłeś błędne Imię i Nazwisko");
+            }
+        } catch (InputMismatchException e) {
+            System.err.println("Wprowadziłeś błędne dane");
+        }
     }
 
     private void generateErrorsLog() {
@@ -216,33 +232,33 @@ public class UserControl {
     }
 
     private void saveReportToFile(Report report) {
-		System.out.println("\nCzy chcesz zapisać raport do pliku T / N ?");
-		try {
-			String writeReportOpt = sc.nextLine();
-			switch (writeReportOpt.toLowerCase()) {
-			case "t": {
-				File generatedReport = reportToXls.exportToXls(report);
-				String reportPath = generatedReport.getCanonicalPath();
-				System.out.println("Poprawnie wygenerowano raport do pliku: " + reportPath);
-				System.out.println("\nCzy chcesz otworzyć plik xls? T / N ?");
-				String showXlsOpt = sc.nextLine();
-				switch (showXlsOpt.toLowerCase()) {
-				case "t": {
-					openGeneratedFile(generatedReport);
-				}
-				default:
-					break;
-				}
-				break;
-			}
-			default: {
-				System.out.println("Zrezygnowano z zapisu pliku");
-			}
-			}
-		} catch (IOException e) {
-			System.err.println("Nie udało się zapisać pliku");
-		}
-	}
+        System.out.println("\nCzy chcesz zapisać raport do pliku T / N ?");
+        try {
+            String writeReportOpt = sc.nextLine();
+            switch (writeReportOpt.toLowerCase()) {
+                case "t": {
+                    System.out.println("\nCzy chcesz otworzyć plik xls? T / N ?");
+                    File generatedReport = reportToXls.exportToXls(report);
+                    String reportPath = generatedReport.getCanonicalPath();
+                    System.out.println("Poprawnie wygenerowano raport do pliku: " + reportPath);
+                    String showXlsOpt = sc.nextLine();
+                    switch (showXlsOpt.toLowerCase()) {
+                        case "t": {
+                            openGeneratedFile(generatedReport);
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                default: {
+                    System.out.println("Zrezygnowano z zapisu pliku");
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Nie udało się zapisać pliku");
+        }
+    }
 
     private void openGeneratedFile(File generatedReport) throws IOException {
         try {
@@ -252,10 +268,6 @@ public class UserControl {
             }
         } catch (UnsupportedOperationException e) {
         }
-    }
-
-    private void dateRangePrinter(List<String> dateList) {
-        System.out.println("\nRaporty są dostępne za lata: " + dateList + "\n");
     }
 
     private List<String> dateRangeGenerator() {
@@ -276,14 +288,14 @@ public class UserControl {
         return yearProject;
     }
 
-    private void employeeRangeGenerator() {
+    private List<String> employeeRangeGenerator() {
         List<String> employeeList = new ArrayList<>();
         List<Employee> allEmployeeData = model.getEmployeeList();
         for (Employee employee : allEmployeeData) {
             String nameAndSurname = employee.getNameAndSurname();
             employeeList.add(nameAndSurname);
         }
-        System.out.println("\nRaporty są dostępne dla pracowników: " + employeeList + "\n");
+        return employeeList;
     }
 
     private void projectsRangeGenerator() {
@@ -299,6 +311,15 @@ public class UserControl {
         }
         System.out.println("\nRaporty są dostępne dla projektów: " + projects + "\n");
     }
+
+    private void dateRangePrinter(List<String> dateList) {
+        System.out.println("\nRaporty są dostępne za lata: " + dateList + "\n");
+    }
+
+    private void employeeRangePrinter(List<String> employeeList) {
+        System.out.println("\nRaporty są dostępne dla pracowników: " + employeeList + "\n");
+    }
+
 
     private void appHeaders() {
         System.out.println("______                _____  _                    _____                                \n"
@@ -323,13 +344,14 @@ public class UserControl {
         sc.close();
     }
 
-    public  void clearConsole() {
+    public void clearConsole() {
         //Clears Screen in java
         try {
             if (System.getProperty("os.name").contains("Windows"))
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             else
                 Runtime.getRuntime().exec("clear");
-        } catch (IOException | InterruptedException ex) {}
+        } catch (IOException | InterruptedException ex) {
+        }
     }
 }
