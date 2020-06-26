@@ -56,7 +56,7 @@ public class UserControl {
                 case "7":
                     generateReport7();
                     break;
-                case "9":
+                case "8":
                     generateErrorsLog();
                     break;
                 case "0":
@@ -84,7 +84,7 @@ public class UserControl {
         System.out.println("5. Generuj raport ilości godzin pracowników w podanym projekcie");
         System.out.println("6. Wyświetl wykres słupkowy godzin projektów w podanym roku");
         System.out.println("7. Wyświetl wykres kołowy procentowego udziału projektów dla pracowników w podanym roku");
-        System.out.println("9. Pokaż logi z odczytu pliku");
+        System.out.println("8. Pokaż logi z odczytu pliku");
         System.out.println("0. Zakończ pracę z programem");
     }
 
@@ -132,21 +132,25 @@ public class UserControl {
             employeeRangePrinter(strings);
             System.out.println("Podaj imię i nazwisko pracownika");
             String name = sc.nextLine();
-            List<String> dateList = dateRangeGenerator();
-            dateRangePrinter(dateList);
-            System.out.println("Podaj za jaki rok mam wygenerować raport");
-            Integer reportYear = sc.nextInt();
-            sc.nextLine();
-            String year = reportYear.toString();
-            if (dateList.contains(year)) {
-                System.out.println();
-                reportBuilder = new Report3Builder(reportYear, name);
-                report = reportBuilder.buildReport(model);
-                ReportPrinter.printReport(report);
-                saveReportToFile(report);
-                System.out.println();
+            if (strings.contains(name)) {
+                List<String> dateList = dateRangeGenerator();
+                dateRangePrinter(dateList);
+                System.out.println("Podaj za jaki rok mam wygenerować raport");
+                Integer reportYear = sc.nextInt();
+                sc.nextLine();
+                String year = reportYear.toString();
+                if (dateList.contains(year)) {
+                    System.out.println();
+                    reportBuilder = new Report3Builder(reportYear, name);
+                    report = reportBuilder.buildReport(model);
+                    ReportPrinter.printReport(report);
+                    saveReportToFile(report);
+                    System.out.println();
+                } else {
+                    System.out.println("Wprowadz poprawny rok");
+                }
             } else {
-                System.out.println("Nie można wygenerować raportu...  Wprowadź poprawne dane");
+                System.out.println("Wpisałeś pracownika który nie znajduje się na liście");
             }
         } catch (InputMismatchException e) {
             System.out.println("Wprowadziłeś błędnie rok");
@@ -154,16 +158,20 @@ public class UserControl {
     }
 
     private void generateReport4() {
-        List<String> dateList = dateRangeGenerator();
-        dateRangePrinter(dateList);
-        System.out.println("Podaj za jaki rok mam wygenerować raport");
-        int reportYear = sc.nextInt();
-        sc.nextLine();
-        reportBuilder = new Report4Builder(reportYear);
-        report = reportBuilder.buildReport(model);
-        ReportPrinter.printReport(report);
-        saveReportToFile(report);
-        System.out.println();
+        try {
+            List<String> dateList = dateRangeGenerator();
+            dateRangePrinter(dateList);
+            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            int reportYear = sc.nextInt();
+            sc.nextLine();
+            reportBuilder = new Report4Builder(reportYear);
+            report = reportBuilder.buildReport(model);
+            ReportPrinter.printReport(report);
+            saveReportToFile(report);
+            System.out.println();
+        } catch (InputMismatchException e) {
+            System.out.println("Wprowadziłeś błędnie rok");
+        }
     }
 
     private void generateReport5() {
@@ -237,7 +245,7 @@ public class UserControl {
             String writeReportOpt = sc.nextLine();
             switch (writeReportOpt.toLowerCase()) {
                 case "t": {
-                  
+
                     File generatedReport = reportToXls.exportToXls(report);
                     String reportPath = generatedReport.getCanonicalPath();
                     System.out.println("Poprawnie wygenerowano raport do pliku: " + reportPath);
