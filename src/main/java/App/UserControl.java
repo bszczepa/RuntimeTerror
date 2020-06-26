@@ -52,7 +52,6 @@ public class UserControl {
                     break;
                 case "6":
                     generateReport6();
-//                    System.out.println("Opcja dostępna tylko w wersji PREMIUM!");
                     break;
                 case "7":
                     generateReport7();
@@ -213,25 +212,33 @@ public class UserControl {
     }
 
     private void saveReportToFile(Report report) {
-        System.out.println("\nCzy chcesz zapisać raport do pliku T / N ?");
-        try {
-            String writeReportOpt = sc.nextLine();
-            switch (writeReportOpt.toLowerCase()) {
-                case "t": {
-                    File generatedReport = reportToXls.exportToXls(report);
-                    String reportPath = generatedReport.getCanonicalPath();
-                    System.out.println("Poprawnie wygenerowano raport do pliku: " + reportPath);
-                    openGeneratedFile(generatedReport);
-                    break;
-                }
-                default: {
-                    System.out.println("Zrezygnowano z zapisu pliku");
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Nie udało się zapisać pliku");
-        }
-    }
+		System.out.println("\nCzy chcesz zapisać raport do pliku T / N ?");
+		try {
+			String writeReportOpt = sc.nextLine();
+			switch (writeReportOpt.toLowerCase()) {
+			case "t": {
+				System.out.println("\nCzy chcesz otworzyć plik xls? T / N ?");
+				File generatedReport = reportToXls.exportToXls(report);
+				String reportPath = generatedReport.getCanonicalPath();
+				System.out.println("Poprawnie wygenerowano raport do pliku: " + reportPath);
+				String showXlsOpt = sc.nextLine();
+				switch (showXlsOpt.toLowerCase()) {
+				case "t": {
+					openGeneratedFile(generatedReport);
+				}
+				default:
+					break;
+				}
+				break;
+			}
+			default: {
+				System.out.println("Zrezygnowano z zapisu pliku");
+			}
+			}
+		} catch (IOException e) {
+			System.err.println("Nie udało się zapisać pliku");
+		}
+	}
 
     private void openGeneratedFile(File generatedReport) throws IOException {
         try {
