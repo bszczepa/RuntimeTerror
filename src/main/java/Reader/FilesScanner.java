@@ -29,11 +29,6 @@ public class FilesScanner {
 		List<Employee> employees = new ArrayList();
 
 		for (File file : files) {
-			String filename = file.getName().substring(0, file.getName().indexOf("."));
-			if (!filename.matches("[A-z]+_[A-z]+")) {
-				ScanErrorsHolder.addScanError(new ScanError(file.getPath(), "", "", "zła nazwa pliku!"));
-				continue;
-			}
 			Employee employee = new Employee();
 			employee = dataReader.readFile(file);
 
