@@ -21,23 +21,25 @@ public class Report7Builder {
         chart.getStyler().setLegendPosition(Styler.LegendPosition.OutsideS);
         chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
 
-        for (int project = 2; project< columnNames.size(); project++) {
-            System.out.println(row.get(project));
-            String value = row.get(project);
-            value = value.substring(0, value.length() - 1);
-            chart.addSeries(columnNames.get(project), Double.valueOf(value));
+        if (row != null) {
+            for (int project = 2; project< columnNames.size(); project++) {
+                System.out.println(row.get(project));
+                String value = row.get(project);
+                value = value.substring(0, value.length() - 1);
+                chart.addSeries(columnNames.get(project), Double.valueOf(value));
+            }
+
+            JFrame frame = new SwingWrapper(chart).displayChart();
+            javax.swing.SwingUtilities.invokeLater(() -> frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
         }
-
-        JFrame frame = new SwingWrapper(chart).displayChart();
-        javax.swing.SwingUtilities.invokeLater(() -> frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
-
+        else {
+            System.out.println("Wpisz poprawne dane pracownika");
+        }
         return chart;
     }
 
     public List<String> findEmployee(List<List<String>> rows, String name){
         String[] splitName = name.toLowerCase().trim().split(" +");
-
-        System.out.println(splitName[1] + splitName[0]);
 
         for (List<String> row : rows) {
             String[] splitID = row.get(1).toLowerCase().trim().split(" +");
