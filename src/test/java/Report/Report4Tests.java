@@ -19,12 +19,43 @@ import Model.Task;
 public class Report4Tests {
 
 	@Test
+	public void testCountingProperPercents() {
+
+		List<Employee> employees = new ArrayList<Employee>();
+
+		Employee employee1 = new Employee("Jan", "Nowak");
+
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
+		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 2.5);
+		employee1.addTask(task);
+		Task task2 = new Task(date, "jakisProjekt2", "jakies zadanie2",7.5);
+		employee1.addTask(task2);
+
+		employees.add(employee1);
+
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+
+		ReportBuilder rBuilder = new Report4Builder(2012);
+
+		Report report = rBuilder.buildReport(model);
+
+		Assert.assertEquals(4, report.getColumnNames().size());
+		Assert.assertEquals(1, report.getRows().size());
+		Assert.assertEquals("25.0%", report.getRows().get(0).get(2));
+		Assert.assertEquals("75.0%", report.getRows().get(0).get(3));
+
+	}
+
+	@Test
 	public void testReport4() {
 		List<Employee> employees = new ArrayList<Employee>();
 
 		Employee employee1 = new Employee("Jan", "Nowak");
 
-		Date date = new Date();
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
 		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 3);
 		employee1.addTask(task);
 		Employee employee2 = new Employee("Paweł", "Kwiatkowski");
@@ -39,7 +70,7 @@ public class Report4Tests {
 		Model model = Mockito.mock(Model.class);
 		Mockito.when(model.getEmployeeList()).thenReturn(employees);
 
-		ReportBuilder rBuilder = new Report4Builder(2020);
+		ReportBuilder rBuilder = new Report4Builder(2012);
 
 		Report report = rBuilder.buildReport(model);
 		Assert.assertEquals(4, report.getColumnNames().size());
@@ -72,21 +103,21 @@ public class Report4Tests {
 
 		Assert.assertTrue((report.getRows().size() == 1));
 	}
-	
+
 	@Test
 	public void testNotCountingPercentsFromDifferentYears() throws IOException {
 
 		List<Employee> employees = new ArrayList<Employee>();
-		
+
 		Model model = Mockito.mock(Model.class);
 		Mockito.when(model.getEmployeeList()).thenReturn(employees);
-		
+
 		Employee employee1 = new Employee("Jan", "Nowak");
 		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
 		Date date = myCalendar.getTime();
 		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 3);
 		Task task1 = new Task(date, "innyProjekt", "jakies zadanie", 3);
-		
+
 		myCalendar = new GregorianCalendar(2013, 2, 11);
 		date = myCalendar.getTime();
 		Task task2 = new Task(date, "innyProjekt", "jakies zadanie", 3);
@@ -96,45 +127,45 @@ public class Report4Tests {
 		employees.add(employee1);
 		ReportBuilder rBuilder = new Report4Builder(2012);
 		Report report = rBuilder.buildReport(model);
-				
+
 		Assert.assertEquals(4, report.getColumnNames().size());
 		Assert.assertEquals(1, report.getRows().size());
 		Assert.assertEquals("50.0%", report.getRows().get(0).get(2));
 		Assert.assertEquals("50.0%", report.getRows().get(0).get(3));
 
 	}
-	
+
 	@Test
 	public void testSumOfPercentsInRowIsAlways100() throws IOException {
 
 		List<Employee> employees = new ArrayList<Employee>();
-		
+
 		Model model = Mockito.mock(Model.class);
 		Mockito.when(model.getEmployeeList()).thenReturn(employees);
-		
+
 		Employee employee1 = new Employee("Jan", "Nowak");
 		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
 		Date date = myCalendar.getTime();
-		
+
 		Random random = new Random();
-		
-		for(int i=0; i<10 ; i++) {
-			Task task = new Task(date, "jakisProjekt", "jakies zadanie"+i, random.nextDouble()*random.nextInt(120));
-			Task task1 = new Task(date, "innyProjekt", "jakies zadanie"+i, random.nextDouble()*random.nextInt(120));
+
+		for (int i = 0; i < 10; i++) {
+			Task task = new Task(date, "jakisProjekt", "jakies zadanie" + i, random.nextDouble() * random.nextInt(120));
+			Task task1 = new Task(date, "innyProjekt", "jakies zadanie" + i, random.nextDouble() * random.nextInt(120));
 			employee1.addTask(task);
 			employee1.addTask(task1);
-		}	
-		
+		}
+
 		employees.add(employee1);
 		ReportBuilder rBuilder = new Report4Builder(2012);
 		Report report = rBuilder.buildReport(model);
 
 		String proj1Percents = report.getRows().get(0).get(2);
 		String proj2Percents = report.getRows().get(0).get(3);
-		
-		Double proj1PercentsDouble = Double.parseDouble(proj1Percents.substring(0 ,proj1Percents.indexOf("%")));
-		Double proj2PercentsDouble = Double.parseDouble(proj2Percents.substring(0 ,proj2Percents.indexOf("%")));
-		
+
+		Double proj1PercentsDouble = Double.parseDouble(proj1Percents.substring(0, proj1Percents.indexOf("%")));
+		Double proj2PercentsDouble = Double.parseDouble(proj2Percents.substring(0, proj2Percents.indexOf("%")));
+
 		Assert.assertTrue(proj1PercentsDouble + proj2PercentsDouble == 100);
 
 	}
