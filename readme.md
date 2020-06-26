@@ -8,10 +8,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
 
 
 <!-- PROJECT LOGO -->
@@ -48,16 +44,13 @@
 <!-- TABLE OF CONTENTS -->
 ## Spis treści
 
-* [O projekcie](#about-the-project)
-* [Początek](#getting-started)
-  * [Wymagania](#prerequisites)
-  * [Instalacja](#installation)
-* [Uruchomienie](#usage)
-* [Roadmapa](#roadmap)
-* [Licencja](#license)
-* [Kontakt](#contact)
-* [Podziękowania](#acknowledgements)
-
+* [O projekcie](#o-projekcie)
+* [Początek](#poczatek)
+  * [Wymagania](#wymagania)
+  * [Instalacja](#instalacja)
+* [Uruchomienie](#uruchomienie)
+* [Roadmapa](#roadmapa)
+* [Licencja](#licencja)
 
 
 <!-- ABOUT THE PROJECT -->
@@ -65,7 +58,7 @@
 
    <br />
   <a href="https://github.com/bszczepa/RuntimeTerror">
-    <img src="images/interface.png.png" alt="Interface" width="733" height="426">
+    <img src="images/interface.png" alt="Interface" width="733" height="426">
   </a>
    <br />
    <br />
