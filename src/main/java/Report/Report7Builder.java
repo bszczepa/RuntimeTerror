@@ -1,0 +1,53 @@
+package Report;
+
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.PieChartBuilder;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.style.Styler;
+
+import javax.swing.*;
+import java.util.List;
+
+
+public class Report7Builder {
+
+    public PieChart plotChart (Report report, String name, int year) {
+
+        List<List<String>> rows = report.getRows();
+        List<String> columnNames = report.getColumnNames();
+        List<String> row = findEmployee(rows, name);
+
+        PieChart chart = new PieChartBuilder().width(800).height(600).title(name + ". Procentowe zaangażowanie w projekty za rok " + year).build();
+        chart.getStyler().setLegendPosition(Styler.LegendPosition.OutsideS);
+        chart.getStyler().setLegendLayout(Styler.LegendLayout.Horizontal);
+
+        for (int project = 2; project< columnNames.size(); project++) {
+            System.out.println(row.get(project));
+            String value = row.get(project);
+            value = value.substring(0, value.length() - 1);
+            chart.addSeries(columnNames.get(project), Double.valueOf(value));
+        }
+
+        JFrame frame = new SwingWrapper(chart).displayChart();
+        javax.swing.SwingUtilities.invokeLater(() -> frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE));
+
+        return chart;
+    }
+
+    public List<String> findEmployee(List<List<String>> rows, String name){
+        String[] splitName = name.toLowerCase().trim().split(" +");
+
+        System.out.println(splitName[1] + splitName[0]);
+
+        for (List<String> row : rows) {
+            String[] splitID = row.get(1).toLowerCase().trim().split(" +");
+            if ((splitName[0].equals(splitID[0])
+                    && splitName[1].equals(splitID[1]))
+                    || (splitName[1].equals(splitID[0])
+                    && splitName[0].equals(splitID[1]))) {
+                return row;
+            }
+        }
+        return null;
+    }
+}
