@@ -237,10 +237,11 @@ public class UserControl {
             String writeReportOpt = sc.nextLine();
             switch (writeReportOpt.toLowerCase()) {
                 case "t": {
-                    System.out.println("\nCzy chcesz otworzyć plik xls? T / N ?");
+                  
                     File generatedReport = reportToXls.exportToXls(report);
                     String reportPath = generatedReport.getCanonicalPath();
                     System.out.println("Poprawnie wygenerowano raport do pliku: " + reportPath);
+                    System.out.println("\nCzy chcesz otworzyć plik xls? T / N ?");
                     String showXlsOpt = sc.nextLine();
                     switch (showXlsOpt.toLowerCase()) {
                         case "t": {
