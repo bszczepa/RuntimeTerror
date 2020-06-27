@@ -105,6 +105,8 @@ W podkatalogu Target pojawi się plik RuntimeTerror-1.0-shaded.jar.
 <!-- USAGE EXAMPLES -->
 ## Uruchomienie
 
+Uruchom wiersz poleceń wpisując "cmd" w Menu Start.
+
 Aby uruchomić narzędzie należy w wierszu poleceń wejść w katalog zawierający plik RuntimeTerror-1.0-shaded.jar 
 i użyć komendy:
 
