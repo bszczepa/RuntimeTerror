@@ -58,7 +58,7 @@
 
    <br />
   <a href="https://github.com/bszczepa/RuntimeTerror">
-    <img src="images/interface.png" alt="Interface" width="733" height="426">
+    <img src="images/interface.png" alt="Interface" width="720" height="469">
   </a>
    <br />
    <br />
