@@ -105,7 +105,7 @@ W podkatalogu Target pojawi się plik RuntimeTerror-1.0-shaded.jar.
 <!-- USAGE EXAMPLES -->
 ## Uruchomienie
 
-Aby uruchomić narzędzie należy w wierszu poleceń wejść w katalog zawierajćy plik RuntimeTerror-1.0-shaded.jar 
+Aby uruchomić narzędzie należy w wierszu poleceń wejść w katalog zawierający plik RuntimeTerror-1.0-shaded.jar 
 i użyć komendy:
 
 ```sh
