@@ -17,6 +17,73 @@ import Model.Model;
 import Model.Task;
 
 public class Report4Tests {
+	
+	@Test
+	public void testNumberOfColumnsIsCorrect() {
+		List<Employee> employees = new ArrayList<Employee>();
+
+		Employee employee1 = new Employee("Jan", "Nowak");
+
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
+		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 2.5);
+		employee1.addTask(task);
+		Task task2 = new Task(date, "jakisProjekt2", "jakies zadanie2",7.5);
+		employee1.addTask(task2);
+
+		employees.add(employee1);
+
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+
+		ReportBuilder rBuilder = new Report4Builder(2012);
+
+		Report report = rBuilder.buildReport(model);
+		
+		Assert.assertEquals(report.getColumnNames().size(), 4);
+		
+		
+	}
+	
+	@Test
+	public void testNumberOfRowsIsCorrect() {
+		List<Employee> employees = new ArrayList<Employee>();
+
+		Employee employee1 = new Employee("Jan", "Nowak");
+
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
+		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 2.5);
+		employee1.addTask(task);
+		Task task2 = new Task(date, "jakisProjekt2", "jakies zadanie2",7.5);
+		employee1.addTask(task2);
+
+		employees.add(employee1);
+		
+		Employee employee2 = new Employee("Patryk", "Taki");
+
+		myCalendar = new GregorianCalendar(2012, 2, 11);
+		date = myCalendar.getTime();
+		Task task3  = new Task(date, "jakisProjekt", "jakies zadanko", 1);
+		employee1.addTask(task);
+		Task task4 = new Task(date, "jakisProjekt2", "zadanie21",2);
+		employee2.addTask(task2);
+
+		employees.add(employee1);
+		employees.add(employee2);
+
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+
+		ReportBuilder rBuilder = new Report4Builder(2012);
+
+		Report report = rBuilder.buildReport(model);
+
+		
+		Assert.assertEquals(2, report.getRows().size());
+	
+		
+	}
 
 	@Test
 	public void testCountingProperPercents() {
@@ -167,7 +234,47 @@ public class Report4Tests {
 		Double proj2PercentsDouble = Double.parseDouble(proj2Percents.substring(0, proj2Percents.indexOf("%")));
 
 		Assert.assertTrue(proj1PercentsDouble + proj2PercentsDouble == 100);
+	}
+	
+	@Test
+	public void testNoRowsIfNoEmployeesData() throws IOException {
 
+		List<Employee> employees = new ArrayList<Employee>();
+
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+
+		ReportBuilder rBuilder = new Report4Builder(2012);
+		Report report = rBuilder.buildReport(model);
+
+		Assert.assertEquals(0, report.getRows().size());
 	}
 
+	@Test
+	public void testEmptyReportIfNotExistingYear() throws IOException {
+
+		List<Employee> employees = new ArrayList<Employee>();
+
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+
+		Employee employee1 = new Employee("Jan", "Nowak");
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
+		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 3);
+		Task task1 = new Task(date, "innyProjekt", "jakies zadanie", 3);
+
+		myCalendar = new GregorianCalendar(2013, 2, 11);
+		date = myCalendar.getTime();
+		Task task2 = new Task(date, "innyProjekt", "jakies zadanie", 3);
+		employee1.addTask(task);
+		employee1.addTask(task1);
+		employee1.addTask(task2);
+		employees.add(employee1);
+		ReportBuilder rBuilder = new Report4Builder(2020);
+		Report report = rBuilder.buildReport(model);
+
+		Assert.assertEquals(0, report.getRows().size());
+
+	}
 }

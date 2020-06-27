@@ -125,5 +125,40 @@ public class Report5Tests {
 		Assert.assertEquals("3.0", report.getRows().get(0).get(3));
 		Assert.assertEquals("7.0", report.getRows().get(1).get(3));
 	}
+	
+	@Test
+	public void testNoRowsIfNoEmployeesData() throws IOException {
+
+		List<Employee> employees = new ArrayList<Employee>();
+
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+
+		ReportBuilder rBuilder = new Report5Builder("projekt");
+		Report report = rBuilder.buildReport(model);
+
+		Assert.assertEquals(0, report.getRows().size());
+	}
+	
+	@Test
+	public void testEmptyReportIfNotExistingProject() throws IOException {
+		List<Employee> employees = new ArrayList<Employee>();
+
+		Model model = Mockito.mock(Model.class);
+		Mockito.when(model.getEmployeeList()).thenReturn(employees);
+
+		Employee employee1 = new Employee("Jan", "Nowak");
+		Calendar myCalendar = new GregorianCalendar(2012, 2, 11);
+		Date date = myCalendar.getTime();
+		Task task = new Task(date, "jakisProjekt", "jakies zadanie", 3);
+		Task task1 = new Task(date, "innyProjekt", "jakies zadanie", 3);
+		employee1.addTask(task);
+		employee1.addTask(task1);
+		employees.add(employee1);
+		ReportBuilder rBuilder2 = new Report5Builder("Nieistniejący projekt");
+		Report report = rBuilder2.buildReport(model);
+		Assert.assertEquals(0, report.getRows().size());
+	}
+	
 
 }
