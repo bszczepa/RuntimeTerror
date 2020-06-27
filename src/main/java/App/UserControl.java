@@ -93,7 +93,7 @@ public class UserControl {
             List<String> dateList = dateRangeGenerator();
             dateRangePrinter(dateList);
             Integer reportYear;
-            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            printAskForYear();
             reportYear = sc.nextInt();
             sc.nextLine();
             String year = reportYear.toString();
@@ -107,7 +107,7 @@ public class UserControl {
             }
 
         } catch (InputMismatchException e) {
-            System.err.println("Wprowadziłeś błędne dane");
+            printErrorIncorrectData();
         }
     }
 
@@ -115,7 +115,7 @@ public class UserControl {
         try {
             List<String> dateList = dateRangeGenerator();
             dateRangePrinter(dateList);
-            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            printAskForYear();
             Integer reportYear = sc.nextInt();
             sc.nextLine();
             String year = reportYear.toString();
@@ -130,7 +130,7 @@ public class UserControl {
                 printErrorYear();
             }
         } catch (InputMismatchException e) {
-            System.err.println("Wprowadziłeś błędne dane");
+            printErrorIncorrectData();
         }
 
     }
@@ -139,12 +139,12 @@ public class UserControl {
         try {
             List<String> strings = employeeRangeGenerator();
             employeeRangePrinter(strings);
-            System.out.println("Podaj imię i nazwisko pracownika");
+            printAskForEmployee();
             String name = sc.nextLine();
             if (strings.contains(name)) {
                 List<String> dateList = dateRangeGenerator();
                 dateRangePrinter(dateList);
-                System.out.println("Podaj za jaki rok mam wygenerować raport");
+                printAskForYear();
                 Integer reportYear = sc.nextInt();
                 sc.nextLine();
                 String year = reportYear.toString();
@@ -159,10 +159,10 @@ public class UserControl {
                     printErrorYear();
                 }
             } else {
-                System.out.println("Wpisałeś pracownika który nie znajduje się na liście");
+                printErrorIncorrectNameSurname();
             }
         } catch (InputMismatchException e) {
-            System.out.println("Wprowadziłeś błędnie rok");
+            printErrorIncorrectData();
         }
     }
 
@@ -170,7 +170,7 @@ public class UserControl {
         try {
             List<String> dateList = dateRangeGenerator();
             dateRangePrinter(dateList);
-            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            printAskForYear();
             Integer reportYear = sc.nextInt();
             sc.nextLine();
             String year = reportYear.toString();
@@ -184,14 +184,14 @@ public class UserControl {
                 printErrorYear();
             }
         } catch (InputMismatchException e) {
-            System.out.println("Wprowadziłeś błędnie rok");
+            printErrorIncorrectData();
         }
     }
 
     private void generateReport5() {
         List<String> projectsList = projectsRangeGenerator();
         projectRangePrinter(projectsList);
-        System.out.println("Podaj nazwę projektu");
+        printAskForProjectName();
         String projectName = sc.nextLine();
         if (projectsList.contains(projectName)) {
             reportBuilder = new Report5Builder(projectName);
@@ -200,7 +200,7 @@ public class UserControl {
             saveReportToFile(report);
             System.out.println();
         } else {
-            System.out.println("Wpisałeś projekt który nie istnieje");
+            printErrorIncorrectProject();
         }
     }
 
@@ -209,7 +209,7 @@ public class UserControl {
             List<String> dateList = dateRangeGenerator();
             dateRangePrinter(dateList);
             Integer reportYear;
-            System.out.println("Podaj za jaki rok mam wygenerować raport");
+            printAskForYear();
             reportYear = sc.nextInt();
             sc.nextLine();
             String year = reportYear.toString();
@@ -224,7 +224,7 @@ public class UserControl {
                 printErrorYear();
             }
         } catch (InputMismatchException e) {
-            System.err.println("Wprowadziłeś błędne dane");
+            printErrorIncorrectData();
         }
     }
 
@@ -232,12 +232,12 @@ public class UserControl {
         try {
             List<String> empList = employeeRangeGenerator();
             employeeRangePrinter(empList);
-            System.out.println("Podaj imię i nazwisko pracownika");
+            printAskForEmployee();
             String name = sc.nextLine();
             if (empList.contains(name)) {
                 List<String> dateList = dateRangeGenerator();
                 dateRangePrinter(dateList);
-                System.out.println("Podaj za jaki rok mam wygenerować raport");
+                printAskForYear();
                 Integer reportYear = sc.nextInt();
                 sc.nextLine();
                 String year = reportYear.toString();
@@ -251,10 +251,10 @@ public class UserControl {
                     printErrorYear();
                 }
             } else {
-                System.out.println("Wprowadziłeś błędne Imię i Nazwisko");
+                printErrorIncorrectNameSurname();
             }
         } catch (InputMismatchException e) {
-            System.err.println("Wprowadziłeś błędne dane");
+            printErrorIncorrectData();
         }
     }
 
@@ -289,7 +289,7 @@ public class UserControl {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Nie udało się zapisać pliku");
+            printErrorWriteFile();
         }
     }
 
@@ -381,8 +381,37 @@ public class UserControl {
         sc.close();
     }
 
+    private void printAskForYear(){
+        System.out.println("Podaj za jaki rok mam wygenerować raport");
+    }
+
+    private void printAskForEmployee(){
+        System.out.println("Podaj imię i nazwisko pracownika");
+    }
+
+    private void printAskForProjectName(){
+        System.out.println("Podaj imię i nazwisko pracownika");
+    }
+
+
     private void printErrorYear(){
         System.out.println("Wpisałeś rok który nie znajduje się na liście");
+    }
+
+    private void printErrorIncorrectData(){
+        System.err.println("Wprowadziłeś błędne dane");
+    }
+
+    private void printErrorIncorrectNameSurname(){
+        System.out.println("Wprowadziłeś błędne Imię i Nazwisko");
+    }
+
+    private void printErrorIncorrectProject(){
+        System.out.println("Wprowadziłeś błędne Imię i Nazwisko");
+    }
+
+    private void printErrorWriteFile(){
+        System.err.println("Nie udało się zapisać pliku");
     }
 
     public void clearConsole() {
