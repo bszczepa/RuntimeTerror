@@ -399,7 +399,7 @@ public class UserControl {
     }
 
     private void printAskForProjectName(){
-        System.out.println("Podaj imię i nazwisko pracownika");
+        System.out.println("Podaj nazwę projektu:");
     }
 
 
