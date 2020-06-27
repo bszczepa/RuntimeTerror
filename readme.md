@@ -133,6 +133,7 @@ Program przeprowadza wstępną walidację poniższych błędów - wiersze błęd
 - źle wpisana data
 - nieprawidłowy rok w dacie
 - nieprawidłowy miesiąc w dacie
+- arkusz nie zawiera odpowiednich kolumn
 
 Listę błędów i zignorowanych wierszy można zobaczyć wybierając funkcję nr 8 w głównym menu.
 
