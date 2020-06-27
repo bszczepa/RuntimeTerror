@@ -32,7 +32,7 @@ public class UserControl {
         do {
             clearConsole();
             appHeaders();
-            showOption();
+            printOptions();
             String userOption = inputUserOption();
             switch (userOption) {
                 case "1":
@@ -75,17 +75,21 @@ public class UserControl {
 
     }
 
-    public void showOption() {
-        System.out.println("WYBIERZ OPCJE:");
-        System.out.println("1. Generuj raport godzin pracowników w podanym roku");
-        System.out.println("2. Generuj raport godzin projektów w podanym roku");
-        System.out.println("3. Generuj raport godzin przepracowanych miesięcznie przez pracownika w podanym roku");
-        System.out.println("4. Generuj procentowy udział projektów w pracy osob dla podanego roku");
-        System.out.println("5. Generuj raport ilości godzin pracowników w podanym projekcie");
-        System.out.println("6. Wyświetl wykres słupkowy godzin projektów w podanym roku");
-        System.out.println("7. Wyświetl wykres kołowy procentowego udziału projektów dla pracowników w podanym roku");
-        System.out.println("8. Pokaż logi z odczytu pliku");
-        System.out.println("0. Zakończ pracę z programem");
+    public String generateOption(){
+        StringBuilder option = new StringBuilder();
+
+        option.append("WYBIERZ OPCJE:\n");
+        option.append("1. Generuj raport godzin pracowników w podanym roku\n");
+        option.append("2. Generuj raport godzin projektów w podanym roku\n");
+        option.append("3. Generuj raport godzin przepracowanych miesięcznie przez pracownika w podanym roku\n");
+        option.append("4. Generuj procentowy udział projektów w pracy osob dla podanego roku\n");
+        option.append("5. Generuj raport ilości godzin pracowników w podanym projekcie\n");
+        option.append("6. Wyświetl wykres słupkowy godzin projektów w podanym roku\n");
+        option.append("7. Wyświetl wykres kołowy procentowego udziału projektów dla pracowników w podanym roku\n");
+        option.append("8. Pokaż logi z odczytu pliku\n");
+        option.append("0. Zakończ pracę z programem\n");
+
+        return option.toString();
     }
 
     private void generateReport1() {
@@ -379,6 +383,11 @@ public class UserControl {
     private void exit() {
         System.out.println("Copyright © 2020 RunTime Terror, All Rights Reserved. ");
         sc.close();
+    }
+
+    public void printOptions() {
+        String option = generateOption();
+        System.out.println(option);
     }
 
     private void printAskForYear(){
