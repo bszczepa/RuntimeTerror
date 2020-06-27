@@ -49,6 +49,8 @@
   * [Wymagania](#wymagania)
   * [Instalacja](#instalacja)
 * [Uruchomienie](#uruchomienie)
+  * [Korzystanie](#korzystanie")
+  * [Obsługa błędów](#obsluga-bledow)
 * [Roadmapa](#roadmapa)
 * [Licencja](#licencja)
 
@@ -113,10 +115,26 @@ np.
 ```sh
 java -jar RuntimeTerror-1.0-shaded.jar "C:\Users\Bartek\Desktop\reporter-dane2"
 ```
-<strong>Używanie programu:</strong>
+### Korzystanie
 
 Aby wywołać relewantną funkcję należy podać nr odpowiedniej opcji z interfejsu, następnie postępować wedle wskazówek programu. 
 
+### Obsluga bledow
+
+Program przeprowadza wstępną walidację poniższych błędów - wiersze błędne są nieuwzględniane w dalszych obliczeniach.
+
+- pusty wiersz
+- pusta komórka
+- komórka nie zawiera daty
+- pusta komórka 
+- komórka nie zawiera opisu
+- komórka nie zawiera czasu
+- komórki nie zawierają wartości numerycznej
+- źle wpisana data
+- nieprawidłowy rok w dacie
+- nieprawidłowy miesiąc w dacie
+
+Listę błędów i zignorowanych wierszy można zobaczyć wybierając funkcję nr 8 w głównym menu.
 
 <!-- ROADMAP -->
 ## Roadmapa
