@@ -11,8 +11,10 @@ public class App {
             String folderPath = args[0];
             UserControl userControl = new UserControl(folderPath);
             userControl.controlLoop();
-        } catch ( ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Nie wprowadziłeś poprawnej ścieżki do folderu");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Wprowadziłeś ścieżkę do folderu który nie istnieje lub jest pusty");
         }
     }
 }
