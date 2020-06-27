@@ -49,7 +49,7 @@
   * [Wymagania](#wymagania)
   * [Instalacja](#instalacja)
 * [Uruchomienie](#uruchomienie)
-  * [Korzystanie](#korzystanie")
+  * [Korzystanie](#korzystanie)
   * [Obsługa błędów](#obsluga-bledow)
 * [Roadmapa](#roadmapa)
 * [Licencja](#licencja)
